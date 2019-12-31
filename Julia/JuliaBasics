@@ -1,0 +1,76 @@
+## Author: Patrick Chang
+# script to learn the basic functions behind Julia
+
+#------------------------------------------------------------------------------
+
+## Matrix Creation/Initialisation:
+# https://docs.julialang.org/en/v1/manual/arrays/
+
+x = zeros(5, 5)     # populate 5x5 array with zeros
+y = ones(2, 2)      # populate 2x2 array with ones
+
+x[:,2]              # pulling second column
+x[:,2] .= NaN       # replaces the 2nd column with NaNs
+x[1,5] = 10         # simple indexing
+
+#------------------------------------------------------------------------------
+
+using LinearAlgebra
+A = [1 2 3; 4 1 6; 7 8 1]
+det(A)
+
+A = [-4. -17.; 2. 2.]
+eigvals(A)
+eigvecs(A)
+
+B = [1.5 2 -4; 2 -1 -3; -4 -3 5]
+factorize(B)
+
+C = [4 12 -16; 12 37 -43; -16 -43 98]
+cholesky(C)
+
+Umat = [ 4.10229+0.0im -0.00360251-2.02412im ; -0.00360251+2.02412im 1.30966+0.0im]
+R = cholesky(Umat; check = true)
+R = cholesky(Umat).U
+R = convert(Array, R)
+R = Matrix(R)
+# Note the weird bug with Julia!!!
+# cholesky alone gives you upper triangle which doesn't allow for matrix mult.
+# therefore need to use the convert/Matrix function to get a Matrix
+# but the convertion only works if you use cholesky(Matrix).U,
+# if you use cholesky(Matrix), when converting you get:
+# convert(R) = R'*R and Matrix(R) = R'*R which is not helpful to use the
+# cholesky decomposition!
+# .U and .L is for Upper and Lower resp.
+# https://docs.julialang.org/en/latest/stdlib/LinearAlgebra/#LinearAlgebra.cholesky
+
+#------------------------------------------------------------------------------
+
+using DataFrames
+using CSV
+using Tables
+using JLD
+
+# cant write into CSV...
+x = rand(4,4)
+
+test = convert(DataFrame, x)
+
+CSV.write("JuliaTestData", test)
+
+Tables.table(x)
+
+test = Tables.table(x)
+
+CSV.write("JuliaTestData.csv", test)
+
+Tables.istable(test)
+
+
+## useful stuff
+t = 15
+z = [1,3]
+save("JuliaTestData.jld", "t", t, "arr", z)
+
+d = load("JuliaTestData.jld")
+z = load("JuliaTestData.jld", "arr")
