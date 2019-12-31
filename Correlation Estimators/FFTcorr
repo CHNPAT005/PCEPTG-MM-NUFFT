@@ -164,5 +164,20 @@ mu = [0.01/86400, 0.01/86400]
 s1 = 0.1/86400
 s2 = 0.2/86400
 Slength = 21
-correlation = seq(from = -0.99, to = 0.99, length.out = Slength)
-correlation = collect(-0.99:1/Slength:0.99)
+correlation = collect(-0.99:(2*0.99)/Slength:0.99)
+MMFFT = zeros(1, Slength)
+MMCFT = zeros(1, Slength)
+
+for i in 1:Slength
+    covariance = correlation[i] * sqrt(s1) * sqrt(s2)
+    sig = zeros(2,2)
+    sig[1,1] = s1
+    sig[2,2] = s2
+    sig[1,2] = covariance
+    sig[2,1] = covariance
+
+    P = GBM(5000, mu, sig)
+    t = reshape([collect(1:1:5000.0); collect(1:1:5000.0)], 5000, 2)
+    MMFFT[i] = FFTcorr(P, t)[1][1,2]
+    #MMCFT[i] = CFTcorrDK(P, t)[1][1,2]
+end
