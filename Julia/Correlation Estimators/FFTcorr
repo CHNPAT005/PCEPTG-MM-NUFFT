@@ -165,3 +165,4 @@ s1 = 0.1/86400
 s2 = 0.2/86400
 Slength = 21
 correlation = seq(from = -0.99, to = 0.99, length.out = Slength)
+correlation = collect(-0.99:1/Slength:0.99)
