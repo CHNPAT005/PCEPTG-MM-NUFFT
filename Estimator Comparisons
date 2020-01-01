@@ -1,0 +1,100 @@
+## Author: Patrick Chang
+# Script file to demonstrate the various functions I have made
+# to highlight the differences between them
+
+include("MWE")
+include("Correlation Estimators/CFTcorr")
+include("Correlation Estimators/DFTcorr")
+include("Correlation Estimators/FFTcorr")
+include("Correlation Estimators/HYcorr")
+include("Correlation Estimators/Kanatanicorr")
+include("Correlation Estimators/TFTcorr")
+using StatsBase
+
+
+#---------------------------------------------------------------------------
+## Synchronous Case
+# baseline for correct answer is it must match the RV answer
+
+mu = [0.01/86400, 0.01/86400]
+sigma = [0.1/86400 sqrt(0.1/86400)*0.35*sqrt(0.2/86400);
+        sqrt(0.1/86400)*0.35*sqrt(0.2/86400) 0.2/86400]
+
+P = GBM(10000, mu, sigma, seed = 10)
+t = reshape([collect(1:1:10000.0); collect(1:1:10000.0)], 10000, 2)
+
+#--------------------
+
+j1 = CFTcorrDK(P, t) # The current Dirichlet implementaion ranging from -N/2:N/2
+j2 = CFTcorrOrig(P, t) # The legacy MatLab code recovers the Dirichlet implementaion
+                        # using the range 1:2N
+j3 = DKcorr(P[:,1], P[:,2], t[:,1], t[:,2]) # Dirichlet implementaion from Mancino Sanfelici
+                                                # using for loops ranging from -N/2:N/2
+j4 = KANcorrDK(P[:,1], P[:,2], t[:,1], t[:,2]) # Dirichlet implementaion using the class of
+                                                # weighted RV from Kanatani
+j5 = FFTcorr(P, t) # FFT implementation
+j6 = HYcorr(P[:,1], P[:,2], t[:,1], t[:,2]) # HY == RV
+
+## j1 to j6 all recover same correlation == to the correlation from RV
+#--------------------
+
+j7 = TFTcorr(P, t)  # Trig implementaion from 1:N/2
+j8 = TFTcorrV2(P[:,1], P[:,2], t[:,1], t[:,2])  # Trig implementaion from 1:2N
+
+## j7 does not line recover either Dirichlet nor Fejer implementaion
+# but j8 recovers the Dirichlet implementaion
+#--------------------
+
+j9 = CFTcorrFK(P, t)  # The current Fejer implementaion ranging from -N/2:N/2
+j10 = FKcorr(P[:,1], P[:,2], t[:,1], t[:,2]) # Fejer implementaion from Mancino Sanfelici using
+                                                # for loops ranging from -N/2:N/2
+#j11 = KANcorrFK(P[:,1], P[:,2], t[:,1], t[:,2]) ## Kanatani implementaion of Fejer is
+                                                    # still problamatic
+
+## Fejer results are different to results from Dirichlet
+# but my implementaion and MS implementaion is consistent
+# Kanatani method for Fejer is still problamatic
+## according to MM 2009, Fejer is more stable under presence of market-microstructure Noise
+#--------------------
+
+#---------------------------------------------------------------------------
+## Asynchronous Case (Down-sampled 40%)
+
+rm1 = sample(2:9999, 4000, replace = false)
+rm2 = sample(2:9999, 4000, replace = false)
+
+P[rm1, 1] .= NaN
+t[rm1, 1] .= NaN
+P[rm2, 2] .= NaN
+t[rm2, 2] .= NaN
+
+#--------------------
+
+k1 = CFTcorrDK(P, t) # The current Dirichlet implementaion ranging from -N/2:N/2
+k2 = CFTcorrOrig(P, t) # The legacy MatLab code recovers the Dirichlet implementaion
+                        # using the range 1:2N
+k3 = DKcorr(P[:,1], P[:,2], t[:,1], t[:,2]) # Dirichlet implementaion from Mancino Sanfelici
+                                                # using for loops ranging from -N/2:N/2
+k4 = KANcorrDK(P[:,1], P[:,2], t[:,1], t[:,2]) # Dirichlet implementaion using the class of
+                                                # weighted RV from Kanatani
+k5 = FFTcorr(P, t) # FFT implementation not applicable
+k6 = HYcorr(P[:,1], P[:,2], t[:,1], t[:,2]) # HY == RV
+
+## j1 to j4 all recover same answer, correlation much lower than j6 (HY)
+
+#--------------------
+
+k7 = TFTcorr(P, t)  # Trig implementaion from 1:N/2
+k8 = TFTcorrV2(P[:,1], P[:,2], t[:,1], t[:,2])  # Trig implementaion from 1:2N
+
+## Neither Trig method recovers the Dirichlet or Fejer implementaion
+# under asynchrony
+#--------------------
+
+k9 = CFTcorrFK(P, t)  # The current Fejer implementaion ranging from -N/2:N/2
+k10 = FKcorr(P[:,1], P[:,2], t[:,1], t[:,2]) # Fejer implementaion from Mancino Sanfelici using
+                                                # for loops ranging from -N/2:N/2
+#k11 = KANcorrFK(P[:,1], P[:,2], t[:,1], t[:,2]) ## Kanatani implementaion of Fejer is
+                                                    # still problamatic
+## Correlation: Dirichlet < Fejer < HY for asynchronous down-sampled
+# Fejer implementaion still consistent under asynchrony

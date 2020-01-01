@@ -325,27 +325,3 @@ function FKcorr(p1, p2, t1, t2; kwargs...)
 
     return rho, Sigma, var
 end
-
-P = GBM(5000, mu, sigma)
-t = reshape([collect(1:1:5000.0); collect(1:1:5000.0)], 5000, 2)
-
-rm1 = sample(2:4999, 2000, replace = false)
-rm2 = sample(2:4999, 2000, replace = false)
-
-P[rm1, 1] .= NaN
-t[rm1, 1] .= NaN
-P[rm2, 2] .= NaN
-t[rm2, 2] .= NaN
-
-j1 = CFTcorrDK(P, t)
-j2 = DKcorr(P[:,1], P[:,2], t[:,1], t[:,2])
-j3 = KANcorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
-
-j4 = CFTcorrFK(P, t)
-j5 = FKcorr(P[:,1], P[:,2], t[:,1], t[:,2])
-j6 = KANcorrFK(P[:,1], P[:,2], t[:,1], t[:,2])
-
-jj = HYcorr(P[:,1], P[:,2], t[:,1], t[:,2])
-j = TFTcorr(P, t)
-# it seems that with the correct range of wavelets, the quick version of the
-# Fejer no longer holds

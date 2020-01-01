@@ -65,7 +65,8 @@ function TFTcorr(p, t; kwargs...)
     if haskey(kwargs, :N)
         k = collect(1:1:kwargs[:N])
     else
-        k = collect(1:1:round(2*N0))
+        #k = collect(1:1:round(2*N0))
+        k = collect(1:1:floor(N0/2))
     end
 
     Den = length(k)
@@ -106,6 +107,11 @@ d = TFTcorr(P, t)
 #---------------------------------------------------------------------------
 
 function TFTcorrV2(p1, p2, t1, t2; kwargs...)
+    t1 = filter(!isnan, t1)
+    t2 = filter(!isnan, t2)
+
+    p1 = filter(!isnan, p1)
+    p2 = filter(!isnan, p2)
 
     # Re-scale trading times
     tau = scaleV2(t1, t2)
@@ -132,8 +138,8 @@ function TFTcorrV2(p1, p2, t1, t2; kwargs...)
     Den = length(k)
 
     #------------------------------------------------------
-    fca = zeros(Float64, mp, Den)
-    fcb = zeros(Float64, mp, Den)
+    fca = zeros(Float64, 2, Den)
+    fcb = zeros(Float64, 2, Den)
 
     DP = [(log.(p1)), (log.(p2))]
     for i in 1:2
@@ -157,14 +163,12 @@ function TFTcorrV2(p1, p2, t1, t2; kwargs...)
     rho = Sigma ./ (sigma * sigma')
     Sigma_rescaled = 1 / N0 .* Sigma
 
-    dict = Dict("correlation" => rho, "variance" => var)
-    return dict
+    #dict = Dict("correlation" => rho, "variance" => var)
+    return rho, Sigma, var
 end
 
-c = TFTcorrV2(p1, p2, t1, t2)
-
 #---------------------------------------------------------------------------
-
+# Complex Exp implementaion with cos and sin - not the true trig implementaion
 function TFTcorrV3(p, t; kwargs...)
     ## Pre-allocate arrays and check Data
     np = size(p)[1]
@@ -235,28 +239,3 @@ function TFTcorrV3(p, t; kwargs...)
     #dict = Dict("correlation" => rho, "variance" => var)
     return rho, Sigma, var
 end
-
-
-### LETS DO SOME TESTING!
-
-P = GBM(5000, mu, sigma)
-t = reshape([collect(1:1:5000.0); collect(1:1:5000.0)], 5000, 2)
-
-rm1 = sample(2:4999, 2000, replace = false)
-rm2 = sample(2:4999, 2000, replace = false)
-
-P[rm1, 1] .= NaN
-t[rm1, 1] .= NaN
-P[rm2, 2] .= NaN
-t[rm2, 2] .= NaN
-
-j1 = CFTcorr(P, t)
-j2 = TFTcorr(P, t)
-j3 = CFTcorrV3(filter(!isnan, P[:,1]), filter(!isnan, P[:,2]),
- filter(!isnan, t[:,1]), filter(!isnan, t[:,2]))
-j4 = CFTcorrV2(filter(!isnan, P[:,1]), filter(!isnan, P[:,2]),
-  filter(!isnan, t[:,1]), filter(!isnan, t[:,2]))
-j5 = TFTcorrV3(P, t)
-j6 = FFTcorr(P, t)
-P = GBM(5000, mu, sigma)
-t = reshape([collect(1:1:5000.0); collect(1:1:5000.0)], 5000, 2)

@@ -47,7 +47,7 @@ function HYcorr(p1, p2, t1, t2)
 
     W = Kanatani(t1, t2)
 
-    Sigma = zeros(Float64, mp, mp)
+    Sigma = zeros(Float64, 2, 2)
     Sigma[1, 1] = DiffP1' * DiffP1
     Sigma[2, 2] = DiffP2' * DiffP2
     Sigma[1, 2] = DiffP1' * W * DiffP2
@@ -61,5 +61,3 @@ function HYcorr(p1, p2, t1, t2)
     #dict = Dict("correlation" => rho, "variance" => var)
     return rho, Sigma, var
 end
-
-c = HYcorr(p1, p2, t1, t2)

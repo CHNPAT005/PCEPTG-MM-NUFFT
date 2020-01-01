@@ -6,6 +6,7 @@
 using Random
 using LinearAlgebra
 using ArgCheck
+using StatsBase
 
 function GBM(n, mu, sigma; kwargs...)
     # n - simlulation length
