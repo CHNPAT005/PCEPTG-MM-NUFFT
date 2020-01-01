@@ -137,9 +137,9 @@ function DFT(p)
     return conj(c)
 end
 
-function DFT2(p, k)
+function DFT2(p, t, k)
     n = length(p)
-    t = collect(0:1:(n-1))
+    #t = collect(0:1:(n-1))
     k = collect(0:1:(k-1))
     c = p' * exp.(-2im*pi/n .* t*k')
     c = c'

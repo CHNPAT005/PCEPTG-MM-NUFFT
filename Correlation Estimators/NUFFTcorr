@@ -1,0 +1,81 @@
+
+### Still a work in progress
+# Fourier coeffs are the same as CFTcorr
+# question is now why is the cov half of CFT covariance?
+
+using FastTransforms
+
+function scale(t)
+    maxt = maximum(filter(!isnan, t))
+    mint = minimum(filter(!isnan, t))
+
+    tau = (2*pi) .* (t .- mint) ./ (maxt - mint)
+    return tau
+end
+
+
+function NUFFTcorr(p, t; kwargs...)
+    ## Pre-allocate arrays and check Data
+    np = size(p)[1]
+    mp = size(p)[2]
+    nt = size(t)[1]
+
+    @argcheck size(p) == size(t) DimensionMismatch
+
+    # Re-scale trading times
+    tau = scale(t)
+    # Computing minimum time change
+    # minumum step size to avoid smoothing
+    dtau = diff(filter(!isnan, tau))
+    taumin = minimum(filter((x) -> x>0, dtau))
+    taumax = 2*pi
+    # Sampling Freq.
+    N0 = taumax/taumin
+
+    # Optional Cutoff - if not specified we use Nyquist Cutoff
+    kwargs = Dict(kwargs)
+
+    if haskey(kwargs, :N)
+        k = collect(1:1:kwargs[:N])
+    else
+        k = collect(1:1:floor(N0/2))
+    end
+
+    Den = length(k)
+
+    #------------------------------------------------------
+    e_pos = zeros(ComplexF64, mp, 2*Den+1)
+    e_neg = zeros(ComplexF64, mp, 2*Den+1)
+    C0 = zeros(ComplexF64, mp, 1)
+
+    for i in 1:mp
+        psii = findall(!isnan, p[:,i])
+        P = p[psii, i]
+        Time = tau[psii, i]
+        DiffP = diff(log.(P))
+        n = length(DiffP)
+        time = Time[1:n] .* (n/(2*pi))
+
+        C = nufft1(complex(DiffP), time, eps())
+        C_pos = C[1:(Den+1)]
+        C_neg = conj(C[2:(Den+1)])
+
+        e_pos[i,:] = [C_pos; C_neg]
+        e_neg[i,:] = [C_neg; C_pos]
+    end
+
+    Sigma = zeros(ComplexF64, mp, mp)
+
+    Sigma[1, 1] = 1 / (2*Den + 1) * (sum(e_pos[1,:] .* e_neg[1,:]))
+    Sigma[1, 2] = 1 / (2*Den + 1) * (sum(e_pos[1,:] .* e_neg[2,:]))
+    Sigma[2, 1] = Sigma[1, 2]
+    Sigma[2, 2] = 1 / (2*Den + 1) * (sum(e_pos[2,:] .* e_neg[2,:]))
+    # Sigma = 0.5 / (2*Den + 1) .* (c_pos*c_pos' + c_neg*c_neg')
+
+    Sigma = real(Sigma)
+    var = diag(Sigma)
+    sigma = sqrt.(var)
+    rho = Sigma ./ (sigma * sigma')
+
+    return rho, Sigma, var
+end

@@ -56,7 +56,7 @@ j10 = FKcorr(P[:,1], P[:,2], t[:,1], t[:,2]) # Fejer implementaion from Mancino 
 # Kanatani method for Fejer is still problamatic
 ## according to MM 2009, Fejer is more stable under presence of market-microstructure Noise
 #--------------------
-
+j = NUFFTcorr(P, t)
 #---------------------------------------------------------------------------
 ## Asynchronous Case (Down-sampled 40%)
 
@@ -98,3 +98,4 @@ k10 = FKcorr(P[:,1], P[:,2], t[:,1], t[:,2]) # Fejer implementaion from Mancino 
                                                     # still problamatic
 ## Correlation: Dirichlet < Fejer < HY for asynchronous down-sampled
 # Fejer implementaion still consistent under asynchrony
+k = NUFFTcorr(P, t)
