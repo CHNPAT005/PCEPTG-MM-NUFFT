@@ -2,6 +2,10 @@
 ### Still a work in progress
 # Fourier coeffs are the same as CFTcorr
 # question is now why is the cov half of CFT covariance?
+## Must find a way to deal with possible problem of when
+# N the cutoff is larger than n the size of DiffP - seems quite
+# possible to happen when high levels of asynchrony or there
+# is an high imbalance in trading freqeuncy.
 
 using FastTransforms
 
