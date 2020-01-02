@@ -9,6 +9,7 @@ include("Correlation Estimators/FFTcorr")
 include("Correlation Estimators/HYcorr")
 include("Correlation Estimators/Kanatanicorr")
 include("Correlation Estimators/TFTcorr")
+include("Correlation Estimators/NUFFTcorr")
 using StatsBase
 
 

@@ -61,11 +61,11 @@ function NUFFTcorr(p, t; kwargs...)
         time = Time[1:n] .* (n/(2*pi))
 
         C = nufft1(complex(DiffP), time, eps())
-        C_pos = C[1:(Den+1)]
-        C_neg = conj(C[2:(Den+1)])
+        #C_pos = C[1:(Den+1)]
+        #C_neg = conj(C[2:(Den+1)])
 
-        e_pos[i,:] = [C_pos; C_neg]
-        e_neg[i,:] = [C_neg; C_pos]
+        e_pos[i,:] = [C[1:(Den+1)]; conj(C[2:(Den+1)])]
+        e_neg[i,:] = [conj(C[1:(Den+1)]); C[2:(Den+1)]]
     end
 
     Sigma = zeros(ComplexF64, mp, mp)

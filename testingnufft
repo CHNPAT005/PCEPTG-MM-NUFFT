@@ -1,4 +1,5 @@
 using FastTransforms
+using FINUFFT
 
 n = 10
 c = complex(rand(n))
@@ -62,3 +63,15 @@ y = DFT2(c, tt, 6)
 #### yy === yyy === yyyy
 
 tt = t .* (10/(2*pi))
+
+
+nj = 10
+x = pi*(1.0 .- 2.0*rand(nj))
+c = rand(nj) + 1im*rand(nj)
+
+# Parameters
+ms = 20 # Output size
+tol = 1e-10 # Tolerance
+
+# Output as return value
+fk = nufft1d1(x, c, 1, tol, ms)
