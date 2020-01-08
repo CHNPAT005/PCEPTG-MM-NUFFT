@@ -28,6 +28,7 @@ s1 = CFTcorrFK(P, t)
 s2 = FFTcorrFK(P)
 s3 = KANcorrFK(P[:,1], P[:,2], t[:,1], t[:,2])
 s4 = NUFFTcorrFK(P, t)
+s5 = MScorrFK(P[:,1], P[:,2], t[:,1], t[:,2])
 
 #---------------------------------------------------------------------------
 ## Asynchronous Case (Down-sampled 40%)
@@ -46,5 +47,6 @@ t[rm2, 2] .= NaN
 as1 = CFTcorrFK(P, t)
 as2 = KANcorrFK(P[:,1], P[:,2], t[:,1], t[:,2])
 as3 = NUFFTcorrFK(P, t)
+as4 = MScorrFK(P[:,1], P[:,2], t[:,1], t[:,2])
 
 # TODO: Kanatani Implementation still problamatic, still needs fixing
