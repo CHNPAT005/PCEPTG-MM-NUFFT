@@ -1,0 +1,50 @@
+## Author: Patrick Chang
+# Script file to test the various Fejer implementations
+# to ensure they are all self consistent
+
+cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
+
+using StatsBase
+include("../Correlation Estimators/Fejer/CFTcorrFK")
+include("../Correlation Estimators/Fejer/FFTcorrFK")
+include("../Correlation Estimators/Fejer/KANcorrFK")
+include("../Correlation Estimators/Fejer/MScorrFK")
+include("../Correlation Estimators/Fejer/NUFFTcorrFK-001")
+include("../Monte Carlo Simulation Algorithms/GBM")
+
+#---------------------------------------------------------------------------
+## Synchronous Case
+
+mu = [0.01/86400, 0.01/86400]
+sigma = [0.1/86400 sqrt(0.1/86400)*0.35*sqrt(0.2/86400);
+        sqrt(0.1/86400)*0.35*sqrt(0.2/86400) 0.2/86400]
+
+P = GBM(10000, mu, sigma, seed = 10)
+t = reshape([collect(1:1:10000.0); collect(1:1:10000.0)], 10000, 2)
+
+#--------------------
+
+s1 = CFTcorrFK(P, t)
+s2 = FFTcorrFK(P)
+s3 = KANcorrFK(P[:,1], P[:,2], t[:,1], t[:,2])
+s4 = NUFFTcorrFK(P, t)
+
+#---------------------------------------------------------------------------
+## Asynchronous Case (Down-sampled 40%)
+
+rm1 = sample(2:9999, 4000, replace = false)
+rm2 = sample(2:9999, 4000, replace = false)
+
+P[rm1, 1] .= NaN
+t[rm1, 1] .= NaN
+P[rm2, 2] .= NaN
+t[rm2, 2] .= NaN
+
+#--------------------
+# Can't include FFTcorrDK
+
+as1 = CFTcorrFK(P, t)
+as2 = KANcorrFK(P[:,1], P[:,2], t[:,1], t[:,2])
+as3 = NUFFTcorrFK(P, t)
+
+# TODO: Kanatani Implementation still problamatic, still needs fixing
