@@ -100,3 +100,13 @@ k10 = FKcorr(P[:,1], P[:,2], t[:,1], t[:,2]) # Fejer implementaion from Mancino 
 ## Correlation: Dirichlet < Fejer < HY for asynchronous down-sampled
 # Fejer implementaion still consistent under asynchrony
 k = NUFFTcorr(P, t)
+
+####
+l = CFTcorrFK(P, t)
+ll = FFTcorrFK(P)
+lll = NUFFTcorrFK(P, t)
+
+
+a = CFTcorrDK(P, t)
+aa = FFTcorrDK(P)
+aaa = NUFFTcorrDK(P, t)

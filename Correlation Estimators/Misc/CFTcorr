@@ -183,10 +183,6 @@ function CFTcorrFK(p, t; kwargs...)
     Sigma[1, 2] = sum(term12)/(N+1)
     Sigma[2, 1] = Sigma[1, 2]
     Sigma[2, 2] = sum(term2)/(N+1)
-    # Sigma[1, 1] = 1 / (Den) * (sum(c_pos[1,:] .* c_neg[1,:]))
-    # Sigma[1, 2] = 1 / (Den) * (sum(c_pos[1,:] .* c_neg[2,:]))
-    # Sigma[2, 1] = Sigma[1, 2]
-    # Sigma[2, 2] = 1 / (Den) * (sum(c_pos[2,:] .* c_neg[2,:]))
 
     Sigma = real(Sigma)
     var = diag(Sigma)

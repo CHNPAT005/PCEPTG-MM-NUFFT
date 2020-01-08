@@ -67,20 +67,13 @@ function FFTcorr(p, t; kwargs...)
 
     Sigma = zeros(ComplexF64, mp, mp)
 
-    # Sigma[1, 1] = 1 / (Den + (Den-1)) * (sum(c_pos[1,:] .* c_neg[1,:]))
-    # Sigma[1, 2] = 1 / (Den + (Den-1)) * (sum(c_pos[1,:] .* c_neg[2,:]))
-    # Sigma[2, 1] = Sigma[1, 2]
-    # Sigma[2, 2] = 1 / (Den + (Den-1)) * (sum(c_pos[2,:] .* c_neg[2,:]))
-
     Sigma = 0.5 / (Den + (Den-1)) .* (c_pos*c_pos' + c_neg*c_neg')
 
     Sigma = real(Sigma)
     var = diag(Sigma)
     sigma = sqrt.(var)
     rho = Sigma ./ (sigma * sigma')
-    Sigma_rescaled = 1 / N0 .* Sigma
 
-    #dict = Dict("correlation" => rho, "variance" => var)
     return rho, Sigma, var
 end
 

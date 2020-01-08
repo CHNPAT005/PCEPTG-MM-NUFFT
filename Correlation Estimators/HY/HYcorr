@@ -56,8 +56,6 @@ function HYcorr(p1, p2, t1, t2)
     var = diag(Sigma)
     sigma = sqrt.(var)
     rho = Sigma ./ (sigma * sigma')
-    Sigma_rescaled = 1 / Den .* Sigma
 
-    #dict = Dict("correlation" => rho, "variance" => var)
     return rho, Sigma, var
 end
