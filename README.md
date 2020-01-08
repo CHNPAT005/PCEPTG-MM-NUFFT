@@ -15,3 +15,8 @@
 - The script files for the simulation of SDEs are under `/Monte Carlo Simulation Algorithms` 
 - The script files for our implementation of the Type 1 Non-Uniform Fast Fourier Transform (NUFFT) are under `/NUFFT`
 - Test files are under `/Test`
+
+### TODO:
+- Timing
+- Faster version of my NUFFT
+- Integrate my version of NUFFT into NUFFTcorr
