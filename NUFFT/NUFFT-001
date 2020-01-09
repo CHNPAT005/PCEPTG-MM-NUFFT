@@ -53,10 +53,10 @@ function NUFFT(cj, xj, M; kwargs...)
     return Fk
 end
 
-nj = 10000
+nj = 10
 x = (collect(0:nj-1) + 0.5 .* rand(nj))
 xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
-cj = rand(nj) #+ 1im*rand(nj)
+cj = rand(nj) + 0im*rand(nj)
 
 freq = fftfreq(Mr, 1) .* Mr
 pos = findall(abs.(freq) .<= M/2)
@@ -66,3 +66,6 @@ test = (cj' * exp.(1im .* xj * k'))'
 test2 = NUFFT(cj, xj, 11)
 
 test - test2
+
+test1 = NUFFT(cj, xj, 11)
+test2 = nufft1d1(xj, cj, 1, 1e-12, 11)

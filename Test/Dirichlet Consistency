@@ -9,7 +9,8 @@ include("../Correlation Estimators/Dirichlet/CFTcorrDK")
 include("../Correlation Estimators/Dirichlet/FFTcorrDK")
 include("../Correlation Estimators/Dirichlet/KANcorrDK")
 include("../Correlation Estimators/Dirichlet/MScorrDK")
-include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-001")
+include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-FT")
+include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-FINUFFT")
 include("../Monte Carlo Simulation Algorithms/GBM")
 
 #---------------------------------------------------------------------------
@@ -27,8 +28,9 @@ t = reshape([collect(1:1:10000.0); collect(1:1:10000.0)], 10000, 2)
 s1 = CFTcorrDK(P, t)
 s2 = FFTcorrDK(P)
 s3 = KANcorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
-s4 = NUFFTcorrDK(P, t)
+s4 = NUFFTcorrDKFT(P, t)
 s5 = MScorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
+s6 = NUFFTcorrDKFINUFFT(P, t)
 
 #---------------------------------------------------------------------------
 ## Asynchronous Case (Down-sampled 40%)
@@ -46,5 +48,6 @@ t[rm2, 2] .= NaN
 
 as1 = CFTcorrDK(P, t)
 as2 = KANcorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
-as3 = NUFFTcorrDK(P, t)
+as3 = NUFFTcorrDKFT(P, t)
 as4 = MScorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
+as5 = NUFFTcorrDKFINUFFT(P, t)

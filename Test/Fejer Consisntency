@@ -9,7 +9,8 @@ include("../Correlation Estimators/Fejer/CFTcorrFK")
 include("../Correlation Estimators/Fejer/FFTcorrFK")
 include("../Correlation Estimators/Fejer/KANcorrFK")
 include("../Correlation Estimators/Fejer/MScorrFK")
-include("../Correlation Estimators/Fejer/NUFFTcorrFK-001")
+include("../Correlation Estimators/Fejer/NUFFTcorrFK-FT")
+include("../Correlation Estimators/Fejer/NUFFTcorrFK-FINUFFT")
 include("../Monte Carlo Simulation Algorithms/GBM")
 
 #---------------------------------------------------------------------------
@@ -27,8 +28,9 @@ t = reshape([collect(1:1:10000.0); collect(1:1:10000.0)], 10000, 2)
 s1 = CFTcorrFK(P, t)
 s2 = FFTcorrFK(P)
 s3 = KANcorrFK(P[:,1], P[:,2], t[:,1], t[:,2])
-s4 = NUFFTcorrFK(P, t)
+s4 = NUFFTcorrFKFT(P, t)
 s5 = MScorrFK(P[:,1], P[:,2], t[:,1], t[:,2])
+s6 = NUFFTcorrFKFINUFFT(P, t)
 
 #---------------------------------------------------------------------------
 ## Asynchronous Case (Down-sampled 40%)
@@ -46,7 +48,8 @@ t[rm2, 2] .= NaN
 
 as1 = CFTcorrFK(P, t)
 as2 = KANcorrFK(P[:,1], P[:,2], t[:,1], t[:,2])
-as3 = NUFFTcorrFK(P, t)
+as3 = NUFFTcorrFKFT(P, t)
 as4 = MScorrFK(P[:,1], P[:,2], t[:,1], t[:,2])
+as5 = NUFFTcorrFKFINUFFT(P, t)
 
 # TODO: Kanatani Implementation still problamatic, still needs fixing
