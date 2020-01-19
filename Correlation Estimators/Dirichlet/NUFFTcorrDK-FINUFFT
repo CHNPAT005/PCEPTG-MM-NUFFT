@@ -15,6 +15,7 @@
 ## t = [n x 2] matrix of trading times, non-trading times are indicated by NaNs
 # dimensions of p and t must match.
 ## N = Optional input for cutoff frequency
+## tol = error tolerance for NUFFT - determines how much spreading
 
 #---------------------------------------------------------------------------
 
@@ -35,7 +36,7 @@ end
 
 # Non-uniform Fast Fourier Transform implementaion of the Dirichlet Kernel
 
-function NUFFTcorrDKFINUFFT(p, t; kwargs...)
+function NUFFTcorrDKFINUFFT(p, t, tol; kwargs...)
     ## Pre-allocate arrays and check Data
     np = size(p)[1]
     mp = size(p)[2]
@@ -75,7 +76,7 @@ function NUFFTcorrDKFINUFFT(p, t; kwargs...)
         DiffP = complex(diff(log.(P)))
         Time = Time[1:(end-1)]
 
-        C = nufft1d1(Time, DiffP, -1, eps(), Den)
+        C = nufft1d1(Time, DiffP, -1, tol, Den)
 
         e_pos[i,:] = C
         e_neg[i,:] = conj(C)

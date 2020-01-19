@@ -3,9 +3,10 @@
 # Supporting Algorithms are at the start of the script
 #  Include:
 #           - Scale function to re-scale time to [0, 2 \pi]
+#           - Fast Gaussian Gridding [GL] (Own implementaion)
 # Number of Fourier Coefficients used is length of data
 
-## Implementation uses FINUFFT package
+## Implementation uses Fast Gaussian Gridding
 
 #---------------------------------------------------------------------------
 
@@ -24,6 +25,9 @@ using ArgCheck; using LinearAlgebra; using FINUFFT
 #---------------------------------------------------------------------------
 ### Supporting functions
 
+cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
+include("../../NUFFT/NUFFT-FGG")
+
 function scale(t)
     maxt = maximum(filter(!isnan, t))
     mint = minimum(filter(!isnan, t))
@@ -36,7 +40,7 @@ end
 
 # Non-uniform Fast Fourier Transform implementaion of the Dirichlet Kernel
 
-function NUFFTcorrFKFINUFFT(p, t, tol; kwargs...)
+function NUFFTcorrDKFGG(p, t, tol; kwargs...)
     ## Pre-allocate arrays and check Data
     np = size(p)[1]
     mp = size(p)[2]
@@ -76,27 +80,18 @@ function NUFFTcorrFKFINUFFT(p, t, tol; kwargs...)
         DiffP = complex(diff(log.(P)))
         Time = Time[1:(end-1)]
 
-        C = nufft1d1(Time, DiffP, -1, tol, Den)
+        C = NUFFTFGG(DiffP, Time, Den, tol)
 
         e_pos[i,:] = C
         e_neg[i,:] = conj(C)
     end
 
-    term1 = zeros(ComplexF64, 1, Den)
-    term2 = zeros(ComplexF64, 1, Den)
-    term12 = zeros(ComplexF64, 1, Den)
-
-    N = (Den-1)/2
-
-    term1 = (1 .- abs.(k)./N) .* e_pos[1,:] .* e_neg[1,:]
-    term2 = (1 .- abs.(k)./N) .* e_pos[2,:] .* e_neg[2,:]
-    term12 = (1 .- abs.(k)./N) .* e_pos[1,:] .* e_neg[2,:]
-
     Sigma = zeros(ComplexF64, mp, mp)
-    Sigma[1, 1] = sum(term1)/(N+1)
-    Sigma[1, 2] = sum(term12)/(N+1)
+
+    Sigma[1, 1] = 1 / (Den) * (sum(e_pos[1,:] .* e_neg[1,:]))
+    Sigma[1, 2] = 1 / (Den) * (sum(e_pos[1,:] .* e_neg[2,:]))
     Sigma[2, 1] = Sigma[1, 2]
-    Sigma[2, 2] = sum(term2)/(N+1)
+    Sigma[2, 2] = 1 / (Den) * (sum(e_pos[2,:] .* e_neg[2,:]))
 
     Sigma = real(Sigma)
     var = diag(Sigma)

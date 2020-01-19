@@ -41,7 +41,7 @@ function NUFFTNG(cj, xj, M; kwargs...)
 
     Mr = R*M
 
-    NewGrid = collect(0:(2*pi)/Mr:2*pi-(2*pi)/Mr)
+    NewGrid = collect(0:Mr-1)*(2*pi/Mr)
     lrange = collect(-nspread+1:1:nspread)
 
     ftau = zeros(ComplexF64, Mr, 1)
@@ -71,21 +71,21 @@ function NUFFTNG(cj, xj, M; kwargs...)
     return Fk
 end
 
-# Simple test case
-
-nj = 10
-x = (collect(0:nj-1) + 0.5 .* rand(nj))
-xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
-cj = rand(nj) + 0im*rand(nj)
-
-M = 11
-Mr = 22
-freq = fftfreq(Mr, 1) .* Mr
-pos = findall(abs.(freq) .<= M/2)
-k = freq[pos]
-
-test = (cj' * exp.(1im .* xj * k'))'
-test2 = NUFFTNG(cj, xj, M)
-
-# Check accruacy with the L2 norm
-norm(test-test2) / norm(test)
+# # Simple test case
+#
+# nj = 10
+# x = (collect(0:nj-1) + 0.5 .* rand(nj))
+# xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
+# cj = rand(nj) + 0im*rand(nj)
+#
+# M = 11
+# Mr = 22
+# freq = fftfreq(Mr, 1) .* Mr
+# pos = findall(abs.(freq) .<= M/2)
+# k = freq[pos]
+#
+# test = (cj' * exp.(1im .* xj * k'))'
+# test2 = NUFFTNG(cj, xj, M)
+#
+# # Check accruacy with the L2 norm
+# norm(test-test2) / norm(test)

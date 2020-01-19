@@ -96,21 +96,21 @@ function NUFFTFGG(cj, xj, M, tol; kwargs...)
     return Fk
 end
 
-# Simple test case
-
-nj = 10000
-x = (collect(0:nj-1) + 0.5 .* rand(nj))
-xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
-cj = rand(nj) + 0im*rand(nj)
-
-M = 5001
-Mr = 2*M
-freq = fftfreq(Mr, 1) .* Mr
-pos = findall(abs.(freq) .<= M/2)
-k = freq[pos]
-
-test = (cj' * exp.(1im .* xj * k'))'
-test2 = NUFFTFGG(cj, xj, M, 10^-12)
-
-# Check accruacy with the L2 norm
-norm(test-test2) / norm(test)
+# # Simple test case
+#
+# nj = 10000
+# x = (collect(0:nj-1) + 0.5 .* rand(nj))
+# xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
+# cj = rand(nj) + 0im*rand(nj)
+#
+# M = 5001
+# Mr = 2*M
+# freq = fftfreq(Mr, 1) .* Mr
+# pos = findall(abs.(freq) .<= M/2)
+# k = freq[pos]
+#
+# test = (cj' * exp.(1im .* xj * k'))'
+# test2 = NUFFTFGG(cj, xj, M, 10^-12)
+#
+# # Check accruacy with the L2 norm
+# norm(test-test2) / norm(test)
