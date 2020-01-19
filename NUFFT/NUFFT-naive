@@ -1,0 +1,91 @@
+## Author: Patrick Chang
+# Script file for the Nonuniform Fast Fourier Transform
+
+# Naive Gaussian Implementation
+
+using ArgCheck; using FFTW; using LinearAlgebra
+
+#---------------------------------------------------------------------------
+
+# We have set the oversampling ratio (R = 2) and the Kernel width to be
+# tau = 12/M^2 to yeild rougly 12 digit accruacy
+
+## Optional kwargs:
+# R = oversampling ratio - default set to R=2
+# tau = kernel width - default set to 12/M^2
+# nspread = spreading for each direction - default set to 12
+
+function NUFFTNG(cj, xj, M; kwargs...)
+
+    @argcheck size(cj) == size(xj) DimensionMismatch
+
+    nj = size(cj)[1]
+
+    if haskey(kwargs, :R)
+        R = kwargs[:R]
+    else
+        R = 2
+    end
+
+    if haskey(kwargs, :tau)
+        tau = kwargs[:tau]
+    else
+        tau = 12/M^2
+    end
+
+    if haskey(kwargs, :nspread)
+        nspread = kwargs[:nspread]
+    else
+        nspread = 12
+    end
+
+    Mr = R*M
+
+    NewGrid = collect(0:(2*pi)/Mr:2*pi-(2*pi)/Mr)
+    lrange = collect(-nspread+1:1:nspread)
+
+    ftau = zeros(ComplexF64, Mr, 1)
+
+    for i in 1:Mr
+        storefj = 0
+        for j in 1:nj
+            storel = 0
+            for k in lrange
+                storel = storel + exp(-(xj[j] - NewGrid[i] - 2*pi * k)^2 / (4*tau))
+            end
+            storefj = storefj + cj[j] * storel
+        end
+        ftau[i] = storefj
+    end
+
+
+    freq = fftfreq(Mr, 1) .* Mr
+    pos = findall(abs.(freq) .<= M/2)
+
+    Ftau = fft(ftau)[pos] ./ Mr
+
+    k = freq[pos]
+
+    Fk = sqrt(pi/tau) .* exp.(k.^2 .* tau) .* Ftau
+
+    return Fk
+end
+
+# Simple test case
+
+nj = 10
+x = (collect(0:nj-1) + 0.5 .* rand(nj))
+xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
+cj = rand(nj) + 0im*rand(nj)
+
+M = 11
+Mr = 22
+freq = fftfreq(Mr, 1) .* Mr
+pos = findall(abs.(freq) .<= M/2)
+k = freq[pos]
+
+test = (cj' * exp.(1im .* xj * k'))'
+test2 = NUFFTNG(cj, xj, M)
+
+# Check accruacy with the L2 norm
+norm(test-test2) / norm(test)

@@ -1,0 +1,74 @@
+## Author: Patrick Chang
+# Script file for the Nonuniform Fast Fourier Transform
+
+# Fast Gaussian Gridding
+
+using ArgCheck; using FFTW
+
+#---------------------------------------------------------------------------
+
+function NUFFT(cj, xj, M; kwargs...)
+
+    @argcheck size(cj) == size(xj) DimensionMismatch
+
+    nj = size(cj)[1]
+
+    R = 2
+    #r2lamb = 12*R^2 / (R*(R-0.5))
+    Mr = R*M
+    # tau = 12/M^2
+    tau = (12*pi) / (M^2 * R * (R-0.5))
+    #tau = pi * r2lamb / Mr^2
+
+    EpsGrid = collect(0:1:Mr-1) .* (2*pi/Mr)
+    lrange = collect(-11:1:12)
+
+    ftau = zeros(ComplexF64, Mr, 1)
+
+    for i in 1:nj
+        pos = maximum(findall(EpsGrid .<= xj[i]))
+        Xi = EpsGrid[pos]
+        E1 = exp(- (xj[i]-Xi)^2 / (4*tau))
+        E2 = exp( ((xj[i] - Xi)*pi) / (Mr * tau) )
+        for j in lrange
+            newpos = pos + j
+            if (newpos > 0 && newpos < (Mr+1))
+                ftau[newpos] = ftau[newpos] + cj[i]*E1*(E2^j)*exp(-(pi*j/Mr)^2 / tau)
+            elseif (newpos < 0)
+                newpos2 = Mr+1+newpos
+                ftau[newpos2] = ftau[newpos2] + cj[i]*E1*(E2^j)*exp(-(pi*j/Mr)^2 / tau)
+            elseif (newpos > Mr)
+                newpos2 = newpos - Mr
+                ftau[newpos2] = ftau[newpos2] + cj[i]*E1*(E2^j)*exp(-(pi*j/Mr)^2 / tau)
+            end
+        end
+    end
+
+    freq = fftfreq(Mr, 1) .* Mr
+    pos = findall(abs.(freq) .<= M/2)
+
+    Ftau = fft(ftau)[pos] ./ Mr
+
+    k = freq[pos] #.* Mr
+
+    Fk = sqrt(pi/tau) .* exp.(k.^2 .* tau) .* Ftau
+
+    return Fk
+end
+
+nj = 10000
+x = (collect(0:nj-1) + 0.5 .* rand(nj))
+xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
+cj = rand(nj) + 0im*rand(nj)
+
+freq = fftfreq(Mr, 1) .* Mr
+pos = findall(abs.(freq) .<= M/2)
+k = freq[pos]
+
+test = (cj' * exp.(1im .* xj * k'))'
+test2 = NUFFT(cj, xj, M)
+
+test - test2
+
+test1 = NUFFT(cj, xj, 11)
+test2 = nufft1d1(xj, cj, 1, 1e-12, 11)

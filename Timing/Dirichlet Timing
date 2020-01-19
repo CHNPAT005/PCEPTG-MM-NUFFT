@@ -1,0 +1,27 @@
+## Author: Patrick Chang
+# Script file to benchmark performance between various algorithms
+# for the Dirichlet implementaion.
+# We compare the Mancino-Sanfelici code to Legacy code and the FFT and NUFFT
+
+using BenchmarkTools
+
+cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
+
+include("../Correlation Estimators/Dirichlet/CFTcorrDK")
+include("../Correlation Estimators/Dirichlet/FFTcorrDK")
+include("../Correlation Estimators/Dirichlet/MScorrDK")
+include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-FINUFFT")
+include("../Monte Carlo Simulation Algorithms/GBM")
+
+mu = [0.01/86400, 0.01/86400]
+sigma = [0.1/86400 sqrt(0.1/86400)*0.35*sqrt(0.2/86400);
+        sqrt(0.1/86400)*0.35*sqrt(0.2/86400) 0.2/86400]
+
+
+
+n = 10^6
+
+P = GBM(n, mu, sigma, seed = 10)
+t = reshape([collect(1:1:10000.0); collect(1:1:10000.0)], 10000, 2)
+x = @belapsed FFTcorrDK(P) seconds=1
+xx = @benchmark FFTcorrDK(P) samples=100 seconds=300
