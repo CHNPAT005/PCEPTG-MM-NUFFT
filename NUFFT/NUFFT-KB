@@ -1,0 +1,121 @@
+## Author: Patrick Chang
+# Script file for the Nonuniform Fast Fourier Transform
+
+# Kaiser-Bessel
+
+using ArgCheck; using FFTW; using SpecialFunctions
+
+# Supporting functions
+#---------------------------------------------------------------------------
+
+# function kaiser_bessel(x, M, nspread, R)
+#     b = pi*(2-1/R)
+#     arg = nspread^2 - (M*R)^2 * x^2
+#     if abs(x) <= nspread/(M*R)
+#         y = (1/pi) * sinh(b*sqrt(arg))/sqrt(arg)
+#     else
+#         y = (1/pi) * sin(b*sqrt(-arg))/sqrt(-arg)
+#     end
+#     return y
+# end
+#
+# function kaiser_bessel_hat(k, M, nspread, R)
+#     b = pi*(2-1/R)
+#     return besseli(0, nspread*sqrt(b^2-(2*pi*k / (M*R))^2)) / (M*R)
+# end
+
+function kaiser_bessel(x,n,m,sigma)
+    b = pi*(2-1/sigma)
+    arg = m^2-n^2*x^2
+    if abs(x) < m/n
+        y = sinh(b*sqrt(arg))/sqrt(arg)/pi
+    elseif abs(x) > m/n
+        y = zero(x)
+    else
+        y = b/pi
+    end
+    return y
+end
+
+function kaiser_bessel_hat(k,n,m,sigma)
+    b = pi*(2-1/sigma)
+    return besseli(0,m*sqrt(b^2-(2*pi*k/n)^2))
+end
+
+# function kaiser_bessel(x,n,m,sigma)
+#     b = pi*(2-1/sigma)
+#     if abs(x) < m/n
+#         arg = m*b*sqrt(1-(n*x/m)^2)
+#         y = 0.5/m*besseli(0,arg)
+#     else
+#         y = zero(x)
+#     end
+#     return y
+# end
+#
+# function kaiser_bessel_hat(k,n,m,sigma)
+#     b = pi*(2-1/sigma)
+#
+#     arg = sqrt(complex((2*pi*m*k/n)^2-(m*b)^2))
+#     return sinc(arg/pi)
+# end
+
+#---------------------------------------------------------------------------
+
+function NUFFT(cj, xj, M; kwargs...)
+
+    @argcheck size(cj) == size(xj) DimensionMismatch
+
+    nj = size(cj)[1]
+
+    R = 2
+    Mr = R*M
+    nspread = 6
+
+    EpsGrid = collect(0:1:Mr-1) ./ Mr .- 0.5 #.* (2*pi/Mr)
+
+    ftau = zeros(ComplexF64, Mr, 1)
+
+    for i in 1:Mr
+        Xi = EpsGrid[i]
+        storefj = 0
+        for j in 1:nj
+            storer = 0
+            for r in -nspread:nspread
+                storer = storer + kaiser_bessel(xj[j]-Xi+r, Mr, nspread, 2)
+            end
+            storefj = storefj + cj[j] * storer
+        end
+        ftau[i] = storefj
+    end
+
+    freq = fftfreq(Mr, 1) .* Mr
+    pos = findall(abs.(freq) .<= M/2)
+
+    Ftau = fft(ftau)[pos] #./ Mr
+    #Ftau = fft(ftau ./ Mr)[pos]
+
+    k = freq[pos] #.* Mr
+
+    Fk = Ftau ./ kaiser_bessel_hat.(k, Mr, nspread, R)
+
+    return Fk
+end
+
+nj = 10
+x = (collect(0:nj-1) + 0.5 .* rand(nj))
+xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
+cj = rand(nj) + 0im*rand(nj)
+xjj = xj ./ (2*pi) .- 0.5
+
+M = 11
+Mr = 22
+freq = fftfreq(Mr, 1) .* Mr
+pos = findall(abs.(freq) .<= M/2)
+k = freq[pos]
+
+test = (cj' * exp.(1im .* xj * k'))'
+test1 = (cj' * exp.(2*pi*1im .* xjj * k'))'
+test2 = NUFFT(cj, xjj, M)
+
+test - test2

@@ -13,10 +13,9 @@
   - We also have the Hayashi-Yoshida implementation under `/Correlation Estimators/HY`
   
 - The script files for the simulation of SDEs are under `/Monte Carlo Simulation Algorithms` 
-- The script files for our implementation of the Type 1 Non-Uniform Fast Fourier Transform (NUFFT) are under `/NUFFT`
-- Test files are under `/Test`
+- The script files for our implementation of the Type 1 Non-Uniform Fast Fourier Transform (NUFFT) are under `/NUFFT`. These include: Naive Gaussian (NG) [GL2004] and the Fast Gaussian Gridding (FGG) [GL2004].
+- Test files are under `/Test`. These test the consistency across various implementations of the Dirichlet and Fejer estiamtors.
 
 ### TODO:
 - Timing
-- Faster version of my NUFFT
-- Integrate my version of NUFFT into NUFFTcorr
+- Code up the Kaiser-Besel kernel implementation of the NUFFT and integrate into the estimators
