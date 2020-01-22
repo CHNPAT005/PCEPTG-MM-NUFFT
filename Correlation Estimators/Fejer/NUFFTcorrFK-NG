@@ -66,6 +66,12 @@ function NUFFTcorrFKNG(p, t; kwargs...)
         k = collect(-floor(N0/2):1:floor(N0/2))
     end
 
+    if haskey(kwargs, :tol)
+        tol = kwargs[:tol]
+    else
+        tol = 10^-12
+    end
+
     Den = length(k)
 
     #------------------------------------------------------
@@ -79,7 +85,7 @@ function NUFFTcorrFKNG(p, t; kwargs...)
         DiffP = complex(diff(log.(P)))
         Time = Time[1:(end-1)]
 
-        C = NUFFTNG(DiffP, Time, Den)
+        C = NUFFTNG(DiffP, Time, Den, tol)
 
         e_pos[i,:] = C
         e_neg[i,:] = conj(C)

@@ -3,10 +3,10 @@
 # Supporting Algorithms are at the start of the script
 #  Include:
 #           - Scale function to re-scale time to [0, 2 \pi]
-#           - Naive Gaussian Gridding [GL] (Own implementaion)
+#           - Naive Kaiser-Bessel implementation
 # Number of Fourier Coefficients used is length of data
 
-## Implementation uses Naive Gaussian Gridding
+## Implementation uses Naive Kaiser-Bessel
 
 #---------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ using ArgCheck; using LinearAlgebra; using FINUFFT
 ### Supporting functions
 
 cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
-include("../../NUFFT/NUFFT-NG")
+include("../../NUFFT/NUFFT-NKB")
 
 function scale(t)
     maxt = maximum(filter(!isnan, t))
@@ -40,7 +40,7 @@ end
 
 # Non-uniform Fast Fourier Transform implementaion of the Dirichlet Kernel
 
-function NUFFTcorrDKNG(p, t; kwargs...)
+function NUFFTcorrDKNKB(p, t; kwargs...)
     ## Pre-allocate arrays and check Data
     np = size(p)[1]
     mp = size(p)[2]
@@ -84,9 +84,9 @@ function NUFFTcorrDKNG(p, t; kwargs...)
         P = p[psii, i]
         Time = tau[psii, i]
         DiffP = complex(diff(log.(P)))
-        Time = Time[1:(end-1)]
+        Time = Time[1:(end-1)] ./ (2*pi) .- 0.5
 
-        C = NUFFTNG(DiffP, Time, Den, tol)
+        C = NUFFTNKB(DiffP, Time, Den, tol)
 
         e_pos[i,:] = C
         e_neg[i,:] = conj(C)

@@ -36,7 +36,13 @@ end
 
 #---------------------------------------------------------------------------
 
-function NUFFTKB(cj, xj, M; kwargs...)
+# cj = the source strength
+# xj = the corresponding time for cj. xj \in [0, 2π]
+# M = number of Fourier modes to return:
+#   M even returns [-M/2, (M-1)/2]; M odd returns [-M/2, M/2]
+# tol = tolerance level for error - controls the spreading
+
+function NUFFTKB(cj, xj, M, tol; kwargs...)
 
     @argcheck size(cj) == size(xj) DimensionMismatch
 
@@ -44,7 +50,7 @@ function NUFFTKB(cj, xj, M; kwargs...)
 
     R = 2
     Mr = R*M
-    nspread = 6
+    nspread = Int(floor((ceil(log(10, 1/tol)) + 1)/2))
 
     EpsGrid = collect(0:1:Mr-1) ./ Mr .- 0.5
 
@@ -87,22 +93,22 @@ function NUFFTKB(cj, xj, M; kwargs...)
     return Fk
 end
 
-# Simple test case
-
-nj = 10
-x = (collect(0:nj-1) + 0.5 .* rand(nj))
-xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
-cj = rand(nj) + 0im*rand(nj)
-xjj = xj ./ (2*pi) .- 0.5
-
-M = 11
-Mr = 2*M
-freq = fftfreq(Mr, 1) .* Mr
-pos = findall(abs.(freq) .<= M/2)
-k = freq[pos]
-
-test = (cj' * exp.(1im .* xj * k'))'
-test1 = NUFFTNKB(cj, xjj, M)
-test2 = NUFFTKB(cj, xjj, M)
-
-test - test2
+# # Simple test case
+#
+# nj = 10
+# x = (collect(0:nj-1) + 0.5 .* rand(nj))
+# xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
+# cj = rand(nj) + 0im*rand(nj)
+# xjj = xj ./ (2*pi) .- 0.5
+#
+# M = 11
+# Mr = 2*M
+# freq = fftfreq(Mr, 1) .* Mr
+# pos = findall(abs.(freq) .<= M/2)
+# k = freq[pos]
+#
+# test = (cj' * exp.(1im .* xj * k'))'
+# test1 = NUFFTNKB(cj, xjj, M)
+# test2 = NUFFTKB(cj, xjj, M)
+#
+# test - test2

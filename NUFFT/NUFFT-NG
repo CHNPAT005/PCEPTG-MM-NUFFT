@@ -13,9 +13,9 @@ using ArgCheck; using FFTW; using LinearAlgebra
 ## Optional kwargs:
 # R = oversampling ratio - default set to R=2
 # tau = kernel width - default set to 12/M^2
-# nspread = spreading for each direction - default set to 12
+## tol = error tolerance for NUFFT - determines how much spreading, default = 10^-12
 
-function NUFFTNG(cj, xj, M; kwargs...)
+function NUFFTNG(cj, xj, M, tol; kwargs...)
 
     @argcheck size(cj) == size(xj) DimensionMismatch
 
@@ -33,11 +33,7 @@ function NUFFTNG(cj, xj, M; kwargs...)
         tau = 12/M^2
     end
 
-    if haskey(kwargs, :nspread)
-        nspread = kwargs[:nspread]
-    else
-        nspread = 12
-    end
+    nspread = Int(floor(-log(tol)/(pi*(R-1)/(R-0.5)) + 0.5))
 
     Mr = R*M
 
@@ -85,7 +81,7 @@ end
 # k = freq[pos]
 #
 # test = (cj' * exp.(1im .* xj * k'))'
-# test2 = NUFFTNG(cj, xj, M)
+# test2 = NUFFTNG(cj, xj, M, 10^-12)
 #
 # # Check accruacy with the L2 norm
 # norm(test-test2) / norm(test)
