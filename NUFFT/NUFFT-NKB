@@ -1,7 +1,7 @@
 ## Author: Patrick Chang
 # Script file for the Nonuniform Fast Fourier Transform
 
-# Kaiser-Bessel - spreading to grid points near the source points
+# Kaiser-Bessel - naive implementaion
 
 using ArgCheck; using FFTW; using SpecialFunctions
 
@@ -26,17 +26,9 @@ function kaiser_bessel_hat(k,n,m,sigma)
     return besseli(0,m*sqrt(b^2-(2*pi*k/n)^2))
 end
 
-function kaiser_bessel_conv(x,n,m,sigma)
-    store = 0
-    for r in -m:m
-        store = store + kaiser_bessel(x+r,n,m,sigma)
-    end
-    return store
-end
-
 #---------------------------------------------------------------------------
 
-function NUFFTKB(cj, xj, M; kwargs...)
+function NUFFTNKB(cj, xj, M; kwargs...)
 
     @argcheck size(cj) == size(xj) DimensionMismatch
 
@@ -50,29 +42,17 @@ function NUFFTKB(cj, xj, M; kwargs...)
 
     ftau = zeros(ComplexF64, Mr, 1)
 
-    for j in 1:nj
-        ccj = cj[j]
-
-        jb1 = floor((xj[j]+0.5)*Mr)
-        jb1 = Int(jb1)
-
-        jb1d = min(nspread, jb1)
-        jb1u = min(nspread, Mr-jb1-1)
-        for k in -nspread:(-jb1d-1)
-            istart = jb1 + k + Mr + 1
-            zz = ccj * kaiser_bessel_conv(xj[j]-EpsGrid[istart], Mr, nspread, R)
-            ftau[istart] = ftau[istart] + zz
+    for i in 1:Mr
+        Xi = EpsGrid[i]
+        storefj = 0
+        for j in 1:nj
+            storer = 0
+            for r in -nspread:nspread
+                storer = storer + kaiser_bessel(xj[j]-Xi+r, Mr, nspread, R)
+            end
+            storefj = storefj + cj[j] * storer
         end
-        for k in -jb1d:jb1u
-            istart = jb1 + k + 1
-            zz = ccj * kaiser_bessel_conv(xj[j]-EpsGrid[istart], Mr, nspread, R)
-            ftau[istart] = ftau[istart] + zz
-        end
-        for k in jb1u+1:nspread
-            istart = jb1 + k - Mr + 1
-            zz = ccj * kaiser_bessel_conv(xj[j]-EpsGrid[istart], Mr, nspread, R)
-            ftau[istart] = ftau[istart] + zz
-        end
+        ftau[i] = storefj
     end
 
     freq = fftfreq(Mr, 1) .* Mr
@@ -102,7 +82,7 @@ pos = findall(abs.(freq) .<= M/2)
 k = freq[pos]
 
 test = (cj' * exp.(1im .* xj * k'))'
-test1 = NUFFTNKB(cj, xjj, M)
-test2 = NUFFTKB(cj, xjj, M)
+test1 = (cj' * exp.(2*pi*1im .* xjj * k'))'
+test2 = NUFFTNKB(cj, xjj, M)
 
 test - test2
