@@ -43,7 +43,7 @@ function GBM(n, mu, sigma; kwargs...)
     P = zeros(n, k)
     P[1,:] = startprice
 
-    A = cholesky(sigma).U
+    A = cholesky(sigma).L
     b = mu - sigma2./2
 
     Random.seed!(seed)
@@ -59,7 +59,7 @@ end
 
 #------------------------------------------------------------------------------
 
-## Uncomment for plots 
+## Uncomment for plots
 
 # n = 500
 # mu = [0.01/86400, 0.01/86400]

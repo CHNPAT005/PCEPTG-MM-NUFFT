@@ -41,7 +41,7 @@ function OU(n, mu, sigma, theta; kwargs...)
     P = zeros(n, k)
     P[1,:] = log.(startprice)
 
-    A = cholesky(sigma).U
+    A = cholesky(sigma).L
 
     Random.seed!(seed)
     Z = randn(k, n-1)

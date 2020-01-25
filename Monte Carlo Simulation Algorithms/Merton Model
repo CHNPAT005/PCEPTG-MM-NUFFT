@@ -50,7 +50,7 @@ function Merton(n, mu, sigma, lambda, a, b; kwargs...)
     X = zeros(n, k)
     X[1,:] = log.(startprice)
 
-    A = cholesky(sigma).U
+    A = cholesky(sigma).L
     d = mu - sigma2./2
 
     Random.seed!(seed)

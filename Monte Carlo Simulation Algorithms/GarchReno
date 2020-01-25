@@ -64,7 +64,7 @@ function GARCH_Reno(n, theta, lambda, w, corr::Float64; kwargs...)
     for i in 2:n
         Sigma = [Sigma2[1,i] sqrt(Sigma2[1,i]*Sigma2[2,i])*corr;
         sqrt(Sigma2[1,i]*Sigma2[2,i])*corr Sigma2[2,i]]
-        P[i,:] = cholesky(Sigma).U * Z[1:2, i-1] .* sqrt(1/dt) + P[i-1,:]
+        P[i,:] = cholesky(Sigma).L * Z[1:2, i-1] .* sqrt(1/dt) + P[i-1,:]
     end
     return exp.(P)
 end
