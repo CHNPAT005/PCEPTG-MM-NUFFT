@@ -4,7 +4,7 @@
 
 cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
 
-using StatsBase
+using StatsBase; using Random
 include("../Correlation Estimators/Dirichlet/CFTcorrDK")
 include("../Correlation Estimators/Dirichlet/FFTcorrDK")
 include("../Correlation Estimators/Dirichlet/KANcorrDK")
@@ -27,14 +27,18 @@ sigma = [0.1/86400 sqrt(0.1/86400)*0.35*sqrt(0.2/86400);
 P = GBM(10000, mu, sigma, seed = 10)
 t = reshape([collect(1:1:10000.0); collect(1:1:10000.0)], 10000, 2)
 
+P = GBM(20000, mu, sigma, seed = 10)
+t = reshape([collect(1:1:20000.0); collect(1:1:20000.0)], 20000, 2)
+
 #--------------------
 
 s1 = CFTcorrDK(P, t)
 s2 = FFTcorrDK(P)
 s3 = KANcorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
 s4 = NUFFTcorrDKFT(P, t)
-s5 = MScorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
-s6 = NUFFTcorrDKFINUFFT(P, t)
+# s5 = MScorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
+s5 = MScorrDK(P, t)
+s6 = NUFFTcorrDKFINUFFT(P, t, 10^-12)
 s7 = NUFFTcorrDKFGG(P, t)
 s8 = NUFFTcorrDKNG(P, t)
 s9 = NUFFTcorrDKNKB(P, t)
@@ -63,3 +67,39 @@ as6 = NUFFTcorrDKFGG(P, t)
 as7 = NUFFTcorrDKNG(P, t)
 as8 = NUFFTcorrDKNKB(P, t)
 as9 = NUFFTcorrDKKB(P, t)
+
+
+#---------------------------------------------------------------------------
+## Asynchronous Case - Random Exponential
+
+function rexp(n, mean)
+    t = -mean .* log.(rand(n))
+end
+
+
+t1 = rexp(10000, 30)
+t1 = cumsum(t1)
+t1 = filter((x) -> x < 10000, t1)
+
+t2 = rexp(10000, 30)
+t2 = cumsum(t2)
+t2 = filter((x) -> x < 10000, t2)
+
+p1 = P[Int.(floor.(t1)), 1]
+p2 = P[Int.(floor.(t2)), 2]
+
+D = maximum([length(t1); length(t2)]) - minimum([length(t1); length(t2)])
+if length(t1) < length(t2)
+    t1 = [t1; repeat([NaN], D)]
+    p1 = [p1; repeat([NaN], D)]
+else
+    t2 = [t2; repeat([NaN], D)]
+    p2 = [p2; repeat([NaN], D)]
+end
+
+p = [p1 p2]
+t = [t1 t2]
+
+as1 = CFTcorrDK(p, t)
+as2 = NUFFTcorrDKFGG(p, t)
+as3 = FFTZPcorrDK(p, t)

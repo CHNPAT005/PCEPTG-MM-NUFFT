@@ -94,10 +94,7 @@ function NUFFTcorrDKFGG(p, t; kwargs...)
 
     Sigma = zeros(ComplexF64, mp, mp)
 
-    Sigma[1, 1] = 1 / (Den) * (sum(e_pos[1,:] .* e_neg[1,:]))
-    Sigma[1, 2] = 1 / (Den) * (sum(e_pos[1,:] .* e_neg[2,:]))
-    Sigma[2, 1] = Sigma[1, 2]
-    Sigma[2, 2] = 1 / (Den) * (sum(e_pos[2,:] .* e_neg[2,:]))
+    Sigma = 0.5 / Den .* (e_pos*e_pos' + e_neg*e_neg')
 
     Sigma = real(Sigma)
     var = diag(Sigma)
