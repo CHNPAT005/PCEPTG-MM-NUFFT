@@ -82,20 +82,6 @@ function CFTcorrFK(p, t; kwargs...)
         c_neg[i,:] = [conj(C) sum(DiffP) C]
     end
 
-    # term1 = zeros(ComplexF64, 1, Den+1)
-    # term2 = zeros(ComplexF64, 1, Den+1)
-    # term12 = zeros(ComplexF64, 1, Den+1)
-    #
-    # term1 = [2 .* (1 .- abs.(k)./N) .* c_pos[1,:] .* c_neg[1,:]; C0[1] * C0[1]]
-    # term2 = [2 .* (1 .- abs.(k)./N) .* c_pos[2,:] .* c_neg[2,:]; C0[2] * C0[2]]
-    # term12 = [2 .* (1 .- abs.(k)./N) .* c_pos[1,:] .* c_neg[2,:]; C0[1] * C0[2]]
-    #
-    # Sigma = zeros(ComplexF64, mp, mp)
-    # Sigma[1, 1] = sum(term1)/(N+1)
-    # Sigma[1, 2] = sum(term12)/(N+1)
-    # Sigma[2, 1] = Sigma[1, 2]
-    # Sigma[2, 2] = sum(term2)/(N+1)
-
     K = [k; 0; k]
 
     for i in 1:mp

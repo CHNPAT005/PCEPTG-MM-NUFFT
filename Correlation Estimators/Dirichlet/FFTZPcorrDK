@@ -27,6 +27,16 @@ function scale(t)
     return tau
 end
 
+function zero_pad(cj, xj, N0)
+    res = zeros(N0, 1)
+    nj = length(xj)
+    for j in 1:nj
+        pos = Int(round(xj[j] * (N0/(2*pi))))
+        res[pos+1] = cj[j]
+    end
+    return res
+end
+#ZPP = zero_pad(DiffP, tau[psii, 1], Int(ceil(N0)))
 #---------------------------------------------------------------------------
 
 # Fast Fourier Transform (with Zero Padding) implementaion of the Dirichlet Kernel
@@ -63,10 +73,11 @@ function FFTZPcorrDK(p, t)
         psii = findall(!isnan, p[:,i])
         P = p[psii, i]
         DiffP = diff(log.(P))
-
-        ZP = zeros(Den, 1)
         psii = psii[1:(end-1)]
-        ZP[psii] = DiffP
+        Time = tau[psii, i]
+        ZP = zeros(Den, 1)
+
+        ZP[1:Int(floor(N0))] = zero_pad(DiffP, Time, Int(floor(N0)))
 
         C = fft(ZP)
 

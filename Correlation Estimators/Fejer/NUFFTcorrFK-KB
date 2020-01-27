@@ -92,22 +92,8 @@ function NUFFTcorrFKKB(p, t; kwargs...)
         e_neg[i,:] = conj(C)
     end
 
-    # term1 = zeros(ComplexF64, 1, Den)
-    # term2 = zeros(ComplexF64, 1, Den)
-    # term12 = zeros(ComplexF64, 1, Den)
-
     N = floor(N0/2)
     k = fftfreq(Den, 1) * Den
-
-    # term1 = (1 .- abs.(k)./N) .* e_pos[1,:] .* e_neg[1,:]
-    # term2 = (1 .- abs.(k)./N) .* e_pos[2,:] .* e_neg[2,:]
-    # term12 = (1 .- abs.(k)./N) .* e_pos[1,:] .* e_neg[2,:]
-    #
-    # Sigma = zeros(ComplexF64, mp, mp)
-    # Sigma[1, 1] = sum(term1)/(N+1)
-    # Sigma[1, 2] = sum(term12)/(N+1)
-    # Sigma[2, 1] = Sigma[1, 2]
-    # Sigma[2, 2] = sum(term2)/(N+1)
 
     for i in 1:mp
         e_pos[i,:] = sqrt.(1 .- abs.(k)./N) .* e_pos[i,:]

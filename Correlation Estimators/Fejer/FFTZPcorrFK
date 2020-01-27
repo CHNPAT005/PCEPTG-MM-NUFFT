@@ -27,9 +27,19 @@ function scale(t)
     return tau
 end
 
+function zero_pad(cj, xj, N0)
+    res = zeros(N0, 1)
+    nj = length(xj)
+    for j in 1:nj
+        pos = Int(round(xj[j] * (N0/(2*pi))))
+        res[pos+1] = cj[j]
+    end
+    return res
+end
+#ZPP = zero_pad(DiffP, tau[psii, 1], Int(ceil(N0)))
 #---------------------------------------------------------------------------
 
-# Fast Fourier Transform (with Zero Padding) implementaion of the Dirichlet Kernel
+# Fast Fourier Transform (with Zero Padding) implementaion of the Fejer Kernel
 # Can be used for asynchronous data
 # No option for optional cutoff (N)
 
@@ -63,10 +73,11 @@ function FFTZPcorrFK(p, t)
         psii = findall(!isnan, p[:,i])
         P = p[psii, i]
         DiffP = diff(log.(P))
-
-        ZP = zeros(Den, 1)
         psii = psii[1:(end-1)]
-        ZP[psii] = DiffP
+        Time = tau[psii, i]
+        ZP = zeros(Den, 1)
+
+        ZP[1:Int(floor(N0))] = zero_pad(DiffP, Time, Int(floor(N0)))
 
         C = fft(ZP)
 
@@ -77,22 +88,15 @@ function FFTZPcorrFK(p, t)
         c_neg[i,:] = C_neg
     end
 
-    term1 = zeros(ComplexF64, 1, Den)
-    term2 = zeros(ComplexF64, 1, Den)
-    term12 = zeros(ComplexF64, 1, Den)
-
     N = floor(N0/2)
     k = fftfreq(Den, 1) * Den
 
-    term1 = (1 .- abs.(k)./N) .* c_pos[1,:] .* c_neg[1,:]
-    term2 = (1 .- abs.(k)./N) .* c_pos[2,:] .* c_neg[2,:]
-    term12 = (1 .- abs.(k)./N) .* c_pos[1,:] .* c_neg[2,:]
+    for i in 1:mp
+        c_pos[i,:] = sqrt.(1 .- abs.(k)./N) .* c_pos[i,:]
+        c_neg[i,:] = sqrt.(1 .- abs.(k)./N) .* c_neg[i,:]
+    end
 
-    Sigma = zeros(ComplexF64, mp, mp)
-    Sigma[1, 1] = sum(term1)/(N+1)
-    Sigma[1, 2] = sum(term12)/(N+1)
-    Sigma[2, 1] = Sigma[1, 2]
-    Sigma[2, 2] = sum(term2)/(N+1)
+    Sigma = 0.5/(N+1) .* (c_pos*c_pos' + c_neg*c_neg')
 
     Sigma = real(Sigma)
     var = diag(Sigma)

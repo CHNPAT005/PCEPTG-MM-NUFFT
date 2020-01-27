@@ -7,15 +7,16 @@ cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-M
 using StatsBase; using Random
 include("../Correlation Estimators/Dirichlet/CFTcorrDK")
 include("../Correlation Estimators/Dirichlet/FFTcorrDK")
-include("../Correlation Estimators/Dirichlet/KANcorrDK")
+include("../Correlation Estimators/Dirichlet/FFTZPcorrDK")
 include("../Correlation Estimators/Dirichlet/MScorrDK")
-include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-FT")
 include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-FINUFFT")
 include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-FGG")
-include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-NG")
 include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-KB")
-include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-NKB")
 include("../Monte Carlo Simulation Algorithms/GBM")
+#include("../Correlation Estimators/Dirichlet/KANcorrDK")
+#include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-FT")
+#include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-NG")
+#include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-NKB")
 
 #---------------------------------------------------------------------------
 ## Synchronous Case
@@ -34,15 +35,21 @@ t = reshape([collect(1:1:20000.0); collect(1:1:20000.0)], 20000, 2)
 
 s1 = CFTcorrDK(P, t)
 s2 = FFTcorrDK(P)
-s3 = KANcorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
-s4 = NUFFTcorrDKFT(P, t)
-# s5 = MScorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
-s5 = MScorrDK(P, t)
-s6 = NUFFTcorrDKFINUFFT(P, t, 10^-12)
-s7 = NUFFTcorrDKFGG(P, t)
-s8 = NUFFTcorrDKNG(P, t)
-s9 = NUFFTcorrDKNKB(P, t)
-s10 = NUFFTcorrDKKB(P, t)
+s3 = FFTZPcorrDK(P, t)
+s4 = MScorrDK(P, t)
+s5 = NUFFTcorrDKFINUFFT(P, t, 10^-12)
+s6 = NUFFTcorrDKFGG(P, t)
+s7 = NUFFTcorrDKKB(P, t)
+
+# s3 = KANcorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
+# s4 = NUFFTcorrDKFT(P, t)
+# # s5 = MScorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
+# s5 = MScorrDK(P, t)
+# s6 = NUFFTcorrDKFINUFFT(P, t, 10^-12)
+# s7 = NUFFTcorrDKFGG(P, t)
+# s8 = NUFFTcorrDKNG(P, t)
+# s9 = NUFFTcorrDKNKB(P, t)
+# s10 = NUFFTcorrDKKB(P, t)
 
 #---------------------------------------------------------------------------
 ## Asynchronous Case (Down-sampled 40%)
@@ -59,14 +66,22 @@ t[rm2, 2] .= NaN
 # Can't include FFTcorrDK
 
 as1 = CFTcorrDK(P, t)
-as2 = KANcorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
-as3 = NUFFTcorrDKFT(P, t)
-as4 = MScorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
-as5 = NUFFTcorrDKFINUFFT(P, t)
+# as2 = FFTcorrDK(P)
+as3 = FFTZPcorrDK(P, t)
+as4 = MScorrDK(P, t)
+as5 = NUFFTcorrDKFINUFFT(P, t, 10^-12)
 as6 = NUFFTcorrDKFGG(P, t)
-as7 = NUFFTcorrDKNG(P, t)
-as8 = NUFFTcorrDKNKB(P, t)
-as9 = NUFFTcorrDKKB(P, t)
+as7 = NUFFTcorrDKKB(P, t)
+
+# as1 = CFTcorrDK(P, t)
+# as2 = KANcorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
+# as3 = NUFFTcorrDKFT(P, t)
+# as4 = MScorrDK(P[:,1], P[:,2], t[:,1], t[:,2])
+# as5 = NUFFTcorrDKFINUFFT(P, t)
+# as6 = NUFFTcorrDKFGG(P, t)
+# as7 = NUFFTcorrDKNG(P, t)
+# as8 = NUFFTcorrDKNKB(P, t)
+# as9 = NUFFTcorrDKKB(P, t)
 
 
 #---------------------------------------------------------------------------
