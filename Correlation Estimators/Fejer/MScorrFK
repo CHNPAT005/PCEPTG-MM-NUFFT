@@ -20,37 +20,33 @@ using ArgCheck; using LinearAlgebra
 #---------------------------------------------------------------------------
 ### Supporting functions
 
-function scaleV2(t1, t2)
-    maxt = maximum(filter(!isnan, [t1;t2]))
-    mint = minimum(filter(!isnan, [t1;t2]))
+function scale(t)
+    maxt = maximum(filter(!isnan, t))
+    mint = minimum(filter(!isnan, t))
 
-    tau1 = (2*pi) .* (t1 .- mint) ./ (maxt - mint)
-    tau2 = (2*pi) .* (t2 .- mint) ./ (maxt - mint)
-    return tau1, tau2
+    tau = (2*pi) .* (t .- mint) ./ (maxt - mint)
+    return tau
 end
 
 #---------------------------------------------------------------------------
 
 # Mancino Sanfelici implementation using for loops
-# with the Fejer Kernel
+# with the Dirichlet Kernel
 
-function MScorrFK(p1, p2, t1, t2; kwargs...)
-    # clean the data first
-    t1 = filter(!isnan, t1)
-    t2 = filter(!isnan, t2)
+function MScorrFK(p, t; kwargs...)
+    ## Pre-allocate arrays and check Data
+    np = size(p)[1]
+    mp = size(p)[2]
+    nt = size(t)[1]
 
-    p1 = filter(!isnan, p1)
-    p2 = filter(!isnan, p2)
+    @argcheck size(p) == size(t) DimensionMismatch
 
     # Re-scale trading times
-    tau = scaleV2(t1, t2)
-    tau1 = tau[1]
-    tau2 = tau[2]
+    tau = scale(t)
     # Computing minimum time change
     # minumum step size to avoid smoothing
-    dtau1 = diff(tau1)
-    dtau2 = diff(tau2)
-    taumin = minimum([dtau1; dtau2])
+    dtau = diff(filter(!isnan, tau))
+    taumin = minimum(filter((x) -> x>0, dtau))
     taumax = 2*pi
     # Sampling Freq.
     N0 = taumax/taumin
@@ -65,28 +61,24 @@ function MScorrFK(p1, p2, t1, t2; kwargs...)
     end
 
     #------------------------------------------------------
-    r1=diff(log.(p1)); r2=diff(log.(p2))
 
-    c_p1=zeros(ComplexF64,2*N+1,1); c_pp1=zeros(ComplexF64,2*N+1,1);
-    c_p2=zeros(ComplexF64,2*N+1,1); c_pp2=zeros(ComplexF64,2*N+1,1);
-    term1=zeros(ComplexF64,2*N+1,1); term2=zeros(ComplexF64,2*N+1,1);
-    term12=zeros(ComplexF64,2*N+1,1)
-    for k=1:(2*N+1)
-        s=k-N-1;
-        c_p1[k]=sum(exp.((-1im*s).*tau1[1:(end-1)]).*r1);
-        c_pp1[k]=sum(exp.((1im*s).*tau1[1:(end-1)]).*r1);
-        c_p2[k]=sum(exp.((-1im*s).*tau2[1:(end-1)]).*r2);
-        c_pp2[k]=sum(exp.((1im*s).*tau2[1:(end-1)]).*r2);
-        term1[k]=(1-abs(s)/N)*c_p1[k]*c_pp1[k]
-        term2[k]=(1-abs(s)/N)*c_p2[k]*c_pp2[k]
-        term12[k]=(1-abs(s)/N)*c_p1[k]*c_pp2[k]
+    c_pos = zeros(ComplexF64, mp, 2*N + 1)
+    c_neg = zeros(ComplexF64, mp, 2*N + 1)
+
+    for i in 1:mp
+        psii = findall(!isnan, p[:,i])
+        P = p[psii, i]
+        Time = tau[psii, i]
+        DiffP = diff(log.(P))
+
+        for k=1:(2*N+1)
+            s=k-N-1;
+            c_neg[i, k]= sqrt.(1 .- abs.(s)./N) * sum(exp.((-1im*s).*Time[1:(end-1)]).*DiffP);
+            c_pos[i, k]= sqrt.(1 .- abs.(s)./N) * sum(exp.((1im*s).*Time[1:(end-1)]).*DiffP);
+        end
     end
 
-    Sigma = zeros(ComplexF64, 2, 2)
-    Sigma[1, 1] = sum(term1)/(N+1)
-    Sigma[1, 2] = sum(term12)/(N+1)
-    Sigma[2, 1] = Sigma[1, 2]
-    Sigma[2, 2] = sum(term2)/(N+1)
+    Sigma = 0.5/(N+1) .* (c_pos*c_pos' + c_neg*c_neg')
 
     Sigma = real(Sigma)
     var = diag(Sigma)
