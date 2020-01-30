@@ -1,82 +1,82 @@
 ## Author: Patrick Chang
 # Script file to benchmark performance between various algorithms
-# for the Dirichlet implementaion.
+# for the Fejer implementaion.
 # We compare the Mancino-Sanfelici code to Legacy code and the FFT and NUFFT
 
-using ProgressMeter; using JLD; using LaTeXStrings
+using ProgressMeter; using JLD
 
 cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
 
-include("../Correlation Estimators/Dirichlet/CFTcorrDK")
-include("../Correlation Estimators/Dirichlet/MScorrDK")
-include("../Correlation Estimators/Dirichlet/FFTcorrDK")
-include("../Correlation Estimators/Dirichlet/FFTZPcorrDK")
-include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-FGG")
+include("../Correlation Estimators/Fejer/CFTcorrFK")
+include("../Correlation Estimators/Fejer/MScorrFK")
+include("../Correlation Estimators/Fejer/FFTcorrFK")
+include("../Correlation Estimators/Fejer/FFTZPcorrFK")
+include("../Correlation Estimators/Fejer/NUFFTcorrFK-FGG")
 include("../Monte Carlo Simulation Algorithms/GBM")
 include("../Misc/RandCovMat")
 
 #---------------------------------------------------------------------------
 # Timing Functions
 
-function timeCFTcorrDK(nrange, reps)
+function timeCFTcorrFK(nrange, reps)
     result = zeros(reps, length(nrange))
     @showprogress "Computing..." for i in 1:length(nrange)
         P = GBM(Int(nrange[i]), mu, sigma, seed = i)
         t = reshape(repeat(collect(1:1:nrange[i]), size(P)[2]), Int(nrange[i]) , size(P)[2])
         for j in 1:reps
-            result[j, i] = @elapsed CFTcorrDK(P, t)
+            result[j, i] = @elapsed CFTcorrFK(P, t)
         end
         GC.gc()
     end
     return result
 end
 
-function timeMScorrDK(nrange, reps)
+function timeMScorrFK(nrange, reps)
     result = zeros(reps, length(nrange))
     @showprogress "Computing..." for i in 1:length(nrange)
         P = GBM(Int(nrange[i]), mu, sigma, seed = i)
         t = reshape(repeat(collect(1:1:nrange[i]), size(P)[2]), Int(nrange[i]) , size(P)[2])
         for j in 1:reps
-            result[j, i] = @elapsed MScorrDK(P, t)
+            result[j, i] = @elapsed MScorrFK(P, t)
         end
         GC.gc()
     end
     return result
 end
 
-function timeFFTcorrDK(nrange, reps)
+function timeFFTcorrFK(nrange, reps)
     result = zeros(reps, length(nrange))
     @showprogress "Computing..." for i in 1:length(nrange)
         P = GBM(Int(nrange[i]), mu, sigma, seed = i)
         t = reshape(repeat(collect(1:1:nrange[i]), size(P)[2]), Int(nrange[i]) , size(P)[2])
         for j in 1:reps
-            result[j, i] = @elapsed FFTcorrDK(P)
+            result[j, i] = @elapsed FFTcorrFK(P)
         end
         GC.gc()
     end
     return result
 end
 
-function timeFFTZPcorrDK(nrange, reps)
+function timeFFTZPcorrFK(nrange, reps)
     result = zeros(reps, length(nrange))
     @showprogress "Computing..." for i in 1:length(nrange)
         P = GBM(Int(nrange[i]), mu, sigma, seed = i)
         t = reshape(repeat(collect(1:1:nrange[i]), size(P)[2]), Int(nrange[i]) , size(P)[2])
         for j in 1:reps
-            result[j, i] = @elapsed FFTZPcorrDK(P, t)
+            result[j, i] = @elapsed FFTZPcorrFK(P, t)
         end
         GC.gc()
     end
     return result
 end
 
-function timeNUFFTcorrDKFGG(nrange, reps)
+function timeNUFFTcorrFKFGG(nrange, reps)
     result = zeros(reps, length(nrange))
     @showprogress "Computing..." for i in 1:length(nrange)
         P = GBM(Int(nrange[i]), mu, sigma, seed = i)
         t = reshape(repeat(collect(1:1:nrange[i]), size(P)[2]), Int(nrange[i]) , size(P)[2])
         for j in 1:reps
-            result[j, i] = @elapsed NUFFTcorrDKFGG(P, t)
+            result[j, i] = @elapsed NUFFTcorrFKFGG(P, t)
         end
         GC.gc()
     end
@@ -92,56 +92,59 @@ mu = [0.01/86400, 0.01/86400]
 sigma = [0.1/86400 sqrt(0.1/86400)*0.35*sqrt(0.2/86400);
         sqrt(0.1/86400)*0.35*sqrt(0.2/86400) 0.2/86400]
 
-nrange = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0, 50000.0]#, 100000.0]
+nrange = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0, 40000.0]#, 100000.0]
 reps = 10
 
 # CFT can't go past 50,000 points - otherwise Julia just exits
-CFTtimes = timeCFTcorrDK(nrange, reps)
-save("Computed Data/ON times/CFTtimesDK.jld", "CFTtimes", CFTtimes)
+CFTtimes = timeCFTcorrFK(nrange, reps)
+save("Computed Data/ON times/CFTtimesFK.jld", "CFTtimes", CFTtimes)
 
 nrange = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0, 50000.0, 100000.0]
-MStimes = timeMScorrDK(nrange, reps)
-save("Computed Data/ON times/MStimesDK.jld", "MStimes", MStimes)
+MStimes = timeMScorrFK(nrange, reps)
+save("Computed Data/ON times/MStimesFK.jld", "MStimes", MStimes)
 
-FFTtimes = timeFFTcorrDK(nrange, reps)
-save("Computed Data/ON times/FFTtimesDK.jld", "FFTtimes", FFTtimes)
+FFTtimes = timeFFTcorrFK(nrange, reps)
+save("Computed Data/ON times/FFTtimesFK.jld", "FFTtimes", FFTtimes)
 
-FFTZPtimes = timeFFTZPcorrDK(nrange, reps)
-save("Computed Data/ON times/FFTZPtimesDK.jld", "FFTZPtimes", FFTZPtimes)
+FFTZPtimes = timeFFTZPcorrFK(nrange, reps)
+save("Computed Data/ON times/FFTZPtimesFK.jld", "FFTZPtimes", FFTZPtimes)
 
-FGGtimes = timeNUFFTcorrDKFGG(nrange, reps)
-save("Computed Data/ON times/FGGtimesDK.jld", "FGGtimes", FGGtimes)
+FGGtimes = timeNUFFTcorrFKFGG(nrange, reps)
+save("Computed Data/ON times/FGGtimesFK.jld", "FGGtimes", FGGtimes)
 
 #---------------------------------------------------------------------------
 # Load and plot results
 
-CFTtimes = load("Computed Data/ON times/CFTtimesDK.jld")
+CFTtimes = load("Computed Data/ON times/CFTtimesFK.jld")
 CFTtimes = CFTtimes["CFTtimes"]
 
-MStimes = load("Computed Data/ON times/MStimesDK.jld")
+MStimes = load("Computed Data/ON times/MStimesFK.jld")
 MStimes = MStimes["MStimes"]
 
-FFTtimes = load("Computed Data/ON times/FFTtimesDK.jld")
+FFTtimes = load("Computed Data/ON times/FFTtimesFK.jld")
 FFTtimes = FFTtimes["FFTtimes"]
 
-FFTZPtimes = load("Computed Data/ON times/FFTZPtimesDK.jld")
+FFTZPtimes = load("Computed Data/ON times/FFTZPtimesFK.jld")
 FFTZPtimes = FFTZPtimes["FFTZPtimes"]
 
-FGGtimes = load("Computed Data/ON times/FGGtimesDK.jld")
+FGGtimes = load("Computed Data/ON times/FGGtimesFK.jld")
 FGGtimes = FGGtimes["FGGtimes"]
 
-pdat = [[minimum(CFTtimes, dims=1) NaN]; minimum(MStimes, dims=1); minimum(FFTtimes, dims=1); minimum(FFTZPtimes, dims=1); minimum(FGGtimes, dims=1)]
+pdat = [minimum(MStimes, dims=1); minimum(FFTtimes, dims=1); minimum(FFTZPtimes, dims=1); minimum(FGGtimes, dims=1)]
 
 styles = filter((s->begin
                 s in Plots.supported_styles()
-            end), [:solid, :dash, :dot, :dashdot, :dashdotdot])
+            end), [:dash, :dot, :dashdot, :dashdotdot])
 styles = reshape(styles, 1, length(styles))
-p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "FFTZP" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
-title!(p1, "(a) Compute Time (2 Assets Dirichlet)")
+nrange = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0, 40000.0, 100000.0]
+nrange1 = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0, 50000.0, 100000.0]
+p1 = plot(nrange, log.([minimum(CFTtimes, dims=1) NaN]'), label = "CFT", legendtitle="Method", legend=:topright, line=(2, :solid))
+plot!(p1, nrange1, log.(pdat'), label = ["MS" "FFT" "FFTZP" "FGG"], line=(2, styles))
+title!(p1, "(b) Compute Time (2 Assets Fejer)")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
-savefig(p1, "Plots/ONDK2Assets.pdf")
+savefig(p1, "Plots/ONFK2Assets.pdf")
 
 
 #---------------------------------------------------------------------------
@@ -156,37 +159,37 @@ sigma = gencovmatrix(10, sig)
 nrange = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0]
 reps = 10
 
-CFTtimes = timeCFTcorrDK(nrange, reps)
-save("Computed Data/ON times/CFTtimesDK10.jld", "CFTtimes", CFTtimes)
+CFTtimes = timeCFTcorrFK(nrange, reps)
+save("Computed Data/ON times/CFTtimesFK10.jld", "CFTtimes", CFTtimes)
 
-MStimes = timeMScorrDK(nrange, reps)
-save("Computed Data/ON times/MStimesDK10.jld", "MStimes", MStimes)
+MStimes = timeMScorrFK(nrange, reps)
+save("Computed Data/ON times/MStimesFK10.jld", "MStimes", MStimes)
 
-FFTtimes = timeFFTcorrDK(nrange, reps)
-save("Computed Data/ON times/FFTtimesDK10.jld", "FFTtimes", FFTtimes)
+FFTtimes = timeFFTcorrFK(nrange, reps)
+save("Computed Data/ON times/FFTtimesFK10.jld", "FFTtimes", FFTtimes)
 
-FFTZPtimes = timeFFTZPcorrDK(nrange, reps)
-save("Computed Data/ON times/FFTZPtimesDK10.jld", "FFTZPtimes", FFTZPtimes)
+FFTZPtimes = timeFFTZPcorrFK(nrange, reps)
+save("Computed Data/ON times/FFTZPtimesFK10.jld", "FFTZPtimes", FFTZPtimes)
 
-FGGtimes = timeNUFFTcorrDKFGG(nrange, reps)
-save("Computed Data/ON times/FGGtimesDK10.jld", "FGGtimes", FGGtimes)
+FGGtimes = timeNUFFTcorrFKFGG(nrange, reps)
+save("Computed Data/ON times/FGGtimesFK10.jld", "FGGtimes", FGGtimes)
 
 #---------------------------------------------------------------------------
 # Load and plot results
 
-CFTtimes = load("Computed Data/ON times/CFTtimesDK10.jld")
+CFTtimes = load("Computed Data/ON times/CFTtimesFK10.jld")
 CFTtimes = CFTtimes["CFTtimes"]
 
-MStimes = load("Computed Data/ON times/MStimesDK10.jld")
+MStimes = load("Computed Data/ON times/MStimesFK10.jld")
 MStimes = MStimes["MStimes"]
 
-FFTtimes = load("Computed Data/ON times/FFTtimesDK10.jld")
+FFTtimes = load("Computed Data/ON times/FFTtimesFK10.jld")
 FFTtimes = FFTtimes["FFTtimes"]
 
-FFTZPtimes = load("Computed Data/ON times/FFTZPtimesDK10.jld")
+FFTZPtimes = load("Computed Data/ON times/FFTZPtimesFK10.jld")
 FFTZPtimes = FFTZPtimes["FFTZPtimes"]
 
-FGGtimes = load("Computed Data/ON times/FGGtimesDK10.jld")
+FGGtimes = load("Computed Data/ON times/FGGtimesFK10.jld")
 FGGtimes = FGGtimes["FGGtimes"]
 
 pdat = [minimum(CFTtimes, dims=1); minimum(MStimes, dims=1); minimum(FFTtimes, dims=1); minimum(FFTZPtimes, dims=1); minimum(FGGtimes, dims=1)]
@@ -197,11 +200,11 @@ styles = filter((s->begin
             end), [:solid, :dash, :dot, :dashdot, :dashdotdot])
 styles = reshape(styles, 1, length(styles))
 p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "FFTZP" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
-title!(p1, "(c) Compute Time (10 Assets Dirichlet)")
+title!(p1, "(d) Compute Time (10 Assets Fejer)")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
-savefig(p1, "Plots/ONDK10Assets.pdf")
+savefig(p1, "Plots/ONFK10Assets.pdf")
 
 #---------------------------------------------------------------------------
 ## 100 Assets
@@ -215,37 +218,37 @@ sigma = gencovmatrix(100, sig)
 nrange = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0]
 reps = 10
 
-CFTtimes = timeCFTcorrDK(nrange, reps)
-save("Computed Data/ON times/CFTtimesDK100.jld", "CFTtimes", CFTtimes)
+CFTtimes = timeCFTcorrFK(nrange, reps)
+save("Computed Data/ON times/CFTtimesFK100.jld", "CFTtimes", CFTtimes)
 
-MStimes = timeMScorrDK(nrange, reps)
-save("Computed Data/ON times/MStimesDK100.jld", "MStimes", MStimes)
+MStimes = timeMScorrFK(nrange, reps)
+save("Computed Data/ON times/MStimesFK100.jld", "MStimes", MStimes)
 
-FFTtimes = timeFFTcorrDK(nrange, reps)
-save("Computed Data/ON times/FFTtimesDK100.jld", "FFTtimes", FFTtimes)
+FFTtimes = timeFFTcorrFK(nrange, reps)
+save("Computed Data/ON times/FFTtimesFK100.jld", "FFTtimes", FFTtimes)
 
-FFTZPtimes = timeFFTZPcorrDK(nrange, reps)
-save("Computed Data/ON times/FFTZPtimesDK100.jld", "FFTZPtimes", FFTZPtimes)
+FFTZPtimes = timeFFTZPcorrFK(nrange, reps)
+save("Computed Data/ON times/FFTZPtimesFK100.jld", "FFTZPtimes", FFTZPtimes)
 
-FGGtimes = timeNUFFTcorrDKFGG(nrange, reps)
-save("Computed Data/ON times/FGGtimesDK100.jld", "FGGtimes", FGGtimes)
+FGGtimes = timeNUFFTcorrFKFGG(nrange, reps)
+save("Computed Data/ON times/FGGtimesFK100.jld", "FGGtimes", FGGtimes)
 
 #---------------------------------------------------------------------------
 # Load and plot results
 
-CFTtimes = load("Computed Data/ON times/CFTtimesDK100.jld")
+CFTtimes = load("Computed Data/ON times/CFTtimesFK100.jld")
 CFTtimes = CFTtimes["CFTtimes"]
 
-MStimes = load("Computed Data/ON times/MStimesDK100.jld")
+MStimes = load("Computed Data/ON times/MStimesFK100.jld")
 MStimes = MStimes["MStimes"]
 
-FFTtimes = load("Computed Data/ON times/FFTtimesDK100.jld")
+FFTtimes = load("Computed Data/ON times/FFTtimesFK100.jld")
 FFTtimes = FFTtimes["FFTtimes"]
 
-FFTZPtimes = load("Computed Data/ON times/FFTZPtimesDK100.jld")
+FFTZPtimes = load("Computed Data/ON times/FFTZPtimesFK100.jld")
 FFTZPtimes = FFTZPtimes["FFTZPtimes"]
 
-FGGtimes = load("Computed Data/ON times/FGGtimesDK100.jld")
+FGGtimes = load("Computed Data/ON times/FGGtimesFK100.jld")
 FGGtimes = FGGtimes["FGGtimes"]
 
 pdat = [minimum(CFTtimes, dims=1); minimum(MStimes, dims=1); minimum(FFTtimes, dims=1); minimum(FFTZPtimes, dims=1); minimum(FGGtimes, dims=1)]
@@ -256,8 +259,9 @@ styles = filter((s->begin
             end), [:solid, :dash, :dot, :dashdot, :dashdotdot])
 styles = reshape(styles, 1, length(styles))
 p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "FFTZP" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
-title!(p1, "(e) Compute Time (100 Assets Dirichlet)")
+title!(p1, "(f) Compute Time (100 Assets Fejer)")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
-savefig(p1, "Plots/ONDK100Assets.pdf")
+savefig(p1, "Plots/ONFK100Assets.pdf")
+res = ceil.(-log.(tol) ./ (pi*sqrt(1-1/2)))
