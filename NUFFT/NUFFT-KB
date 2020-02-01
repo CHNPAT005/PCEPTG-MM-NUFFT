@@ -50,7 +50,7 @@ function NUFFTKB(cj, xj, M, tol; kwargs...)
 
     R = 2
     Mr = R*M
-    nspread = Int(floor((ceil(log(10, 1/tol)) + 1)/2))
+    nspread = Int(floor((ceil(log(10, 1/tol)) + 2)/2))
 
     EpsGrid = collect(0:1:Mr-1) ./ Mr .- 0.5
 

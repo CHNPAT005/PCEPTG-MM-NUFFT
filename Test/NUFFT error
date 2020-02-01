@@ -1,0 +1,71 @@
+## Author: Patrick Chang
+# Script file to test if the desired level of error
+# is achieved using our implementaion of the NUFFT methods
+
+# Error is measured with respect to the l2 error of the
+# Fourier Coefficients
+
+#---------------------------------------------------------------------------
+
+using LinearAlgebra
+
+#---------------------------------------------------------------------------
+
+cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
+include("../NUFFT/NUFFT-FGG")
+include("../NUFFT/NUFFT-KB")
+
+n = collect(-3:-1:-14)
+tol = 10.0.^n
+
+function testErrors(n, M, tolrange)
+    tol = tolrange
+
+    FGGerror = zeros(length(tol), 1)
+    KBerror = zeros(length(tol), 1)
+
+    nj = n
+    x = (collect(0:nj-1) + 0.5 .* rand(nj))
+    xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
+    cj = rand(nj) + 0im*rand(nj)
+    xjj = xj ./ (2*pi) .- 0.5
+
+    M = M
+    Mr = 2*M
+    freq = fftfreq(Mr, 1) .* Mr
+    pos = findall(abs.(freq) .<= M/2)
+    k = freq[pos]
+
+    ref = (cj' * exp.(1im .* xj * k'))'
+
+    for i in 1:length(tol)
+        FGG = NUFFTFGG(cj, xj, M, tol[i])
+        KB = NUFFTKB(cj, xjj, M, tol[i])
+        relerrFGG = norm(FGG-ref) / norm(ref)
+        relerrKB = norm(KB-ref) / norm(ref)
+
+        if relerrFGG <= tol[i]
+            FGGerror[i] = 1
+        else
+            FGGerror[i] = 0
+        end
+
+        if relerrKB <= tol[i]
+            KBerror[i] = 1
+        else
+            KBerror[i] = 0
+        end
+    end
+
+    if Int(sum(FGGerror))==length(tol) & Int(sum(KBerror))==length(tol)
+        return print("FGG and KB passed.")
+    elseif Int(sum(FGGerror))==length(tol) & Int(sum(KBerror))<length(tol)
+        return print("Only FGG passed.")
+    elseif Int(sum(FGGerror))<length(tol) & Int(sum(KBerror))==length(tol)
+        return print("Only KB passed.")
+    else
+        return print("Neither passed.")
+    end
+end
+
+testErrors(100, 51, tol)

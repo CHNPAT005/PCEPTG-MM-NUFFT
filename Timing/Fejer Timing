@@ -264,4 +264,3 @@ ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
 savefig(p1, "Plots/ONFK100Assets.pdf")
-res = ceil.(-log.(tol) ./ (pi*sqrt(1-1/2)))
