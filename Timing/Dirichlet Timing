@@ -5,7 +5,7 @@
 
 using ProgressMeter; using JLD; using LaTeXStrings
 
-cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
+cd("/Users/patrickchang1/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
 
 include("../Correlation Estimators/Dirichlet/CFTcorrDK")
 include("../Correlation Estimators/Dirichlet/MScorrDK")

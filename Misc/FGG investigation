@@ -1,0 +1,72 @@
+M = 11
+R=2
+Mr = R*M
+Msp = 12
+
+#---------------------------------------------------------------------------
+
+function kaiser_bessel(x,n,m,sigma)
+    b = pi*(2-1/sigma)
+    arg = m^2-n^2*x^2
+    if abs(x) < m/n
+        y = sinh(b*sqrt(arg))/sqrt(arg)/pi
+    elseif abs(x) > m/n
+        y = zero(x)
+    else
+        y = b/pi
+    end
+    return y
+end
+
+function kaiser_bessel_conv(x,n,m,sigma)
+    store = 0
+    for r in -m:m
+        store = store + kaiser_bessel(x+r,n,m,sigma)
+    end
+    return store
+end
+
+function gauss(x, R, M, Msp)
+    tau = Msp*pi / (M^2 *R *(R-0.5))
+    y = exp.(- x.^2 ./ (4*tau))
+    return y
+end
+
+function gauss_conv(x, R, M, Msp)
+    store = 0
+    for r in -Msp+1:Msp
+        store = store + gauss(x.-r*2*pi, R, M, Msp)
+        # store = store + gauss(a - r*2*pi, R, M, Msp)
+    end
+    return store
+end
+
+#---------------------------------------------------------------------------
+
+x = rand(1) * 2*pi
+x = x[1]
+xi = Int.( floor.(x * Mr / (2*pi)) ) * (2*pi) / Mr
+
+a = x-xi
+
+gans = gauss(a, R, M, Mr, Msp)
+gcans = gauss_conv(a, R, M, Mr, Msp)
+
+Msp = 6
+kbans = kaiser_bessel(a, Mr, Msp, R)
+kbcans = kaiser_bessel_conv(a, Mr, Msp, R)
+
+## Here we see that simply computing the kernel vs
+# computing the convolution give exactly the same result...
+
+#---------------------------------------------------------------------------
+
+## Looking closer at the elements we see that everything other that when
+# l = 0 (r in this case), all elements are zero essentially...
+
+r = collect(-Msp+1:1:Msp)
+gauss.(a .- 2*pi .* r, R, M, Msp)
+sum(gauss.(a .- 2*pi .* r, R, M, Msp))
+
+r = collect(-Msp:1:Msp)
+kaiser_bessel.(a.+r,Mr,Msp,R)

@@ -28,7 +28,8 @@ end
 
 function kaiser_bessel_conv(x,n,m,sigma)
     store = 0
-    for r in -m:m
+    # for r in -m:m
+    for r in -1:1   # this actually works, only need it to get the end points working!
         store = store + kaiser_bessel(x+r,n,m,sigma)
     end
     return store
@@ -51,7 +52,7 @@ function NUFFTKB(cj, xj, M, tol; kwargs...)
     R = 2
     Mr = R*M
     nspread = Int(floor((ceil(log(10, 1/tol)) + 2)/2))
-
+    hx = 2*pi/Mr
     EpsGrid = collect(0:1:Mr-1) ./ Mr .- 0.5
 
     ftau = zeros(ComplexF64, Mr, 1)
@@ -62,21 +63,26 @@ function NUFFTKB(cj, xj, M, tol; kwargs...)
         jb1 = floor((xj[j]+0.5)*Mr)
         jb1 = Int(jb1)
 
+        diff = xj[j] - jb1/Mr + 0.5
+
         jb1d = min(nspread, jb1)
         jb1u = min(nspread, Mr-jb1-1)
         for k in -nspread:(-jb1d-1)
             istart = jb1 + k + Mr + 1
-            zz = ccj * kaiser_bessel_conv(xj[j]-EpsGrid[istart], Mr, nspread, R)
+            # zz = ccj * kaiser_bessel_conv(xj[j]-EpsGrid[istart], Mr, nspread, R)
+            zz = ccj * kaiser_bessel(diff - k/Mr, Mr, nspread, R)
             ftau[istart] = ftau[istart] + zz
         end
         for k in -jb1d:jb1u
             istart = jb1 + k + 1
-            zz = ccj * kaiser_bessel_conv(xj[j]-EpsGrid[istart], Mr, nspread, R)
+            # zz = ccj * kaiser_bessel_conv(xj[j]-EpsGrid[istart], Mr, nspread, R)
+            zz = ccj * kaiser_bessel(diff - k/Mr, Mr, nspread, R)
             ftau[istart] = ftau[istart] + zz
         end
         for k in jb1u+1:nspread
             istart = jb1 + k - Mr + 1
-            zz = ccj * kaiser_bessel_conv(xj[j]-EpsGrid[istart], Mr, nspread, R)
+            # zz = ccj * kaiser_bessel_conv(xj[j]-EpsGrid[istart], Mr, nspread, R)
+            zz = ccj * kaiser_bessel(diff - k/Mr, Mr, nspread, R)
             ftau[istart] = ftau[istart] + zz
         end
     end
@@ -108,7 +114,6 @@ end
 # k = freq[pos]
 #
 # test = (cj' * exp.(1im .* xj * k'))'
-# test1 = NUFFTNKB(cj, xjj, M)
-# test2 = NUFFTKB(cj, xjj, M)
+# test2 = NUFFTKB(cj, xjj, M, 10^-12)
 #
 # test - test2
