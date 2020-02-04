@@ -2,7 +2,7 @@
 # Script file to test the various Dirichlet implementations
 # to ensure they are all self consistent
 
-cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
+cd("/Users/patrickchang1/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
 
 using StatsBase; using Random
 include("../Correlation Estimators/Dirichlet/CFTcorrDK")
