@@ -393,7 +393,7 @@ p1 = plot(n1, minimum(FGGtimesDK10, dims=1)',
  label = "FGG", legendtitle="Method",
   legend=:topright, line=(2, :solid),
    xticks = (n1, xticklabel),
-   ylims = (0.2, 2.5))
+   ylims = (0.5, 12))
 plot!(p1, [-3; n2],
     [minimum(KBtimesDK10, dims=1); minimum(FINUFFTtimesDK10, dims=1)]',
     label = ["KB" "FINUFFT"], line=(2, styles))
@@ -410,7 +410,7 @@ p2 = plot(n1, minimum(FGGtimesFK10, dims=1)',
  label = "FGG", legendtitle="Method",
   legend=:topright, line=(2, :solid),
    xticks = (n1, xticklabel),
-   ylims = (0.2, 2.5))
+   ylims = (0.5, 12))
 plot!(p2, [-3; n2],
  [minimum(KBtimesFK10, dims=1); minimum(FINUFFTtimesFK10, dims=1)]',
  label = ["KB" "FINUFFT"], line=(2, styles))
@@ -545,7 +545,7 @@ p2 = plot(n1, minimum(FGGtimesFK100, dims=1)',
  label = "FGG", legendtitle="Method",
   legend=:topright, line=(2, :solid),
    xticks = (n1, xticklabel),
-   ylims = (15, 105))
+   ylims = (15, 110))
 plot!(p2, [-3; n2],
  [minimum(KBtimesFK100, dims=1); minimum(FINUFFTtimesFK100, dims=1)]',
  label = ["KB" "FINUFFT"], line=(2, styles))
