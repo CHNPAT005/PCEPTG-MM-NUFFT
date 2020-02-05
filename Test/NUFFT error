@@ -11,7 +11,7 @@ using LinearAlgebra
 
 #---------------------------------------------------------------------------
 
-cd("/Users/patrickchang1/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
+cd("/Users/patrickchang1/PCEPTG-MM-NUFFT")
 include("../NUFFT/NUFFT-FGG")
 include("../NUFFT/NUFFT-KB")
 
