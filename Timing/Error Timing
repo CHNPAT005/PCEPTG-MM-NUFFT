@@ -246,7 +246,7 @@ FGGtol = 10.0.^n1
 n2 = collect(-4:-2:-14)
 KBtol = [10^-3; 10.0.^n2]
 
-xticklabel = ["10^-3", "10^-4", "10^-5", "10^-6", "10^-7", "10^-8", "10^-9", "10^-10", "10^-11", "10^-12", "10^-13", "10^-14"]
+xticklabel = [L"10^{-3}", L"10^{-4}", L"10^{-5}", L"10^{-6}", L"10^{-7}", L"10^{-8}", L"10^{-9}", L"10^{-10}", L"10^{-11}", L"10^{-12}", L"10^{-13}", L"10^{-14}"]
 
 styles = filter((s->begin
                 s in Plots.supported_styles()
@@ -263,8 +263,8 @@ plot!(p1, [-3; n2],
     [minimum(KBtimesDK, dims=1); minimum(FINUFFTtimesDK, dims=1)]',
     label = ["KB" "FINUFFT"], line=(2, styles))
 hline!(p1, [minimum(FFTtimesDK)], label = "FFT", line=(2, [:dashdot]))
-hline!(p1, [minimum(FFTZPtimesDK)], label = "FFTZP", line=(2, [:dashdotdot]))
-title!(p1, "(a) Tolerance vs Compute Time \n Dirichlet 2 Assets (n = 10^6)")
+hline!(p1, [minimum(FFTZPtimesDK)], label = "ZFFT", line=(2, [:dashdotdot]))
+title!(p1, L"\textrm{\sffamily (a) Compute time and tolerance, Dirichlet, 2-Assets,} n = 10^6")
 ylabel!(p1, "Time (s)")
 xlabel!(p1, "Tolerance \\epsilon")
 
@@ -280,8 +280,9 @@ plot!(p2, [-3; n2],
  [minimum(KBtimesFK, dims=1); minimum(FINUFFTtimesFK, dims=1)]',
  label = ["KB" "FINUFFT"], line=(2, styles))
 hline!(p2, [minimum(FFTtimesFK)], label = "FFT", line=(2, [:dashdot]))
-hline!(p2, [minimum(FFTZPtimesFK)], label = "FFTZP", line=(2, [:dashdotdot]))
+hline!(p2, [minimum(FFTZPtimesFK)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p2, "(b) Tolerance vs Compute Time \n Fejer 2 Assets (n = 10^6)")
+title!(p2, L"\textrm{\sffamily (b) Compute time and tolerance, Fej\'{e}r, 2-Assets,} n = 10^6")
 ylabel!(p2, "Time (s)")
 xlabel!(p2, "Tolerance \\epsilon")
 
@@ -381,7 +382,7 @@ FGGtol = 10.0.^n1
 n2 = collect(-4:-2:-14)
 KBtol = [10^-3; 10.0.^n2]
 
-xticklabel = ["10^-3", "10^-4", "10^-5", "10^-6", "10^-7", "10^-8", "10^-9", "10^-10", "10^-11", "10^-12", "10^-13", "10^-14"]
+xticklabel = [L"10^{-3}", L"10^{-4}", L"10^{-5}", L"10^{-6}", L"10^{-7}", L"10^{-8}", L"10^{-9}", L"10^{-10}", L"10^{-11}", L"10^{-12}", L"10^{-13}", L"10^{-14}"]
 
 styles = filter((s->begin
                 s in Plots.supported_styles()
@@ -398,8 +399,8 @@ plot!(p1, [-3; n2],
     [minimum(KBtimesDK10, dims=1); minimum(FINUFFTtimesDK10, dims=1)]',
     label = ["KB" "FINUFFT"], line=(2, styles))
 hline!(p1, [minimum(FFTtimesDK10)], label = "FFT", line=(2, [:dashdot]))
-hline!(p1, [minimum(FFTZPtimesDK10)], label = "FFTZP", line=(2, [:dashdotdot]))
-title!(p1, "(c) Tolerance vs Compute Time \n Dirichlet 10 Assets (n = 10^6)")
+hline!(p1, [minimum(FFTZPtimesDK10)], label = "ZFFT", line=(2, [:dashdotdot]))
+title!(p1, L"\textrm{\sffamily (c) Compute time and tolerance, Dirichlet, 10-Assets,} n = 10^6")
 ylabel!(p1, "Time (s)")
 xlabel!(p1, "Tolerance \\epsilon")
 
@@ -415,8 +416,8 @@ plot!(p2, [-3; n2],
  [minimum(KBtimesFK10, dims=1); minimum(FINUFFTtimesFK10, dims=1)]',
  label = ["KB" "FINUFFT"], line=(2, styles))
 hline!(p2, [minimum(FFTtimesFK10)], label = "FFT", line=(2, [:dashdot]))
-hline!(p2, [minimum(FFTZPtimesFK10)], label = "FFTZP", line=(2, [:dashdotdot]))
-title!(p2, "(d) Tolerance vs Compute Time \n Fejer 10 Assets (n = 10^6)")
+hline!(p2, [minimum(FFTZPtimesFK10)], label = "ZFFT", line=(2, [:dashdotdot]))
+title!(p2, L"\textrm{\sffamily (d) Compute time and tolerance, Fej\'{e}r, 10-Assets,} n = 10^6")
 ylabel!(p2, "Time (s)")
 xlabel!(p2, "Tolerance \\epsilon")
 
@@ -516,7 +517,7 @@ FGGtol = 10.0.^n1
 n2 = collect(-4:-2:-14)
 KBtol = [10^-3; 10.0.^n2]
 
-xticklabel = ["10^-3", "10^-4", "10^-5", "10^-6", "10^-7", "10^-8", "10^-9", "10^-10", "10^-11", "10^-12", "10^-13", "10^-14"]
+xticklabel = [L"10^{-3}", L"10^{-4}", L"10^{-5}", L"10^{-6}", L"10^{-7}", L"10^{-8}", L"10^{-9}", L"10^{-10}", L"10^{-11}", L"10^{-12}", L"10^{-13}", L"10^{-14}"]
 
 styles = filter((s->begin
                 s in Plots.supported_styles()
@@ -533,8 +534,8 @@ plot!(p1, [-3; n2],
     [minimum(KBtimesDK100, dims=1); minimum(FINUFFTtimesDK100, dims=1)]',
     label = ["KB" "FINUFFT"], line=(2, styles))
 hline!(p1, [minimum(FFTtimesDK100)], label = "FFT", line=(2, [:dashdot]))
-hline!(p1, [minimum(FFTZPtimesDK100)], label = "FFTZP", line=(2, [:dashdotdot]))
-title!(p1, "(e) Tolerance vs Compute Time \n Dirichlet 100 Assets (n = 10^6)")
+hline!(p1, [minimum(FFTZPtimesDK100)], label = "ZFFT", line=(2, [:dashdotdot]))
+title!(p1, L"\textrm{\sffamily (e) Compute time and tolerance, Dirichlet, 100-Assets,} n = 10^6")
 ylabel!(p1, "Time (s)")
 xlabel!(p1, "Tolerance \\epsilon")
 
@@ -550,8 +551,8 @@ plot!(p2, [-3; n2],
  [minimum(KBtimesFK100, dims=1); minimum(FINUFFTtimesFK100, dims=1)]',
  label = ["KB" "FINUFFT"], line=(2, styles))
 hline!(p2, [minimum(FFTtimesFK100)], label = "FFT", line=(2, [:dashdot]))
-hline!(p2, [minimum(FFTZPtimesFK100)], label = "FFTZP", line=(2, [:dashdotdot]))
-title!(p2, "(f) Tolerance vs Compute Time \n Fejer 100 Assets (n = 10^6)")
+hline!(p2, [minimum(FFTZPtimesFK100)], label = "ZFFT", line=(2, [:dashdotdot]))
+title!(p2, L"\textrm{\sffamily (f) Compute time and tolerance, Fej\'{e}r, 100-Assets,} n = 10^6")
 ylabel!(p2, "Time (s)")
 xlabel!(p2, "Tolerance \\epsilon")
 

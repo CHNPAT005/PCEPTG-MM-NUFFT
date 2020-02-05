@@ -136,8 +136,8 @@ styles = filter((s->begin
                 s in Plots.supported_styles()
             end), [:solid, :dash, :dot, :dashdot, :dashdotdot])
 styles = reshape(styles, 1, length(styles))
-p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "FFTZP" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
-title!(p1, "(a) Compute Time (2 Assets Dirichlet)")
+p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "ZFFT" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
+title!(p1, L"\textrm{\sffamily (a) Compute time and data-size, Dirichlet, 2-Assets}")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
@@ -196,8 +196,8 @@ styles = filter((s->begin
                 s in Plots.supported_styles()
             end), [:solid, :dash, :dot, :dashdot, :dashdotdot])
 styles = reshape(styles, 1, length(styles))
-p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "FFTZP" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
-title!(p1, "(c) Compute Time (10 Assets Dirichlet)")
+p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "ZFFT" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
+title!(p1, L"\textrm{\sffamily (c) Compute time and data-size, Dirichlet, 10-Assets}")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
@@ -255,8 +255,8 @@ styles = filter((s->begin
                 s in Plots.supported_styles()
             end), [:solid, :dash, :dot, :dashdot, :dashdotdot])
 styles = reshape(styles, 1, length(styles))
-p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "FFTZP" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
-title!(p1, "(e) Compute Time (100 Assets Dirichlet)")
+p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "ZFFT" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
+title!(p1, L"\textrm{\sffamily (e) Compute time and data-size, Dirichlet, 100-Assets}")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
