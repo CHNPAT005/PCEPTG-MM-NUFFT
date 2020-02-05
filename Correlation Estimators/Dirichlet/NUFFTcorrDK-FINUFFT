@@ -36,7 +36,7 @@ end
 
 # Non-uniform Fast Fourier Transform implementaion of the Dirichlet Kernel
 
-function NUFFTcorrDKFINUFFT(p, t, tol; kwargs...)
+function NUFFTcorrDKFINUFFT(p, t; kwargs...)
     ## Pre-allocate arrays and check Data
     np = size(p)[1]
     mp = size(p)[2]
@@ -61,6 +61,12 @@ function NUFFTcorrDKFINUFFT(p, t, tol; kwargs...)
         k = collect(-kwargs[:N]:1:kwargs[:N])
     else
         k = collect(-floor(N0/2):1:floor(N0/2))
+    end
+
+    if haskey(kwargs, :tol)
+        tol = kwargs[:tol]
+    else
+        tol = 10^-12
     end
 
     Den = length(k)
