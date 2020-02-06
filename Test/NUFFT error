@@ -18,7 +18,7 @@ include("../NUFFT/NUFFT-KB")
 n = collect(-3:-1:-14)
 tol = 10.0.^n
 
-function testErrors(n, M, tolrange)
+function testErrors(n, M, tolrange, error)
     tol = tolrange
 
     FGGerror = zeros(length(tol), 1)
@@ -41,8 +41,8 @@ function testErrors(n, M, tolrange)
     for i in 1:length(tol)
         FGG = NUFFTFGG(cj, xj, M, tol[i])
         KB = NUFFTKB(cj, xjj, M, tol[i])
-        relerrFGG = norm(FGG-ref) / norm(ref)
-        relerrKB = norm(KB-ref) / norm(ref)
+        relerrFGG = norm(FGG-ref, error) / norm(ref, error)
+        relerrKB = norm(KB-ref, error) / norm(ref, error)
 
         if relerrFGG <= tol[i]
             FGGerror[i] = 1
@@ -57,15 +57,25 @@ function testErrors(n, M, tolrange)
         end
     end
 
-    if Int(sum(FGGerror))==length(tol) & Int(sum(KBerror))==length(tol)
+    if Int(sum(FGGerror))==length(tol) && Int(sum(KBerror))==length(tol)
         return print("FGG and KB passed.")
-    elseif Int(sum(FGGerror))==length(tol) & Int(sum(KBerror))<length(tol)
+    elseif Int(sum(FGGerror))==length(tol) && Int(sum(KBerror))<length(tol)
         return print("Only FGG passed.")
-    elseif Int(sum(FGGerror))<length(tol) & Int(sum(KBerror))==length(tol)
+    elseif Int(sum(FGGerror))<length(tol) && Int(sum(KBerror))==length(tol)
         return print("Only KB passed.")
     else
         return print("Neither passed.")
     end
 end
 
-testErrors(100, 51, tol)
+# l_2 error
+testErrors(100, 51, tol, 2)
+
+# l_∞ error
+testErrors(100, 51, tol, Inf)
+
+# When M_{sp} for KB = Int(floor((ceil(log(10, 1/tol)) + 2)/2)),
+# it passes both error tests.
+
+# When M_{sp} for KB = Int(floor((ceil(log(10, 1/tol)) + 1)/2)),
+# it doesnt pass l_2 error, but nearly passes l_∞ error.

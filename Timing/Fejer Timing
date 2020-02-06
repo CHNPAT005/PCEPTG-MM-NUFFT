@@ -140,7 +140,7 @@ nrange = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0
 nrange1 = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0, 50000.0, 100000.0]
 p1 = plot(nrange, log.([minimum(CFTtimes, dims=1) NaN]'), label = "CFT", legendtitle="Method", legend=:topright, line=(2, :solid))
 plot!(p1, nrange1, log.(pdat'), label = ["MS" "FFT" "ZFFT" "FGG"], line=(2, styles))
-title!(p1, L"\textrm{\sffamily (b) Compute time and data-size, Fej\'{e}r, 2-Assets}")
+title!(p1, L"\textrm{\sffamily (b) Compute time and data-size (Fej\'{e}r, 2-Assets)}")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
@@ -200,7 +200,7 @@ styles = filter((s->begin
             end), [:solid, :dash, :dot, :dashdot, :dashdotdot])
 styles = reshape(styles, 1, length(styles))
 p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "ZFFT" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
-title!(p1, L"\textrm{\sffamily (d) Compute time and data-size, Fej\'{e}r, 10-Assets}")
+title!(p1, L"\textrm{\sffamily (d) Compute time and data-size (Fej\'{e}r, 10-Assets)}")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
@@ -259,7 +259,7 @@ styles = filter((s->begin
             end), [:solid, :dash, :dot, :dashdot, :dashdotdot])
 styles = reshape(styles, 1, length(styles))
 p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "ZFFT" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
-title!(p1, L"\textrm{\sffamily (f) Compute time and data-size, Fej\'{e}r, 100-Assets}")
+title!(p1, L"\textrm{\sffamily (f) Compute time and data-size (Fej\'{e}r, 100-Assets)}")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 

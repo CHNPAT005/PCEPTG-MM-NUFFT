@@ -137,7 +137,7 @@ styles = filter((s->begin
             end), [:solid, :dash, :dot, :dashdot, :dashdotdot])
 styles = reshape(styles, 1, length(styles))
 p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "ZFFT" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
-title!(p1, L"\textrm{\sffamily (a) Compute time and data-size, Dirichlet, 2-Assets}")
+title!(p1, L"\textrm{\sffamily (a) Compute time and data-size (Dirichlet, 2-Assets)}")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
@@ -197,7 +197,7 @@ styles = filter((s->begin
             end), [:solid, :dash, :dot, :dashdot, :dashdotdot])
 styles = reshape(styles, 1, length(styles))
 p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "ZFFT" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
-title!(p1, L"\textrm{\sffamily (c) Compute time and data-size, Dirichlet, 10-Assets}")
+title!(p1, L"\textrm{\sffamily (c) Compute time and data-size (Dirichlet, 10-Assets)}")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
@@ -256,7 +256,7 @@ styles = filter((s->begin
             end), [:solid, :dash, :dot, :dashdot, :dashdotdot])
 styles = reshape(styles, 1, length(styles))
 p1 = plot(nrange, log.(pdat'), label = ["CFT" "MS" "FFT" "ZFFT" "FGG"], legendtitle="Method", line=(2, styles), legend=:topright)
-title!(p1, L"\textrm{\sffamily (e) Compute time and data-size, Dirichlet, 100-Assets}")
+title!(p1, L"\textrm{\sffamily (e) Compute time and data-size (Dirichlet, 100-Assets)}")
 ylabel!(p1, "Time log(s)")
 xlabel!(p1, "Data Points (n) \n Cutoff N = n/2")
 
