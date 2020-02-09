@@ -84,12 +84,31 @@ function CFTcorrFK(p, t; kwargs...)
 
     K = [k; 0; k]
 
-    for i in 1:mp
-        c_pos[i,:] = sqrt.(1 .- abs.(K)./N) .* c_pos[i,:]
-        c_neg[i,:] = sqrt.(1 .- abs.(K)./N) .* c_neg[i,:]
-    end
+    # ------------
 
-    Sigma = 0.5/(N+1) .* (c_pos*c_pos' + c_neg*c_neg')
+    # 1) this is useful for multiple assets - but can face DomainError due to the sqrt
+    #   and issues with rounding errors
+    # for i in 1:mp
+    #     c_pos[i,:] = sqrt.(1 .- abs.(K)./N) .* c_pos[i,:]
+    #     c_neg[i,:] = sqrt.(1 .- abs.(K)./N) .* c_neg[i,:]
+    # end
+    #
+    # Sigma = 0.5/(N+1) .* (c_pos*c_pos' + c_neg*c_neg')
+
+    # ------------
+
+    # 2) uncomment and use this if facing DomainError - but this only works for two asset case
+    t1 = (1 .- abs.(K)./N) .* c_pos[1,:] .* c_neg[1,:]
+    t2 = (1 .- abs.(K)./N) .* c_pos[2,:] .* c_neg[2,:]
+    t12 = (1 .- abs.(K)./N) .* c_pos[1,:] .* c_neg[2,:]
+
+    Sigma = zeros(ComplexF64, mp, mp)
+    Sigma[1,1] = sum(t1) / (N+1)
+    Sigma[2,2] = sum(t2) / (N+1)
+    Sigma[1,2] = sum(t12) / (N+1)
+    Sigma[2,1] = Sigma[1,2]
+
+    # ------------
 
     Sigma = real(Sigma)
     var = diag(Sigma)

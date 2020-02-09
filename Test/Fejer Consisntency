@@ -34,7 +34,7 @@ s1 = CFTcorrFK(P, t)
 s2 = FFTcorrFK(P)
 s3 = FFTZPcorrFK(P, t)
 s4 = MScorrFK(P, t)
-s5 = NUFFTcorrFKFINUFFT(P, t, 10^-12)
+s5 = NUFFTcorrFKFINUFFT(P, t)
 s6 = NUFFTcorrFKFGG(P, t)
 s7 = NUFFTcorrFKKB(P, t)
 
