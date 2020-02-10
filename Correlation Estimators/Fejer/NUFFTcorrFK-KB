@@ -63,8 +63,10 @@ function NUFFTcorrFKKB(p, t; kwargs...)
 
     if haskey(kwargs, :N)
         k = collect(-kwargs[:N]:1:kwargs[:N])
+        N = kwargs[:N]
     else
         k = collect(-floor(N0/2):1:floor(N0/2))
+        N = floor(N0/2)
     end
 
     if haskey(kwargs, :tol)
@@ -92,7 +94,6 @@ function NUFFTcorrFKKB(p, t; kwargs...)
         e_neg[i,:] = conj(C)
     end
 
-    N = floor(N0/2)
     k = fftfreq(Den, 1) * Den
 
     # ------------
