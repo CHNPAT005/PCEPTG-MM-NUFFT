@@ -265,8 +265,8 @@ plot!(p1, [-3; n2],
 hline!(p1, [minimum(FFTtimesDK)], label = "FFT", line=(2, [:dashdot]))
 hline!(p1, [minimum(FFTZPtimesDK)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p1, L"\textrm{\sffamily (a) Compute time and tolerance (Dirichlet, 2-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p1, "Time (s)")
-xlabel!(p1, "Tolerance \\epsilon")
+ylabel!(p1, L"\textrm{Time} (s)")
+xlabel!(p1, L"\textrm{Tolerance} (\epsilon)")
 
 savefig(p1, "Plots/ErrorTimesDK2.pdf")
 
@@ -283,8 +283,8 @@ hline!(p2, [minimum(FFTtimesFK)], label = "FFT", line=(2, [:dashdot]))
 hline!(p2, [minimum(FFTZPtimesFK)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p2, "(b) Tolerance vs Compute Time \n Fejer 2 Assets (n = 10^6)")
 title!(p2, L"\textrm{\sffamily (b) Compute time and tolerance (Fej\'{e}r, 2-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p2, "Time (s)")
-xlabel!(p2, "Tolerance \\epsilon")
+ylabel!(p2, L"\textrm{Time} (s)")
+xlabel!(p2, L"\textrm{Tolerance} (\epsilon)")
 
 savefig(p2, "Plots/ErrorTimesFK2.pdf")
 
@@ -401,8 +401,8 @@ plot!(p1, [-3; n2],
 hline!(p1, [minimum(FFTtimesDK10)], label = "FFT", line=(2, [:dashdot]))
 hline!(p1, [minimum(FFTZPtimesDK10)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p1, L"\textrm{\sffamily (c) Compute time and tolerance (Dirichlet, 10-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p1, "Time (s)")
-xlabel!(p1, "Tolerance \\epsilon")
+ylabel!(p1, L"\textrm{Time} (s)")
+xlabel!(p1, L"\textrm{Tolerance} (\epsilon)")
 
 savefig(p1, "Plots/ErrorTimesDK10.pdf")
 
@@ -418,8 +418,8 @@ plot!(p2, [-3; n2],
 hline!(p2, [minimum(FFTtimesFK10)], label = "FFT", line=(2, [:dashdot]))
 hline!(p2, [minimum(FFTZPtimesFK10)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p2, L"\textrm{\sffamily (d) Compute time and tolerance (Fej\'{e}r, 10-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p2, "Time (s)")
-xlabel!(p2, "Tolerance \\epsilon")
+ylabel!(p2, L"\textrm{Time} (s)")
+xlabel!(p2, L"\textrm{Tolerance} (\epsilon)")
 
 savefig(p2, "Plots/ErrorTimesFK10.pdf")
 
@@ -536,8 +536,8 @@ plot!(p1, [-3; n2],
 hline!(p1, [minimum(FFTtimesDK100)], label = "FFT", line=(2, [:dashdot]))
 hline!(p1, [minimum(FFTZPtimesDK100)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p1, L"\textrm{\sffamily (e) Compute time and tolerance (Dirichlet, 100-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p1, "Time (s)")
-xlabel!(p1, "Tolerance \\epsilon")
+ylabel!(p1, L"\textrm{Time} (s)")
+xlabel!(p1, L"\textrm{Tolerance} (\epsilon)")
 
 savefig(p1, "Plots/ErrorTimesDK100.pdf")
 
@@ -553,7 +553,7 @@ plot!(p2, [-3; n2],
 hline!(p2, [minimum(FFTtimesFK100)], label = "FFT", line=(2, [:dashdot]))
 hline!(p2, [minimum(FFTZPtimesFK100)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p2, L"\textrm{\sffamily (f) Compute time and tolerance (Fej\'{e}r, 100-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p2, "Time (s)")
-xlabel!(p2, "Tolerance \\epsilon")
+ylabel!(p2, L"\textrm{Time} (s)")
+xlabel!(p2, L"\textrm{Tolerance} (\epsilon)")
 
 savefig(p2, "Plots/ErrorTimesFK100.pdf")
