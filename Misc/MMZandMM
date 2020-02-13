@@ -72,32 +72,19 @@ lam20 = MMZmodel(dt, 20)
 
 p1 = plot(dt, mean(lam5[1], dims = 1)', label = L"\textrm{Dirichlet}", legend = :bottomright)
 plot!(p1, dt, lam5[3], label = L"\textrm{MMZ}")
-title!(p1, L"\textrm{\sffamily (a) Correlation and sampling interval (Dirichlet, } \lambda=5 \textrm{\sffamily )}")
+plot!(p1, dt, mean(lam5[2], dims = 1)', label = L"\textrm{Fej\'{e}r}")
+title!(p1, L"\textrm{\sffamily (a) Correlation and sampling interval (} \lambda=5 \textrm{\sffamily )}")
 ylabel!(p1, L"\textrm{Correlation} (\rho)")
 xlabel!(p1, L"\textrm{Sampling interval} (\Delta t)")
 
-savefig(p1, "Plots/AveScaleDK5.pdf")
+savefig(p1, "Plots/AveScaleLam5.pdf")
 
-p1 = plot(dt, mean(lam5[2], dims = 1)', label = L"\textrm{Fej\'{e}r}", legend = :bottomright)
-plot!(p1, dt, lam5[3], label = L"\textrm{MMZ}")
-title!(p1, L"\textrm{\sffamily (b) Correlation and sampling interval (Fej\'{e}r, } \lambda=5 \textrm{\sffamily )}")
-ylabel!(p1, L"\textrm{Correlation} (\rho)")
-xlabel!(p1, L"\textrm{Sampling interval} (\Delta t)")
-
-savefig(p1, "Plots/AveScaleFK5.pdf")
 
 p1 = plot(dt, mean(lam20[1], dims = 1)', label = L"\textrm{Dirichlet}", legend = :bottomright)
 plot!(p1, dt, lam20[3], label = L"\textrm{MMZ}")
-title!(p1, L"\textrm{\sffamily (c) Correlation and sampling interval (Dirichlet, } \lambda=20 \textrm{\sffamily )}")
+plot!(p1, dt, mean(lam20[2], dims = 1)', label = L"\textrm{Fej\'{e}r}")
+title!(p1, L"\textrm{\sffamily (b) Correlation and sampling interval (} \lambda=20 \textrm{\sffamily )}")
 ylabel!(p1, L"\textrm{Correlation} (\rho)")
 xlabel!(p1, L"\textrm{Sampling interval} (\Delta t)")
 
-savefig(p1, "Plots/AveScaleDK20.pdf")
-
-p1 = plot(dt, mean(lam20[2], dims = 1)', label = L"\textrm{Fej\'{e}r}", legend = :bottomright)
-plot!(p1, dt, lam20[3], label = L"\textrm{MMZ}")
-title!(p1, L"\textrm{\sffamily (d) Correlation and sampling interval (Fej\'{e}r, } \lambda=20 \textrm{\sffamily )}")
-ylabel!(p1, L"\textrm{Correlation} (\rho)")
-xlabel!(p1, L"\textrm{Sampling interval} (\Delta t)")
-
-savefig(p1, "Plots/AveScaleFK20.pdf")
+savefig(p1, "Plots/AveScaleLam20.pdf")
