@@ -86,7 +86,7 @@ function NUFFTcorrFKKB(p, t; kwargs...)
         P = p[psii, i]
         Time = tau[psii, i]
         DiffP = complex(diff(log.(P)))
-        Time = Time[1:(end-1)] ./ (2*pi) .- 0.5
+        Time = Time[1:(end-1)] ./ (2*pi)# .- 0.5
 
         C = NUFFTKB(DiffP, Time, Den, tol)
 

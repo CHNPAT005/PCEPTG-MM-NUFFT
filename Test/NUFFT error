@@ -14,6 +14,7 @@ using LinearAlgebra
 cd("/Users/patrickchang1/PCEPTG-MM-NUFFT")
 include("../NUFFT/NUFFT-FGG")
 include("../NUFFT/NUFFT-KB")
+include("../NUFFT/NUFFT-ES")
 
 n = collect(-3:-1:-14)
 tol = 10.0.^n

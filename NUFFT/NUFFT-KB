@@ -54,17 +54,17 @@ function NUFFTKB(cj, xj, M, tol; kwargs...)
     nspread = Int(floor((ceil(log(10, 1/tol)) + 2)/2))
     #nspread = Int(floor((ceil(log(10, 1/tol)) + 1)/2))
     # hx = 2*pi/Mr
-    EpsGrid = collect(0:1:Mr-1) ./ Mr .- 0.5
+    # EpsGrid = collect(0:1:Mr-1) ./ Mr .- 0.5
 
     ftau = zeros(ComplexF64, Mr, 1)
 
     for j in 1:nj
         ccj = cj[j]
 
-        jb1 = floor((xj[j]+0.5)*Mr)
+        jb1 = floor((xj[j])*Mr)
         jb1 = Int(jb1)
 
-        diff = xj[j] - jb1/Mr + 0.5
+        diff = xj[j] - jb1/Mr
 
         jb1d = min(nspread, jb1)
         jb1u = min(nspread, Mr-jb1-1)
@@ -106,7 +106,7 @@ nj = 10
 x = (collect(0:nj-1) + 0.5 .* rand(nj))
 xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
 cj = rand(nj) + 0im*rand(nj)
-xjj = xj ./ (2*pi) .- 0.5
+xjj = xj ./ (2*pi) 
 
 M = 11
 Mr = 2*M
