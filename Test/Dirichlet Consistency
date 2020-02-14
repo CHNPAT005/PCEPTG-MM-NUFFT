@@ -92,11 +92,11 @@ function rexp(n, mean)
 end
 
 
-t1 = rexp(10000, 30)
+t1 = [1; rexp(10000, 30)]
 t1 = cumsum(t1)
 t1 = filter((x) -> x < 10000, t1)
 
-t2 = rexp(10000, 30)
+t2 = [1; rexp(10000, 30)]
 t2 = cumsum(t2)
 t2 = filter((x) -> x < 10000, t2)
 
