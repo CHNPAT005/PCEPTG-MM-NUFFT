@@ -2,17 +2,27 @@
 # Script file to compare the averaging scale of the MM estimator
 # against the model MMZ used to model the Epps effect.
 
-using JLD; using LaTeXStrings; using Plots
+using JLD; using LaTeXStrings; using Plots; using Statistics
 
 #---------------------------------------------------------------------------
 
-cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
+cd("/Users/patrickchang1/PCEPTG-MM-NUFFT")
 
 include("../Correlation Estimators/Dirichlet/NUFFTcorrDK-FGG")
 
 include("../Correlation Estimators/Fejer/NUFFTcorrFK-FGG")
 
 include("../Monte Carlo Simulation Algorithms/GBM")
+
+#---------------------------------------------------------------------------
+
+function rexp(n, mean)
+    t = -mean .* log.(rand(n))
+end
+
+mu = [0.01/86400, 0.01/86400]
+sigma = [0.1/86400 sqrt(0.1/86400)*0.35*sqrt(0.2/86400);
+        sqrt(0.1/86400)*0.35*sqrt(0.2/86400) 0.2/86400]
 
 #---------------------------------------------------------------------------
 
@@ -70,21 +80,23 @@ lam5 = MMZmodel(dt, 5)
 lam20 = MMZmodel(dt, 20)
 
 
-p1 = plot(dt, mean(lam5[1], dims = 1)', label = L"\textrm{Dirichlet}", legend = :bottomright)
+p1 = plot(dt, mean(lam5[1], dims = 1)', label = L"\textrm{MM Dirichlet}", legend = :bottomright, legendtitle="Method",
+    color = :blue)
+plot!(p1, dt, mean(lam5[2], dims = 1)', label = L"\textrm{MM Fej\'{e}r}", color = :red)
 plot!(p1, dt, lam5[3], label = L"\textrm{MMZ}")
-plot!(p1, dt, mean(lam5[2], dims = 1)', label = L"\textrm{Fej\'{e}r}")
 title!(p1, L"\textrm{\sffamily (a) Correlation and sampling interval (} \lambda=5 \textrm{\sffamily )}")
-ylabel!(p1, L"\textrm{Correlation} (\rho)")
-xlabel!(p1, L"\textrm{Sampling interval} (\Delta t)")
+ylabel!(p1, L"\textrm{Correlation } \rho")
+xlabel!(p1, L"\textrm{Sampling interval } \Delta t")
 
 savefig(p1, "Plots/AveScaleLam5.pdf")
 
 
-p1 = plot(dt, mean(lam20[1], dims = 1)', label = L"\textrm{Dirichlet}", legend = :bottomright)
+p1 = plot(dt, mean(lam20[1], dims = 1)', label = L"\textrm{MM Dirichlet}", legend = :bottomright, legendtitle="Method",
+    color = :blue)
+plot!(p1, dt, mean(lam20[2], dims = 1)', label = L"\textrm{MM Fej\'{e}r}", color = :red)
 plot!(p1, dt, lam20[3], label = L"\textrm{MMZ}")
-plot!(p1, dt, mean(lam20[2], dims = 1)', label = L"\textrm{Fej\'{e}r}")
 title!(p1, L"\textrm{\sffamily (b) Correlation and sampling interval (} \lambda=20 \textrm{\sffamily )}")
-ylabel!(p1, L"\textrm{Correlation} (\rho)")
-xlabel!(p1, L"\textrm{Sampling interval} (\Delta t)")
+ylabel!(p1, L"\textrm{Correlation } \rho")
+xlabel!(p1, L"\textrm{Sampling interval } \Delta t")
 
 savefig(p1, "Plots/AveScaleLam20.pdf")

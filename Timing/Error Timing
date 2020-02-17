@@ -6,7 +6,7 @@
 
 using ProgressMeter; using JLD; using LaTeXStrings; using Plots
 
-cd("/Users/patrickchang/Desktop/Stats Masters/Masters Dissertation/Code/PCEPTG-MM-NUFFT")
+cd("/Users/patrickchang1/PCEPTG-MM-NUFFT")
 
 include("../Correlation Estimators/Dirichlet/FFTcorrDK")
 include("../Correlation Estimators/Dirichlet/FFTZPcorrDK")
@@ -200,42 +200,42 @@ KBtol = [10^-3; 10.0.^n2]
 
 ## Dirichlet
 
-FGGtimesDK = timeFGGDK(1000000, FGGtol, reps)
+FGGtimesDK = timeFGGDK(100000, FGGtol, reps)
 save("Computed Data/Error times/FGGtimesDK.jld", "FGGtimesDK", FGGtimesDK)
 
-KBtimesDK = timeKBDK(1000000, KBtol, reps)
+KBtimesDK = timeKBDK(100000, KBtol, reps)
 save("Computed Data/Error times/KBtimesDK.jld", "KBtimesDK", KBtimesDK)
 
-EStimesDK = timeESDK(1000000, KBtol, reps)
+EStimesDK = timeESDK(100000, KBtol, reps)
 save("Computed Data/Error times/EStimesDK.jld", "EStimesDK", EStimesDK)
 
-FINUFFTtimesDK = timeFINUFFTDK(1000000, KBtol, reps)
+FINUFFTtimesDK = timeFINUFFTDK(100000, KBtol, reps)
 save("Computed Data/Error times/FINUFFTtimesDK.jld", "FINUFFTtimesDK", FINUFFTtimesDK)
 
-FFTtimesDK = timeFFTDK(1000000, reps)
+FFTtimesDK = timeFFTDK(100000, reps)
 save("Computed Data/Error times/FFTtimesDK.jld", "FFTtimesDK", FFTtimesDK)
 
-FFTZPtimesDK = timeFFTZPDK(1000000, reps)
+FFTZPtimesDK = timeFFTZPDK(100000, reps)
 save("Computed Data/Error times/FFTZPtimesDK.jld", "FFTZPtimesDK", FFTZPtimesDK)
 
 ## Fejer
 
-FGGtimesFK = timeFGGFK(1000000, FGGtol, reps)
+FGGtimesFK = timeFGGFK(100000, FGGtol, reps)
 save("Computed Data/Error times/FGGtimesFK.jld", "FGGtimesFK", FGGtimesFK)
 
-KBtimesFK = timeKBFK(1000000, KBtol, reps)
+KBtimesFK = timeKBFK(100000, KBtol, reps)
 save("Computed Data/Error times/KBtimesFK.jld", "KBtimesFK", KBtimesFK)
 
-EStimesFK = timeESFK(1000000, KBtol, reps)
+EStimesFK = timeESFK(100000, KBtol, reps)
 save("Computed Data/Error times/EStimesFK.jld", "EStimesFK", EStimesFK)
 
-FINUFFTtimesFK = timeFINUFFTFK(1000000, KBtol, reps)
+FINUFFTtimesFK = timeFINUFFTFK(100000, KBtol, reps)
 save("Computed Data/Error times/FINUFFTtimesFK.jld", "FINUFFTtimesFK", FINUFFTtimesFK)
 
-FFTtimesFK = timeFFTFK(1000000, reps)
+FFTtimesFK = timeFFTFK(100000, reps)
 save("Computed Data/Error times/FFTtimesFK.jld", "FFTtimesFK", FFTtimesFK)
 
-FFTZPtimesFK = timeFFTZPFK(1000000, reps)
+FFTZPtimesFK = timeFFTZPFK(100000, reps)
 save("Computed Data/Error times/FFTZPtimesFK.jld", "FFTZPtimesFK", FFTZPtimesFK)
 
 # Load and plot results
@@ -294,37 +294,38 @@ styles = filter((s->begin
 styles = reshape(styles, 1, length(styles))
 
 # Dirichlet
-p1 = plot(n1, minimum(FGGtimesDK, dims=1)',
+p1 = plot(n1, log.(minimum(FGGtimesDK, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topright, line=(2, :solid),
-   xticks = (n1, xticklabel),
-   ylims = (0.2, 2.7))
+  legend=:topleft, line=(2, :dash),
+   xticks = (n1, xticklabel))
 plot!(p1, [-3; n2],
-    [minimum(KBtimesDK, dims=1); minimum(FINUFFTtimesDK, dims=1)]',
+    log.([minimum(KBtimesDK, dims=1); minimum(FINUFFTtimesDK, dims=1)]'),
     label = ["KB" "FINUFFT"], line=(2, styles))
-hline!(p1, [minimum(FFTtimesDK)], label = "FFT", line=(2, [:dashdot]))
-hline!(p1, [minimum(FFTZPtimesDK)], label = "ZFFT", line=(2, [:dashdotdot]))
-title!(p1, L"\textrm{\sffamily (a) Compute time and tolerance (Dirichlet, 2-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p1, L"\textrm{Time} (s)")
-xlabel!(p1, L"\textrm{Tolerance} (\epsilon)")
+hline!(p1, log.([minimum(FFTtimesDK)]), label = "FFT", line=(2, [:solid]))
+hline!(p1, log.([minimum(FFTZPtimesDK)]), label = "ZFFT", line=(2, [:solid]))
+plot!(p1, [-3; n2], log.(minimum(EStimesDK, dims=1)'), label = "ES", line=(2, :dash), color = :red)
+title!(p1, L"\textrm{\sffamily (a) Compute time and tolerance (Dir., 2-Assets, n =} 10^5\textrm{\sffamily )}")
+ylabel!(p1, L"\textrm{Time ln} (s)")
+xlabel!(p1, L"\textrm{Tolerance } \epsilon")
+
 
 savefig(p1, "Plots/ErrorTimesDK2.pdf")
 
 # Fejer
-p2 = plot(n1, minimum(FGGtimesFK, dims=1)',
+p2 = plot(n1, log.(minimum(FGGtimesFK, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topright, line=(2, :solid),
-   xticks = (n1, xticklabel),
-   ylims = (0.2, 2.7))
+  legend=:topleft, line=(2, :dash),
+   xticks = (n1, xticklabel))
 plot!(p2, [-3; n2],
- [minimum(KBtimesFK, dims=1); minimum(FINUFFTtimesFK, dims=1)]',
+ log.([minimum(KBtimesFK, dims=1); minimum(FINUFFTtimesFK, dims=1)]'),
  label = ["KB" "FINUFFT"], line=(2, styles))
-hline!(p2, [minimum(FFTtimesFK)], label = "FFT", line=(2, [:dashdot]))
-hline!(p2, [minimum(FFTZPtimesFK)], label = "ZFFT", line=(2, [:dashdotdot]))
+hline!(p2, log.([minimum(FFTtimesFK)]), label = "FFT", line=(2, [:solid]))
+hline!(p2, log.([minimum(FFTZPtimesFK)]), label = "ZFFT", line=(2, [:solid]))
+plot!(p2, [-3; n2], log.(minimum(EStimesFK, dims=1)'), label = "ES", line=(2, :dash), color = :red)
 title!(p2, "(b) Tolerance vs Compute Time \n Fejer 2 Assets (n = 10^6)")
-title!(p2, L"\textrm{\sffamily (b) Compute time and tolerance (Fej\'{e}r, 2-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p2, L"\textrm{Time} (s)")
-xlabel!(p2, L"\textrm{Tolerance} (\epsilon)")
+title!(p2, L"\textrm{\sffamily (b) Compute time and tolerance (Fej., 2-Assets, n =} 10^5\textrm{\sffamily )}")
+ylabel!(p2, L"\textrm{Time ln} (s)")
+xlabel!(p2, L"\textrm{Tolerance } \epsilon")
 
 savefig(p2, "Plots/ErrorTimesFK2.pdf")
 
@@ -348,42 +349,42 @@ KBtol = [10^-3; 10.0.^n2]
 
 ## Dirichlet
 
-FGGtimesDK10 = timeFGGDK(1000000, FGGtol, reps)
+FGGtimesDK10 = timeFGGDK(100000, FGGtol, reps)
 save("Computed Data/Error times/FGGtimesDK10.jld", "FGGtimesDK10", FGGtimesDK10)
 
-KBtimesDK10 = timeKBDK(1000000, KBtol, reps)
+KBtimesDK10 = timeKBDK(100000, KBtol, reps)
 save("Computed Data/Error times/KBtimesDK10.jld", "KBtimesDK10", KBtimesDK10)
 
-EStimesDK10 = timeESDK(1000000, KBtol, reps)
+EStimesDK10 = timeESDK(100000, KBtol, reps)
 save("Computed Data/Error times/EStimesDK10.jld", "EStimesDK10", EStimesDK10)
 
-FINUFFTtimesDK10 = timeFINUFFTDK(1000000, KBtol, reps)
+FINUFFTtimesDK10 = timeFINUFFTDK(100000, KBtol, reps)
 save("Computed Data/Error times/FINUFFTtimesDK10.jld", "FINUFFTtimesDK10", FINUFFTtimesDK10)
 
-FFTtimesDK10 = timeFFTDK(1000000, reps)
+FFTtimesDK10 = timeFFTDK(100000, reps)
 save("Computed Data/Error times/FFTtimesDK10.jld", "FFTtimesDK10", FFTtimesDK10)
 
-FFTZPtimesDK10 = timeFFTZPDK(1000000, reps)
+FFTZPtimesDK10 = timeFFTZPDK(100000, reps)
 save("Computed Data/Error times/FFTZPtimesDK10.jld", "FFTZPtimesDK10", FFTZPtimesDK10)
 
 ## Fejer
 
-FGGtimesFK10 = timeFGGFK(1000000, FGGtol, reps)
+FGGtimesFK10 = timeFGGFK(100000, FGGtol, reps)
 save("Computed Data/Error times/FGGtimesFK10.jld", "FGGtimesFK10", FGGtimesFK10)
 
-KBtimesFK10 = timeKBFK(1000000, KBtol, reps)
+KBtimesFK10 = timeKBFK(100000, KBtol, reps)
 save("Computed Data/Error times/KBtimesFK10.jld", "KBtimesFK10", KBtimesFK10)
 
-EStimesFK10 = timeESFK(1000000, KBtol, reps)
+EStimesFK10 = timeESFK(100000, KBtol, reps)
 save("Computed Data/Error times/EStimesFK10.jld", "EStimesFK10", EStimesFK10)
 
-FINUFFTtimesFK10 = timeFINUFFTFK(1000000, KBtol, reps)
+FINUFFTtimesFK10 = timeFINUFFTFK(100000, KBtol, reps)
 save("Computed Data/Error times/FINUFFTtimesFK10.jld", "FINUFFTtimesFK10", FINUFFTtimesFK10)
 
-FFTtimesFK10 = timeFFTFK(1000000, reps)
+FFTtimesFK10 = timeFFTFK(100000, reps)
 save("Computed Data/Error times/FFTtimesFK10.jld", "FFTtimesFK10", FFTtimesFK10)
 
-FFTZPtimesFK10 = timeFFTZPFK(1000000, reps)
+FFTZPtimesFK10 = timeFFTZPFK(100000, reps)
 save("Computed Data/Error times/FFTZPtimesFK10.jld", "FFTZPtimesFK10", FFTZPtimesFK10)
 
 # Load and plot results
@@ -442,36 +443,36 @@ styles = filter((s->begin
 styles = reshape(styles, 1, length(styles))
 
 # Dirichlet
-p1 = plot(n1, minimum(FGGtimesDK10, dims=1)',
+p1 = plot(n1, log.(minimum(FGGtimesDK10, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topright, line=(2, :solid),
-   xticks = (n1, xticklabel),
-   ylims = (0.5, 15))
+  legend=:topleft, line=(2, :dash),
+   xticks = (n1, xticklabel))
 plot!(p1, [-3; n2],
-    [minimum(KBtimesDK10, dims=1); minimum(FINUFFTtimesDK10, dims=1)]',
+    log.([minimum(KBtimesDK10, dims=1); minimum(FINUFFTtimesDK10, dims=1)]'),
     label = ["KB" "FINUFFT"], line=(2, styles))
-hline!(p1, [minimum(FFTtimesDK10)], label = "FFT", line=(2, [:dashdot]))
-hline!(p1, [minimum(FFTZPtimesDK10)], label = "ZFFT", line=(2, [:dashdotdot]))
-title!(p1, L"\textrm{\sffamily (c) Compute time and tolerance (Dirichlet, 10-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p1, L"\textrm{Time} (s)")
-xlabel!(p1, L"\textrm{Tolerance} (\epsilon)")
+hline!(p1, log.([minimum(FFTtimesDK10)]), label = "FFT", line=(2, [:solid]))
+hline!(p1, log.([minimum(FFTZPtimesDK10)]), label = "ZFFT", line=(2, [:solid]))
+plot!(p1, [-3; n2], log.(minimum(EStimesDK10, dims=1)'), label = "ES", line=(2, :dash), color = :red)
+title!(p1, L"\textrm{\sffamily (c) Compute time and tolerance (Dir., 10-Assets, n =} 10^5 \textrm{\sffamily )}")
+ylabel!(p1, L"\textrm{Time ln} (s)")
+xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 
 savefig(p1, "Plots/ErrorTimesDK10.pdf")
 
 # Fejer
-p2 = plot(n1, minimum(FGGtimesFK10, dims=1)',
+p2 = plot(n1, log.(minimum(FGGtimesFK10, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topright, line=(2, :solid),
-   xticks = (n1, xticklabel),
-   ylims = (0.5, 15))
+  legend=:topleft, line=(2, :dash),
+   xticks = (n1, xticklabel))
 plot!(p2, [-3; n2],
- [minimum(KBtimesFK10, dims=1); minimum(FINUFFTtimesFK10, dims=1)]',
+ log.([minimum(KBtimesFK10, dims=1); minimum(FINUFFTtimesFK10, dims=1)]'),
  label = ["KB" "FINUFFT"], line=(2, styles))
-hline!(p2, [minimum(FFTtimesFK10)], label = "FFT", line=(2, [:dashdot]))
-hline!(p2, [minimum(FFTZPtimesFK10)], label = "ZFFT", line=(2, [:dashdotdot]))
-title!(p2, L"\textrm{\sffamily (d) Compute time and tolerance (Fej\'{e}r, 10-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p2, L"\textrm{Time} (s)")
-xlabel!(p2, L"\textrm{Tolerance} (\epsilon)")
+hline!(p2, log.([minimum(FFTtimesFK10)]), label = "FFT", line=(2, [:solid]))
+hline!(p2, log.([minimum(FFTZPtimesFK10)]), label = "ZFFT", line=(2, [:solid]))
+plot!(p2, [-3; n2], log.(minimum(EStimesFK10, dims=1)'), label = "ES", line=(2, :dash), color = :red)
+title!(p2, L"\textrm{\sffamily (d) Compute time and tolerance (Fej., 10-Assets, n =} 10^5 \textrm{\sffamily )}")
+ylabel!(p2, L"\textrm{Time ln} (s)")
+xlabel!(p2, L"\textrm{Tolerance } \epsilon")
 
 savefig(p2, "Plots/ErrorTimesFK10.pdf")
 
@@ -589,35 +590,35 @@ styles = filter((s->begin
 styles = reshape(styles, 1, length(styles))
 
 # Dirichlet
-p1 = plot(n1, minimum(FGGtimesDK100, dims=1)',
+p1 = plot(n1, log.(minimum(FGGtimesDK100, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topright, line=(2, :solid),
-   xticks = (n1, xticklabel),
-   ylims = (10, 135))
+  legend=:topleft, line=(2, :dash),
+   xticks = (n1, xticklabel))
 plot!(p1, [-3; n2],
-    [minimum(KBtimesDK100, dims=1); minimum(FINUFFTtimesDK100, dims=1)]',
+    log.([minimum(KBtimesDK100, dims=1); minimum(FINUFFTtimesDK100, dims=1)]'),
     label = ["KB" "FINUFFT"], line=(2, styles))
-hline!(p1, [minimum(FFTtimesDK100)], label = "FFT", line=(2, [:dashdot]))
-hline!(p1, [minimum(FFTZPtimesDK100)], label = "ZFFT", line=(2, [:dashdotdot]))
-title!(p1, L"\textrm{\sffamily (e) Compute time and tolerance (Dirichlet, 100-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p1, L"\textrm{Time} (s)")
-xlabel!(p1, L"\textrm{Tolerance} (\epsilon)")
+hline!(p1, log.([minimum(FFTtimesDK100)]), label = "FFT", line=(2, [:solid]))
+hline!(p1, log.([minimum(FFTZPtimesDK100)]), label = "ZFFT", line=(2, [:solid]))
+plot!(p1, [-3; n2], log.(minimum(EStimesDK100, dims=1)'), label = "ES", line=(2, :dash), color = :red)
+title!(p1, L"\textrm{\sffamily (e) Compute time and tolerance (Dir., 100-Assets, n =} 10^5\textrm{\sffamily )}")
+ylabel!(p1, L"\textrm{Time ln} (s)")
+xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 
 savefig(p1, "Plots/ErrorTimesDK100.pdf")
 
 # Fejer
-p2 = plot(n1, minimum(FGGtimesFK100, dims=1)',
+p2 = plot(n1, log.(minimum(FGGtimesFK100, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topright, line=(2, :solid),
-   xticks = (n1, xticklabel),
-   ylims = (15, 135))
+  legend=:topleft, line=(2, :dash),
+   xticks = (n1, xticklabel))
 plot!(p2, [-3; n2],
- [minimum(KBtimesFK100, dims=1); minimum(FINUFFTtimesFK100, dims=1)]',
+ log.([minimum(KBtimesFK100, dims=1); minimum(FINUFFTtimesFK100, dims=1)]'),
  label = ["KB" "FINUFFT"], line=(2, styles))
-hline!(p2, [minimum(FFTtimesFK100)], label = "FFT", line=(2, [:dashdot]))
-hline!(p2, [minimum(FFTZPtimesFK100)], label = "ZFFT", line=(2, [:dashdotdot]))
-title!(p2, L"\textrm{\sffamily (f) Compute time and tolerance (Fej\'{e}r, 100-Assets, n =} 10^6\textrm{\sffamily )}")
-ylabel!(p2, L"\textrm{Time} (s)")
-xlabel!(p2, L"\textrm{Tolerance} (\epsilon)")
+hline!(p2, log.([minimum(FFTtimesFK100)]), label = "FFT", line=(2, [:solid]))
+hline!(p2, log.([minimum(FFTZPtimesFK100)]), label = "ZFFT", line=(2, [:solid]))
+plot!(p2, [-3; n2], log.(minimum(EStimesFK100, dims=1)'), label = "ES", line=(2, :dash), color = :red)
+title!(p2, L"\textrm{\sffamily (f) Compute time and tolerance (Fej., 100-Assets, n =} 10^5\textrm{\sffamily )}")
+ylabel!(p2, L"\textrm{Time ln} (s)")
+xlabel!(p2, L"\textrm{Tolerance } \epsilon")
 
 savefig(p2, "Plots/ErrorTimesFK100.pdf")

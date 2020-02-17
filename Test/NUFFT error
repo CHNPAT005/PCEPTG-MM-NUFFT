@@ -42,6 +42,7 @@ function testErrors(n, M, tolrange, error)
     for i in 1:length(tol)
         FGG = NUFFTFGG(cj, xj, M, tol[i])
         KB = NUFFTKB(cj, xjj, M, tol[i])
+        # KB = NUFFTES(cj, xj, M, tol[i])
         relerrFGG = norm(FGG-ref, error) / norm(ref, error)
         relerrKB = norm(KB-ref, error) / norm(ref, error)
 
