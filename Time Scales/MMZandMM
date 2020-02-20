@@ -84,9 +84,9 @@ p1 = plot(dt, mean(lam5[1], dims = 1)', label = L"\textrm{MM Dirichlet}", legend
     color = :blue)
 plot!(p1, dt, mean(lam5[2], dims = 1)', label = L"\textrm{MM Fej\'{e}r}", color = :red)
 plot!(p1, dt, lam5[3], label = L"\textrm{MMZ}")
-title!(p1, L"\textrm{\sffamily (a) Correlation and sampling interval (} \lambda=5 \textrm{\sffamily )}")
+title!(p1, L"\textrm{\sffamily (a) Correlation and sampling interval (} \lambda=1/5\textrm{\sffamily )}")
 ylabel!(p1, L"\textrm{Correlation } \rho")
-xlabel!(p1, L"\textrm{Sampling interval } \Delta t")
+xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ (Seconds)}")
 
 savefig(p1, "Plots/AveScaleLam5.pdf")
 
@@ -95,8 +95,8 @@ p1 = plot(dt, mean(lam20[1], dims = 1)', label = L"\textrm{MM Dirichlet}", legen
     color = :blue)
 plot!(p1, dt, mean(lam20[2], dims = 1)', label = L"\textrm{MM Fej\'{e}r}", color = :red)
 plot!(p1, dt, lam20[3], label = L"\textrm{MMZ}")
-title!(p1, L"\textrm{\sffamily (b) Correlation and sampling interval (} \lambda=20 \textrm{\sffamily )}")
+title!(p1, L"\textrm{\sffamily (b) Correlation and sampling interval (} \lambda=1/20 \textrm{\sffamily )}")
 ylabel!(p1, L"\textrm{Correlation } \rho")
-xlabel!(p1, L"\textrm{Sampling interval } \Delta t")
+xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ (Seconds)}")
 
 savefig(p1, "Plots/AveScaleLam20.pdf")
