@@ -44,6 +44,7 @@ function NUFFTES(cj, xj, M, tol; kwargs...)
     R = 2
     Mr = R*M
     nspread = Int(floor((ceil(log(10, 1/tol)) + 2)/2) + 2)
+    # nspread = Int(floor((ceil(log(10, 1/tol)) + 2)/2))
     ω = 2*nspread + 1
     hx = 2*pi/Mr
 

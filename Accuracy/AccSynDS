@@ -40,7 +40,7 @@ sigma = [0.1/86400 sqrt(0.1/86400)*0.35*sqrt(0.2/86400);
 
 n1 = collect(-1:-1:-14)
 tol = 10.0.^n1
-reps = 1000
+reps = 100
 
 ## Synchronous Case
 CFTaccDKSyn = zeros(1, reps)
@@ -112,7 +112,7 @@ hline!(p1, [mean(ZFFTaccDKSyn .- CFTaccDKSyn)], label = "ZFFT", line=(2, [:dashd
 title!(p1, L"\textrm{\sffamily (a) Accuracy and tolerance (Dirichlet, Synchronous)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
 xlabel!(p1, L"\textrm{Tolerance } \epsilon ")
-plot(p1, annotations=(-13, -0.000005, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccDKSyn), digits = 4))\$"), :left)))
+plot(p1, annotations=(-13, 0.00003, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccDKSyn), digits = 4))\$"), :left)))
 
 savefig(p1, "Plots/AccSynDK.pdf")
 
@@ -121,7 +121,7 @@ savefig(p1, "Plots/AccSynDK.pdf")
 ## Down-sampled Case
 n1 = collect(-1:-1:-14)
 tol = 10.0.^n1
-reps = 1000
+reps = 100
 
 CFTaccDKDS = zeros(1, reps)
 ZFFTaccDKDS = zeros(1, reps)
@@ -222,7 +222,7 @@ sigma = [0.1/86400 sqrt(0.1/86400)*0.35*sqrt(0.2/86400);
 
 n1 = collect(-1:-1:-14)
 tol = 10.0.^n1
-reps = 1000
+reps = 100
 
 ## Synchronous Case
 CFTaccFKSyn = zeros(1, reps)
@@ -294,7 +294,7 @@ hline!(p1, [mean(ZFFTaccFKSyn .- CFTaccFKSyn)], label = "ZFFT", line=(2, [:dashd
 title!(p1, L"\textrm{\sffamily (b) Accuracy and tolerance (Fej\'{e}r, Synchronous)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
 xlabel!(p1, L"\textrm{Tolerance } \epsilon")
-plot(p1, annotations=(-13, -0.000015, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccFKSyn), digits = 4))\$"), :left)))
+plot(p1, annotations=(-13, -0.000005, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccFKSyn), digits = 4))\$"), :left)))
 
 savefig(p1, "Plots/AccSynFK.pdf")
 
@@ -303,7 +303,7 @@ savefig(p1, "Plots/AccSynFK.pdf")
 ## Down-sampled Case
 n1 = collect(-1:-1:-14)
 tol = 10.0.^n1
-reps = 1000
+reps = 100
 
 CFTaccFKDS = zeros(1, reps)
 ZFFTaccFKDS = zeros(1, reps)
