@@ -100,12 +100,12 @@ function NUFFTcorrFKFGG(p, t; kwargs...)
 
     # 1) this is useful for multiple assets - but can face DomainError due to the sqrt
     #   and issues with rounding errors
-    for i in 1:mp
-        e_pos[i,:] = sqrt.(1 .- abs.(k)./N) .* e_pos[i,:]
-        e_neg[i,:] = sqrt.(1 .- abs.(k)./N) .* e_neg[i,:]
-    end
-
-    Sigma = 0.5/(N+1) .* (e_pos*e_pos' + e_neg*e_neg')
+    # for i in 1:mp
+    #     e_pos[i,:] = sqrt.(1 .- abs.(k)./N) .* e_pos[i,:]
+    #     e_neg[i,:] = sqrt.(1 .- abs.(k)./N) .* e_neg[i,:]
+    # end
+    #
+    # Sigma = 0.5/(N+1) .* (e_pos*e_pos' + e_neg*e_neg')
 
     # ------------
 
@@ -119,6 +119,18 @@ function NUFFTcorrFKFGG(p, t; kwargs...)
     # Sigma[2,2] = sum(t2) / (N+1)
     # Sigma[1,2] = sum(t12) / (N+1)
     # Sigma[2,1] = Sigma[1,2]
+
+    # ------------
+
+    # 3) uncomment and use this if facing DomainError
+    Sigma = zeros(ComplexF64, mp, mp)
+    for i in 1:mp-1
+        for j in i+1:mp
+            Sigma[i,i] = sum( (1 .- abs.(k)./N) .* e_pos[i,:] .* e_neg[i,:] ) / (N+1)
+            Sigma[j,j] = sum( (1 .- abs.(k)./N) .* e_pos[j,:] .* e_neg[j,:] ) / (N+1)
+            Sigma[i,j] = Sigma[j,i] = sum( (1 .- abs.(k)./N) .* e_pos[i,:] .* e_neg[j,:] ) / (N+1)
+        end
+    end
 
     # ------------
 
