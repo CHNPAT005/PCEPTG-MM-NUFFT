@@ -48,7 +48,7 @@ function timeFK()
     end
 end
 
-# Run this at least once - use the result from thrid run onwards
+# Run this at least once - preferably use the result from thrid run onwards
 DKtime = @elapsed timeDK()
 FKtime = @elapsed timeFK()
 
@@ -72,7 +72,7 @@ Fej = Fej["FKres"]
 p1 = plot(x = dt, legend = :outertopleft, legendtitle="Asset Pair", legendfont = font("Times new roman", 7), size = (1000, 800))
 title!(p1, L"\textrm{\sffamily (a) Correlation and sampling interval (Dirichlet)}", titlefont = font("Times new roman", 25))
 ylabel!(p1, L"\textrm{Correlation } \rho")
-xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ (Seconds)}")
+xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 for i in 1:9
     for j in i+1:10
         Dirres = zeros(length(dt), 1)
@@ -90,7 +90,7 @@ savefig(p1, "Plots/EmpDKMMZALL.pdf")
 p2 = plot(x = dt, legend = :outertopleft, legendtitle="Asset Pair", legendfont = font("Times new roman", 7), size = (1000, 800))
 title!(p2, L"\textrm{\sffamily (b) Correlation and sampling interval (Fej\'{e}r)}", titlefont = font("Times new roman", 25))
 ylabel!(p2, L"\textrm{Correlation } \rho")
-xlabel!(p2, L"\textrm{Sampling interval } \Delta t \textrm{ (Seconds)}")
+xlabel!(p2, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 for i in 1:9
     for j in i+1:10
         Fejres = zeros(length(dt), 1)
@@ -108,36 +108,36 @@ savefig(p2, "Plots/EmpFKMMZALL.pdf")
 ## Heatmaps for various Δt's
 
 # Dirichlet
-p1 = plot(Dir[:,:,1], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho", xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700))
+p1 = plot(Dir[:,:,1], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho", xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700), tickfontsize = 15)
 title!(p1, L"\textrm{\sffamily (a) Correlation heatmap (Dirichlet, } \Delta t = 1 \textrm{\sffamily )}", titlefont = font("Times new roman", 23))
 savefig(p1, "Plots/EmpDKHM1.png")
 
-p2 = plot(Dir[:,:,30], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700))
+p2 = plot(Dir[:,:,30], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700), tickfontsize = 15)
 title!(p2, L"\textrm{\sffamily (b) Correlation heatmap (Dirichlet, } \Delta t = 30 \textrm{\sffamily )}", titlefont = font("Times new roman", 23))
 savefig(p2, "Plots/EmpDKHM30.png")
 
-p3 = plot(Dir[:,:,60], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700))
+p3 = plot(Dir[:,:,60], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700), tickfontsize = 15)
 title!(p3, L"\textrm{\sffamily (c) Correlation heatmap (Dirichlet, } \Delta t = 60 \textrm{\sffamily )}", titlefont = font("Times new roman", 23))
 savefig(p3, "Plots/EmpDKHM60.png")
 
-p4 = plot(Dir[:,:,100], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700))
+p4 = plot(Dir[:,:,100], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700), tickfontsize = 15)
 title!(p4, L"\textrm{\sffamily (d) Correlation heatmap (Dirichlet, } \Delta t = 100 \textrm{\sffamily )}", titlefont = font("Times new roman", 23))
 savefig(p4, "Plots/EmpDKHM100.png")
 
 # Fejer
-p1 = plot(Fej[:,:,1], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho", xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700))
+p1 = plot(Fej[:,:,1], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho", xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700), tickfontsize = 15)
 title!(p1, L"\textrm{\sffamily (e) Correlation heatmap (Fej\'{e}r, } \Delta t = 1 \textrm{\sffamily )}", titlefont = font("Times new roman", 23))
 savefig(p1, "Plots/EmpFKHM1.png")
 
-p2 = plot(Fej[:,:,30], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700))
+p2 = plot(Fej[:,:,30], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700), tickfontsize = 15)
 title!(p2, L"\textrm{\sffamily (f) Correlation heatmap (Fej\'{e}r, } \Delta t = 30 \textrm{\sffamily )}", titlefont = font("Times new roman", 23))
 savefig(p2, "Plots/EmpFKHM30.png")
 
-p3 = plot(Fej[:,:,60], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700))
+p3 = plot(Fej[:,:,60], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700), tickfontsize = 15)
 title!(p3, L"\textrm{\sffamily (g) Correlation heatmap (Fej\'{e}r, } \Delta t = 60 \textrm{\sffamily )}", titlefont = font("Times new roman", 23))
 savefig(p3, "Plots/EmpFKHM60.png")
 
-p4 = plot(Fej[:,:,100], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700))
+p4 = plot(Fej[:,:,100], st=:heatmap, clim=(-1,1), color=cgrad([:red, :white, :blue]), colorbar_title=L"\rho",xticks = (1:10, tickers), yticks = (1:10, tickers), dpi = 500, size = (800, 700), tickfontsize = 15)
 title!(p4, L"\textrm{\sffamily (h) Correlation heatmap (Fej\'{e}r, } \Delta t = 100 \textrm{\sffamily )}", titlefont = font("Times new roman", 23))
 savefig(p4, "Plots/EmpFKHM100.png")
 
@@ -197,7 +197,7 @@ end
 p1 = plot(x = dt, legend = :right, legendtitle="Asset Pair", legendfont = font("Times new roman", 7))
 title!(p1, L"\textrm{\sffamily (a) Correlation and sampling interval (Dirichlet)}")
 ylabel!(p1, L"\textrm{Correlation } \rho")
-xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ (Seconds)}")
+xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 DKFSRSBK = zeros(length(dt), 1)
 DKFSRAGL = zeros(length(dt), 1)
 for k in 1:length(dt)
@@ -251,7 +251,7 @@ savefig(p1, "Plots/EmpDKMMZ2.pdf")
 p2 = plot(x = dt, legend = :right, legendtitle="Asset Pair", legendfont = font("Times new roman", 7))
 title!(p2, L"\textrm{\sffamily (b) Correlation and sampling interval (Fej\'{e}r)}")
 ylabel!(p2, L"\textrm{Correlation } \rho")
-xlabel!(p2, L"\textrm{Sampling interval } \Delta t \textrm{ (Seconds)}")
+xlabel!(p2, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 FKFSRSBK = zeros(length(dt), 1)
 FKFSRAGL = zeros(length(dt), 1)
 for k in 1:length(dt)
