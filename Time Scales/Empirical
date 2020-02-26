@@ -215,7 +215,7 @@ function MMZ2MM_FSRSBK(param)
     lam2 = 18.93464 # mean samplping rate for SBK
     dt = collect(1:1:100)
     MMZ = MMZrho.(c, xil, xis, lam1, lam2, dt)
-    return norm(MMZ - DKFSRSBK)
+    return norm(MMZ - DKFSRSBK)^2
 end
 
 function MMZ2MM_FSRAGL(param)
@@ -230,14 +230,14 @@ function MMZ2MM_FSRAGL(param)
 end
 
 result_FSRSBK = optimize(MMZ2MM_FSRSBK, [0.6 0.1 0.01], BFGS())
-# Sol = [6.21e-01, 1.08e+01, 6.06e-06]
+# Sol = [6.21e-01, 1.08e+01, 2.97e-06]
 
 result_FSRAGL = bboptimize(MMZ2MM_FSRAGL; SearchRange = [(-1.0, 1.0), (0.0000001, 2.0), (0.0000001, 10.0)])
 # Sol = [0.0436501, 1.13934e-7, 10.0]
 result_FSRAGL = optimize(MMZ2MM_FSRAGL, [-0.1 0.1 0.01], BFGS())
 # Sol = [-6.63e+00, 1.01e-01, -1.80e-02]
 
-sol_FSRSBK = [6.21e-01, 1.08e+01, 6.06e-06] # Solution naturally satisfies the various contraints
+sol_FSRSBK = [6.21e-01, 1.08e+01, 2.97e-06] # Solution naturally satisfies the various contraints
 plot!(p1, dt, MMZrho.(sol_FSRSBK[1], sol_FSRSBK[2], sol_FSRSBK[3], 13.52503, 18.93464, dt), label ="MMZ-"*"FSR"*"/"*"SBK", line = (1, :dash))
 
 ## There is simply no sensible choice of parameters to plot the FSR/AGL.
@@ -261,7 +261,7 @@ end
 plot!(p2, dt, FKFSRSBK, label = "Measured-"*"FSR"*"/"*"SBK", color = :blue)
 plot!(p2, dt, FKFSRAGL, label = "Measured-"*"FSR"*"/"*"AGL", color = :red)
 
-sol_FSRSBK = [6.21e-01, 1.08e+01, 6.06e-06] # Solution naturally satisfies the various contraints
+sol_FSRSBK = [6.21e-01, 1.08e+01, 2.97e-06] # Solution naturally satisfies the various contraints
 plot!(p2, dt, MMZrho.(sol_FSRSBK[1], sol_FSRSBK[2], sol_FSRSBK[3], 13.52503, 18.93464, dt), label ="MMZ-"*"FSR"*"/"*"SBK", line = (1, :dash))
 
 
