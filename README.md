@@ -1,4 +1,4 @@
-# High speed implementation of the Malliavin-Mancino estimator
+# Malliavin-Mancino estimators implemented with non-uniform fast Fourier transforms
 
 ## Authors:
 - Patrick Chang
@@ -7,25 +7,36 @@
 
 ## Link to the paper:
 
+Link.
+
+Cite as:
 
 ## Steps for Replication:
-- Change Directories for the NUFFTcorr functions found under `/Correlation Estimators/Dirichlet` and `/Correlation Estimators/Fejer`. Currently the directories are set as: `cd("/Users/patrickchang1/PCEPTG-MM-NUFFT")`. Change this to where you have stored the file `PCEPTG-MM-NUFFT`. 
-- Change the Directories for the files which reproduce the required results.
-	- Run [/Timing/Dirichlet Timing](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Timing/Dirichlet\%20Timing) and [/Timing/Fejer Timing](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Timing/Fejer\%20Timing) to reproduce Fig. 4.
-	- Run [/Timing/Error Timing](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Timing/Error\%20Timing) to reproduce Fig. 5.
-	- Run [/Accuracy/AccSynDS](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Accuracy/AccSynDS) and [/Accuracy/AccRE](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Accuracy/AccRE) to reproduce Figs. 6 and 7.
-	- Run [/Time Scales/MMZandMM](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Time\%20Scales/MMZandMM) to reproduce Fig. 8.
-- To reproduce the Empirical analysis - download the processed dataset from DOI: 10.25375/uct.11903442 and put the datasets into the folder `/Time Scales`.
-	- Run [/Time Scales/Empirical](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Time\%20Scales/Empirical) to reproduce Figs. 9, C.10 and C.11.
-- We have included the plots under `/Plots` and Computed results under `/Computed Data` if one does not wish to re-run everything.
+- Change directories for all the files under [/Scripts](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Scripts). Currently the directories are set as: `cd("/Users/patrickchang1/PCEPTG-MM-NUFFT")`. Change this to where you have stored the file `PCEPTG-MM-NUFFT`. 
 
+	- Run [/Scripts/Timing/Dirichlet Timing](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Timing/Dirichlet\%20Timing) and [/Scripts/Timing/Fejer Timing](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Timing/Fejer\%20Timing) to reproduce Fig. 4.
+	 Run [/Scripts/Timing/Error Timing](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Timing/Error\%20Timing) to reproduce Fig. 5.
+	 - Run [/Scripts/Accuracy/AccSynDS](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Accuracy/AccSynDS) and [/Scripts/Accuracy/AccRE](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Accuracy/AccRE) to reproduce Figs. 6 and 7.
+	 - Run [/Scripts/Time Scales/MMZandMM](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Time\%20Scales/MMZandMM) to reproduce Fig. 8.
+ 
+ - To reproduce the Empirical analysis - download the processed [dataset](10.25375/uct.11903442) from ZivaHub and put the two csv files into the folder `/Real Data`.
+	 - Run [/Scripts/Time Scales/Empirical](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Time\%20Scales/Empirical) to reproduce Figs. 9, C.10 and C.11.
+	 
+- We have included the plots under `/Plots` and Computed results under `/Computed Data` if one does not wish to re-run everything.
 
 ## Using the functions for other purposes:
 ### NUFFT
 
-We have included 1 Dimensional Type 1 non-uniform fast Fourier transforms, implemented using three different kernels: Gaussian, Kaiser-Bessel and exponential of semi-circle under [/NUFFT](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/NUFFT).
+We have included 1 Dimensional Type 1 non-uniform fast Fourier transforms, implemented using three different kernels: Gaussian, Kaiser-Bessel and exponential of semi-circle under [/Functions/NUFFT](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Functions/NUFFT).
+
+The functions require 4 input variables:
+- cj: vector of source strength
+- xj: vector of source points
+- M: the number of Fourier coefficients you want returned (integer)
+- tol: the precision requested
 
 #### Example
+
 ```julia
 
 include("../../NUFFT/NUFFT-FGG")
@@ -47,19 +58,42 @@ fk = NUFFTFGG(cj, xj, M, tol)
 
 ### Malliavin-Mancino estimators using non-uniform FFTs
 
+We implement Malliavin-Mancino estimators which include the [Dirichlet](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Functions/Correlation\%20Estimators/Dirichlet) basis kernel and the [Fej\'{e}r](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Functions/Correlation\%20Estimators/Fejer) basis kernel. 
 
+Implementation methods include the ``for-loop'' implementation (MS), vectorised implementation (CFT), fast Fourier transform implementation (FFT), zero-padded fast Fourier transform implementation (FFTZP) and the non-uniform fast Fourier transform (NUFFT). 
 
-### Site Navigation:
-- All the script files for the estimators are under `/Correlation Estimators` which includes:
-  - Various Dirichlet implementations under `/Correlation Estimators/Dirichlet`
-  - Various Fejer implementations under `/Correlation Estimators/Fejer`
-  - The trig implementation from MM2002 under `/Correlation Estimators/Trig`
-  - We also have the Hayashi-Yoshida implementation under `/Correlation Estimators/HY`
-  
-- The script files for the simulation of SDEs are under `/Monte Carlo Simulation Algorithms` 
-- The script files for our implementation of the Type 1 Non-Uniform Fast Fourier Transform (NUFFT) are under `/NUFFT`. These include: Naive Gaussian (NG) [GL2004] and the Fast Gaussian Gridding (FGG) [GL2004].
-- Test files are under `/Test`. These test the consistency across various implementations of the Dirichlet and Fejer estiamtors.
+The functions require 2 input variables:
+- p: (nxm) matrix of prices, with non-trade times represented as NaNs.
+- t: (nxm) corresponding matrix of trade times, with non-trade times represented as NaNs.
+and two optional input variables.
+- N: (optional input) for the number of Fourier coefficients used in the convolution of the Malliavin-Mancino estimator (integer) - defaults to the Nyquist frequency.
+- tol: tolerance requested - applies only to NUFFT implementations - defaults to $10^{-12}$.
 
-### TODO:
-- Timing
-- Code up the Kaiser-Besel kernel implementation of the NUFFT and integrate into the estimators
+Note that the zero-padded FFT implementation has no optional argument for N, and the FFT implementation takes only 1 input variable, P.
+
+#### Example
+
+```julia
+
+include("../Functions/Correlation Estimators/Dirichlet/NUFFTcorrDK-FGG")
+include("../Functions/Monte Carlo Simulation Algorithms/GBM")
+
+# Create some data
+mu = [0.01/86400, 0.01/86400]
+sigma = [0.1/86400 sqrt(0.1/86400)*0.35*sqrt(0.2/86400);
+        sqrt(0.1/86400)*0.35*sqrt(0.2/86400) 0.2/86400]
+
+P = GBM(10000, mu, sigma, seed = 10)
+t = reshape([collect(1:1:10000.0); collect(1:1:10000.0)], 10000, 2)
+
+output1 = NUFFTcorrDKFGG(P, t) # Nyquist, tol = 1e-12
+output2 = NUFFTcorrDKFGG(P, t, N = 500, tol = 10^-8) 
+
+cor1 = output1[1]
+cov1 = output1[2]
+
+cor2 = output2[1]
+cov2 = output2[2]
+
+```
+
