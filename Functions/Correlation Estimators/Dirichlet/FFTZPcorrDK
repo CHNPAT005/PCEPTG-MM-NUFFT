@@ -3,13 +3,16 @@
 # Supporting Algorithms are at the start of the script
 #  Include:
 #           - Scale function to re-scale time to [0, 2 \pi]
+#           - Zero-padding function
 # Number of Fourier Coefficients used is length of data
 
 #---------------------------------------------------------------------------
 
 ### Data Format:
-## p = [n x 2] matrix of prices, log returns are computed in the function
+## p = [n x m] matrix of prices, log returns are computed in the function
 # non-trading times are indicated by NaNs
+## t = [n x m] matrix of trading times, non-trading times are indicated by NaNs
+# dimensions of p and t must match.
 
 #---------------------------------------------------------------------------
 

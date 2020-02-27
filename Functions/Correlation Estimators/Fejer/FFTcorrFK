@@ -8,7 +8,7 @@
 #---------------------------------------------------------------------------
 
 ### Data Format:
-## p = [n x 2] matrix of prices, log returns are computed in the function
+## p = [n x m] matrix of prices, log returns are computed in the function
 # non-trading times are indicated by NaNs
 
 #---------------------------------------------------------------------------

@@ -9,8 +9,10 @@
 #---------------------------------------------------------------------------
 
 ### Data Format:
-## p1;p2 = vector of stock prices - can include or not include NaNs
-## t1;t2 = vector of trading times - can include or not include NaNs
+## p = [n x m] matrix of prices, log returns are computed in the function
+# non-trading times are indicated by NaNs
+## t = [n x m] matrix of trading times, non-trading times are indicated by NaNs
+# dimensions of p and t must match.
 ## N = Optional input for cutoff frequency
 
 #---------------------------------------------------------------------------
@@ -31,7 +33,7 @@ end
 #---------------------------------------------------------------------------
 
 # Mancino Sanfelici implementation using for loops
-# with the Dirichlet Kernel
+# with the Fejer Kernel
 
 function MScorrFK(p, t; kwargs...)
     ## Pre-allocate arrays and check Data
