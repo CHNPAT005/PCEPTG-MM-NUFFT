@@ -67,7 +67,7 @@ The functions require 2 input variables:
 - t: (nxm) corresponding matrix of trade times, with non-trade times represented as NaNs.
 and two optional input variables.
 - N: (optional input) for the number of Fourier coefficients used in the convolution of the Malliavin-Mancino estimator (integer) - defaults to the Nyquist frequency.
-- tol: tolerance requested - applies only to NUFFT implementations - defaults to $10^{-12}$.
+- tol: tolerance requested - applies only to NUFFT implementations - defaults to 10^-12.
 
 Note that the zero-padded FFT implementation has no optional argument for N, and the FFT implementation takes only 1 input variable, P.
 
@@ -86,9 +86,11 @@ sigma = [0.1/86400 sqrt(0.1/86400)*0.35*sqrt(0.2/86400);
 P = GBM(10000, mu, sigma, seed = 10)
 t = reshape([collect(1:1:10000.0); collect(1:1:10000.0)], 10000, 2)
 
+# Obtain results
 output1 = NUFFTcorrDKFGG(P, t) # Nyquist, tol = 1e-12
 output2 = NUFFTcorrDKFGG(P, t, N = 500, tol = 10^-8) 
 
+# Extract results
 cor1 = output1[1]
 cov1 = output1[2]
 
