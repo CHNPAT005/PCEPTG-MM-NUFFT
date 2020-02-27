@@ -12,9 +12,9 @@ using LinearAlgebra
 #---------------------------------------------------------------------------
 
 cd("/Users/patrickchang1/PCEPTG-MM-NUFFT")
-include("../NUFFT/NUFFT-FGG")
-include("../NUFFT/NUFFT-KB")
-include("../NUFFT/NUFFT-ES")
+include("../Functions/NUFFT/NUFFT-FGG")
+include("../Functions/NUFFT/NUFFT-KB")
+include("../Functions/NUFFT/NUFFT-ES")
 
 n = collect(-3:-1:-14)
 tol = 10.0.^n
@@ -24,12 +24,13 @@ function testErrors(n, M, tolrange, error)
 
     FGGerror = zeros(length(tol), 1)
     KBerror = zeros(length(tol), 1)
+    ESerror = zeros(length(tol), 1)
 
     nj = n
     x = (collect(0:nj-1) + 0.5 .* rand(nj))
     xj = (x .- minimum(x)) .* (2*pi / (maximum(x) - minimum(x)))
     cj = rand(nj) + 0im*rand(nj)
-    xjj = xj ./ (2*pi) .- 0.5
+    xjj = xj ./ (2*pi)
 
     M = M
     Mr = 2*M
@@ -42,9 +43,10 @@ function testErrors(n, M, tolrange, error)
     for i in 1:length(tol)
         FGG = NUFFTFGG(cj, xj, M, tol[i])
         KB = NUFFTKB(cj, xjj, M, tol[i])
-        # KB = NUFFTES(cj, xj, M, tol[i])
+        ES = NUFFTES(cj, xj, M, tol[i])
         relerrFGG = norm(FGG-ref, error) / norm(ref, error)
         relerrKB = norm(KB-ref, error) / norm(ref, error)
+        relerrES = norm(ES-ref, error) / norm(ref, error)
 
         if relerrFGG <= tol[i]
             FGGerror[i] = 1
@@ -57,17 +59,24 @@ function testErrors(n, M, tolrange, error)
         else
             KBerror[i] = 0
         end
+
+        if relerrES <= tol[i]
+            ESerror[i] = 1
+        else
+            ESerror[i] = 0
+        end
     end
 
-    if Int(sum(FGGerror))==length(tol) && Int(sum(KBerror))==length(tol)
-        return print("FGG and KB passed.")
-    elseif Int(sum(FGGerror))==length(tol) && Int(sum(KBerror))<length(tol)
-        return print("Only FGG passed.")
-    elseif Int(sum(FGGerror))<length(tol) && Int(sum(KBerror))==length(tol)
-        return print("Only KB passed.")
-    else
-        return print("Neither passed.")
+    if Int(sum(FGGerror))==length(tol) && Int(sum(KBerror))==length(tol) && Int(sum(ESerror))==length(tol)
+        print("All passed")
+    elseif Int(sum(FGGerror))<length(tol)
+        print("FGG failed")
+    elseif Int(sum(KBerror))<length(tol)
+        print("KB failed")
+    elseif Int(sum(ESerror))<length(tol)
+        print("ES failed")
     end
+
 end
 
 # l_2 error
