@@ -25,7 +25,7 @@ using ArgCheck; using LinearAlgebra; using FINUFFT
 #---------------------------------------------------------------------------
 ### Supporting functions
 
-cd("/Users/patrickchang1/PCEPTG-MM-NUFFT")
+# cd("/Users/patrickchang1/PCEPTG-MM-NUFFT")
 include("../../NUFFT/NUFFT-KB")
 
 function scale(t)

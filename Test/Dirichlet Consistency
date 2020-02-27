@@ -25,9 +25,6 @@ sigma = [0.1/86400 sqrt(0.1/86400)*0.35*sqrt(0.2/86400);
 P = GBM(10000, mu, sigma, seed = 10)
 t = reshape([collect(1:1:10000.0); collect(1:1:10000.0)], 10000, 2)
 
-P = GBM(20000, mu, sigma, seed = 10)
-t = reshape([collect(1:1:20000.0); collect(1:1:20000.0)], 20000, 2)
-
 #--------------------
 
 s1 = CFTcorrDK(P, t)
