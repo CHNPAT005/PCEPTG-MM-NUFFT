@@ -39,7 +39,7 @@ The functions require 4 input variables:
 
 ```julia
 
-include("../../NUFFT/NUFFT-FGG")
+include("Functions/NUFFT/NUFFT-FGG")
 
 # Simulate some non-uniform data
 nj = 10
@@ -58,7 +58,7 @@ fk = NUFFTFGG(cj, xj, M, tol)
 
 ### Malliavin-Mancino estimators using non-uniform FFTs
 
-We implement Malliavin-Mancino estimators which include the [Dirichlet](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Functions/Correlation\%20Estimators/Dirichlet) basis kernel and the [Fej\'{e}r](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Functions/Correlation\%20Estimators/Fejer) basis kernel. 
+We implement Malliavin-Mancino estimators which include the [Dirichlet](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Functions/Correlation\%20Estimators/Dirichlet) basis kernel and the [Fejer](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Functions/Correlation\%20Estimators/Fejer) basis kernel. 
 
 Implementation methods include the ``for-loop'' implementation (MS), vectorised implementation (CFT), fast Fourier transform implementation (FFT), zero-padded fast Fourier transform implementation (FFTZP) and the non-uniform fast Fourier transform (NUFFT). 
 
@@ -75,8 +75,8 @@ Note that the zero-padded FFT implementation has no optional argument for N, and
 
 ```julia
 
-include("../Functions/Correlation Estimators/Dirichlet/NUFFTcorrDK-FGG")
-include("../Functions/Monte Carlo Simulation Algorithms/GBM")
+include("Functions/Correlation Estimators/Dirichlet/NUFFTcorrDK-FGG")
+include("Functions/Monte Carlo Simulation Algorithms/GBM")
 
 # Create some data
 mu = [0.01/86400, 0.01/86400]
