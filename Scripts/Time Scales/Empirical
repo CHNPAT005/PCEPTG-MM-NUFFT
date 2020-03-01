@@ -142,57 +142,6 @@ title!(p4, L"\textrm{\sffamily (h) Correlation heatmap (Fej\'{e}r, } \Delta t = 
 savefig(p4, "Plots/EmpFKHM100.png")
 
 #---------------------------------------------------------------------------
-## MMZ covariance, variance and correlation functions for λ_1 ≂̸ λ_2
-
-function MMZvar(xis, lam, dt)
-    lam = 1/lam
-    num = lam^2*xis^2*(exp(-dt/xis) - 1) - (exp(-lam*dt) - 1)
-    den = lam^2*xis^2 - 1
-    return dt + xis*(num/den)
-end
-
-# function MMZcov2(c, xil, lam1, lam2, dt)
-#     lam1 = 1/lam1
-#     lam2 = 1/lam2
-#     u1 = 1 + lam1*xil
-#     v1 = -1 + lam1*xil
-#     u2 = 1 + lam2*xil
-#     v2 = -1 + lam2*xil
-#
-#     t1 = dt + 1/lam1 - 1/lam2
-#
-#     t2L = lam1*lam2*xil^3
-#     t2R = exp(-dt/xil)/(2*u1*v2) - 1/(v1*u2) + exp(-dt/xil)/(2*v1*u2)
-#     t2 = t2L*t2R
-#
-#     t3 = (2-exp(-lam1*dt)) * (lam2)/(lam1*(lam1+lam2)*u1*v1)
-#
-#     t4 = (lam1*exp(-lam2*dt)) / (lam2 *(lam1 + lam2) * u2*u2)
-#
-#     return t1 + t2 + t3 - t4
-# end
-
-function MMZcov(c, xil, lam1, lam2, dt)
-    lam1 = 1/lam1
-    lam2 = 1/lam2
-    u1 = 1 + lam1*xil
-    v1 = -1 + lam1*xil
-    u2 = 1 + lam2*xil
-    v2 = -1 + lam2*xil
-
-    t1 = (lam1*lam2*xil^3)*(exp(-dt/xil)-1)/(2*u1*v2)
-    t2 = lam2 * (exp(-lam1*dt)-1)/(lam1*(lam1+lam2)*u1*v1)
-    return c*(dt + t1 - t2)
-end
-
-function MMZrho(c, xil, xis, lam1, lam2, dt)
-    C12 = MMZcov(c, xil, lam1, lam2, dt)
-    C11 = MMZvar(xis, lam1, dt)
-    C22 = MMZvar(xis, lam2, dt)
-    return C12/(sqrt(C11) * sqrt(C22))
-end
-
-#---------------------------------------------------------------------------
 # MMZ plots 2 correlation pairs
 p1 = plot(x = dt, legend = :right, legendtitle="Asset Pair", legendfont = font("Times new roman", 7))
 title!(p1, L"\textrm{\sffamily (a) Correlation and sampling interval (Dirichlet)}")
@@ -207,43 +156,10 @@ end
 plot!(p1, dt, DKFSRSBK, label = "Measured-"*"FSR"*"/"*"SBK", color = :blue)
 plot!(p1, dt, DKFSRAGL, label = "Measured-"*"FSR"*"/"*"AGL", color = :red)
 
-function MMZ2MM_FSRSBK(param)
-    c = param[1]
-    xil = param[2]
-    xis = param[3]
-    lam1 = 13.52503 # mean sampling rate for FSR
-    lam2 = 18.93464 # mean samplping rate for SBK
-    dt = collect(1:1:100)
-    MMZ = MMZrho.(c, xil, xis, lam1, lam2, dt)
-    return norm(MMZ - DKFSRSBK)^2
-end
+lam2 = 1/13.52503
+model = 6.21e-01 .* (1 .+ (exp.(-lam2 .* dt) .- 1) ./ (lam2 .* dt))
+plot!(p1, dt, model, label ="MMZ-"*"FSR"*"/"*"SBK", line = (1, :dash))
 
-function MMZ2MM_FSRAGL(param)
-    c = param[1]
-    xil = param[2]
-    xis = param[3]
-    lam1 = 13.52503 # mean sampling rate for FSR
-    lam2 = 15.49472 # mean samplping rate for AGL
-    dt = collect(1:1:100)
-    MMZ = MMZrho.(c, xil, xis, lam1, lam2, dt)
-    return norm(MMZ - DKFSRAGL)
-end
-
-result_FSRSBK = optimize(MMZ2MM_FSRSBK, [0.6 0.1 0.01], BFGS())
-# Sol = [6.21e-01, 1.08e+01, 2.97e-06]
-
-result_FSRAGL = bboptimize(MMZ2MM_FSRAGL; SearchRange = [(-1.0, 1.0), (0.0000001, 2.0), (0.0000001, 10.0)])
-# Sol = [0.0436501, 1.13934e-7, 10.0]
-result_FSRAGL = optimize(MMZ2MM_FSRAGL, [-0.1 0.1 0.01], BFGS())
-# Sol = [-6.63e+00, 1.01e-01, -1.80e-02]
-
-sol_FSRSBK = [6.21e-01, 1.08e+01, 2.97e-06] # Solution naturally satisfies the various contraints
-plot!(p1, dt, MMZrho.(sol_FSRSBK[1], sol_FSRSBK[2], sol_FSRSBK[3], 13.52503, 18.93464, dt), label ="MMZ-"*"FSR"*"/"*"SBK", line = (1, :dash))
-
-## There is simply no sensible choice of parameters to plot the FSR/AGL.
-# sol_FSRAGL = [-6.63e+00, 1.01e-01, -1.80e-02]
-# sol_FSRAGL = [0.0502064, 0.001, 0.001]
-# plot!(p1, dt, MMZrho.(sol_FSRAGL[1], sol_FSRAGL[2], sol_FSRAGL[3], 13.52503, 15.49472, dt), label ="MMZ-"*"FSR"*"/"*"AGL", color = :red, line = (1, :dash))
 
 savefig(p1, "Plots/EmpDKMMZ2.pdf")
 
@@ -261,8 +177,98 @@ end
 plot!(p2, dt, FKFSRSBK, label = "Measured-"*"FSR"*"/"*"SBK", color = :blue)
 plot!(p2, dt, FKFSRAGL, label = "Measured-"*"FSR"*"/"*"AGL", color = :red)
 
-sol_FSRSBK = [6.21e-01, 1.08e+01, 2.97e-06] # Solution naturally satisfies the various contraints
-plot!(p2, dt, MMZrho.(sol_FSRSBK[1], sol_FSRSBK[2], sol_FSRSBK[3], 13.52503, 18.93464, dt), label ="MMZ-"*"FSR"*"/"*"SBK", line = (1, :dash))
+lam2 = 1/13.52503
+model = 6.21e-01 .* (1 .+ (exp.(-lam2 .* dt) .- 1) ./ (lam2 .* dt))
+plot!(p2, dt, model, label ="MMZ-"*"FSR"*"/"*"SBK", line = (1, :dash))
 
 
 savefig(p2, "Plots/EmpFKMMZ2.pdf")
+
+#---------------------------------------------------------------------------
+## MMZ covariance, variance and correlation functions for λ_1 ≂̸ λ_2
+
+# function MMZvar(xis, lam, dt)
+#     lam = 1/lam
+#     num = lam^2*xis^2*(exp(-dt/xis) - 1) - (exp(-lam*dt) - 1)
+#     den = lam^2*xis^2 - 1
+#     return dt + xis*(num/den)
+# end
+#
+# # function MMZcov2(c, xil, lam1, lam2, dt)
+# #     lam1 = 1/lam1
+# #     lam2 = 1/lam2
+# #     u1 = 1 + lam1*xil
+# #     v1 = -1 + lam1*xil
+# #     u2 = 1 + lam2*xil
+# #     v2 = -1 + lam2*xil
+# #
+# #     t1 = dt + 1/lam1 - 1/lam2
+# #
+# #     t2L = lam1*lam2*xil^3
+# #     t2R = exp(-dt/xil)/(2*u1*v2) - 1/(v1*u2) + exp(-dt/xil)/(2*v1*u2)
+# #     t2 = t2L*t2R
+# #
+# #     t3 = (2-exp(-lam1*dt)) * (lam2)/(lam1*(lam1+lam2)*u1*v1)
+# #
+# #     t4 = (lam1*exp(-lam2*dt)) / (lam2 *(lam1 + lam2) * u2*u2)
+# #
+# #     return t1 + t2 + t3 - t4
+# # end
+#
+# function MMZcov(c, xil, lam1, lam2, dt)
+#     lam1 = 1/lam1
+#     lam2 = 1/lam2
+#     u1 = 1 + lam1*xil
+#     v1 = -1 + lam1*xil
+#     u2 = 1 + lam2*xil
+#     v2 = -1 + lam2*xil
+#
+#     t1 = (lam1*lam2*xil^3)*(exp(-dt/xil)-1)/(2*u1*v2)
+#     t2 = lam2 * (exp(-lam1*dt)-1)/(lam1*(lam1+lam2)*u1*v1)
+#     return c*(dt + t1 - t2)
+# end
+#
+# function MMZrho(c, xil, xis, lam1, lam2, dt)
+#     C12 = MMZcov(c, xil, lam1, lam2, dt)
+#     C11 = MMZvar(xis, lam1, dt)
+#     C22 = MMZvar(xis, lam2, dt)
+#     return C12/(sqrt(C11) * sqrt(C22))
+# end
+
+
+# function MMZ2MM_FSRSBK(param)
+#     c = param[1]
+#     xil = param[2]
+#     xis = param[3]
+#     lam1 = 13.52503 # mean sampling rate for FSR
+#     lam2 = 18.93464 # mean samplping rate for SBK
+#     dt = collect(1:1:100)
+#     MMZ = MMZrho.(c, xil, xis, lam1, lam2, dt)
+#     return norm(MMZ - DKFSRSBK)^2
+# end
+#
+# function MMZ2MM_FSRAGL(param)
+#     c = param[1]
+#     xil = param[2]
+#     xis = param[3]
+#     lam1 = 13.52503 # mean sampling rate for FSR
+#     lam2 = 15.49472 # mean samplping rate for AGL
+#     dt = collect(1:1:100)
+#     MMZ = MMZrho.(c, xil, xis, lam1, lam2, dt)
+#     return norm(MMZ - DKFSRAGL)
+# end
+#
+# result_FSRSBK = optimize(MMZ2MM_FSRSBK, [0.6 0.1 0.01], BFGS())
+# # Sol = [6.21e-01, 1.08e+01, 2.97e-06]
+#
+# result_FSRAGL = bboptimize(MMZ2MM_FSRAGL; SearchRange = [(-1.0, 1.0), (0.0000001, 2.0), (0.0000001, 10.0)])
+# # Sol = [0.0436501, 1.13934e-7, 10.0]
+# result_FSRAGL = optimize(MMZ2MM_FSRAGL, [-0.1 0.1 0.01], BFGS())
+# # Sol = [-6.63e+00, 1.01e-01, -1.80e-02]
+
+# sol_FSRSBK = [6.21e-01, 1.08e+01, 2.97e-06] # Solution naturally satisfies the various contraints
+
+## There is simply no sensible choice of parameters to plot the FSR/AGL.
+# sol_FSRAGL = [-6.63e+00, 1.01e-01, -1.80e-02]
+# sol_FSRAGL = [0.0502064, 0.001, 0.001]
+# plot!(p1, dt, MMZrho.(sol_FSRAGL[1], sol_FSRAGL[2], sol_FSRAGL[3], 13.52503, 15.49472, dt), label ="MMZ-"*"FSR"*"/"*"AGL", color = :red, line = (1, :dash))
