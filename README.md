@@ -5,9 +5,11 @@
 - Etienne Pienaar
 - Tim Gebbie
 
-## Link to the paper:
+## Link to resources:
 
-Link.
+Link to paper:
+
+Link to Dataset:
 
 Cite as:
 
@@ -19,7 +21,7 @@ Cite as:
 	 - Run [/Scripts/Accuracy/AccSynDS](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Accuracy/AccSynDS) and [/Scripts/Accuracy/AccRE](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Accuracy/AccRE) to reproduce Figs. 6 and 7.
 	 - Run [/Scripts/Time Scales/MMZandMM](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Time\%20Scales/MMZandMM) to reproduce Fig. 8.
  
- - To reproduce the Empirical analysis - download the processed [dataset](10.25375/uct.11903442) from ZivaHub and put the two csv files into the folder `/Real Data`.
+ - To reproduce the Empirical analysis - download the processed dataset from ZivaHub and put the two csv files into the folder `/Real Data`.
 	 - Run [/Scripts/Time Scales/Empirical](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Time\%20Scales/Empirical) to reproduce Figs. 9, C.10 and C.11.
 	 
 - We have included the plots under `/Plots` and Computed results under `/Computed Data` if one does not wish to re-run everything.
@@ -58,7 +60,7 @@ fk = NUFFTFGG(cj, xj, M, tol)
 
 ### Malliavin-Mancino estimators using non-uniform FFTs
 
-We implement Malliavin-Mancino estimators which include the [Dirichlet](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Functions/Correlation\%20Estimators/Dirichlet) basis kernel and the [Fejer](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Functions/Correlation\%20Estimators/Fejer) basis kernel. 
+We implement Malliavin-Mancino estimators which include the [/Functions/Correlation Estimators/Dirichlet](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Functions/Correlation\%20Estimators/Dirichlet) basis kernel and the [/Functions/Correlation Estimators/Fejer](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Functions/Correlation\%20Estimators/Fejer) basis kernel. 
 
 Implementation methods include the ``for-loop'' implementation (MS), vectorised implementation (CFT), fast Fourier transform implementation (FFT), zero-padded fast Fourier transform implementation (FFTZP) and the non-uniform fast Fourier transform (NUFFT). 
 
