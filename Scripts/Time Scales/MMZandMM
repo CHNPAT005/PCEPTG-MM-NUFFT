@@ -88,12 +88,12 @@ save("Computed Data/TimeScale/lam1h5.jld", "lam1h5", lam1h5)
 lam1h5 = load("Computed Data/TimeScale/lam1h5.jld")
 lam1h5 = lam1h5["lam1h5"]
 
-q = quantile.(TDist(reps-1), [0.975])#/sqrt(reps-1)
+q = quantile.(TDist(reps-1), [0.84])
 erD = q .* std(lam1h5[1], dims = 1)
 erF = q .* std(lam1h5[2], dims = 1)
 
 p1 = plot(dt, mean(lam1h5[1], dims = 1)', ribbon=erD', fillalpha=.1, label = L"\textrm{MM Dirichlet}", legend = :bottomright, legendtitle="Method",
-    color = :blue)
+    color = :blue, dpi = 300, ylims = (-0.1, 0.7))
 plot!(p1, dt, mean(lam1h5[2], dims = 1)', ribbon=erF', fillalpha=.1, label = L"\textrm{MM Fej\'{e}r}", color = :red)
 plot!(p1, dt, lam1h5[3], label = L"\textrm{MMZ}", line = (2, :dash))
 title!(p1, L"\textrm{\sffamily (a) Correlation and sampling interval (} \lambda=1/5\textrm{\sffamily , T = 3600)}")
@@ -111,11 +111,11 @@ save("Computed Data/TimeScale/lam1h20.jld", "lam1h20", lam1h20)
 lam1h20 = load("Computed Data/TimeScale/lam1h20.jld")
 lam1h20 = lam1h20["lam1h20"]
 
-q = quantile.(TDist(reps-1), [0.975])#/sqrt(reps-1)
+q = quantile.(TDist(reps-1), [0.84])
 erD = q .* std(lam1h20[1], dims = 1)
 erF = q .* std(lam1h20[2], dims = 1)
 p1 = plot(dt, mean(lam1h20[1], dims = 1)', ribbon=erD', fillalpha=.1, label = L"\textrm{MM Dirichlet}", legend = :bottomright, legendtitle="Method",
-    color = :blue)
+    color = :blue, dpi = 300, ylims = (-0.1, 0.7))
 plot!(p1, dt, mean(lam1h20[2], dims = 1)', ribbon=erF', fillalpha=.1, label = L"\textrm{MM Fej\'{e}r}", color = :red)
 plot!(p1, dt, lam1h20[3], label = L"\textrm{MMZ}", line = (2, :dash))
 title!(p1, L"\textrm{\sffamily (b) Correlation and sampling interval (} \lambda=1/20 \textrm{\sffamily , T = 3600)}")
@@ -136,12 +136,12 @@ save("Computed Data/TimeScale/lam1d5.jld", "lam1d5", lam1d5)
 lam1d5 = load("Computed Data/TimeScale/lam1d5.jld")
 lam1d5 = lam1d5["lam1d5"]
 
-q = quantile.(TDist(reps-1), [0.975])#/sqrt(reps-1)
+q = quantile.(TDist(reps-1), [0.84])
 erD = q .* std(lam1d5[1], dims = 1)
 erF = q .* std(lam1d5[2], dims = 1)
 
 p1 = plot(dt, mean(lam1d5[1], dims = 1)', ribbon=erD', fillalpha=.1, label = L"\textrm{MM Dirichlet}", legend = :bottomright, legendtitle="Method",
-    color = :blue)
+    color = :blue, dpi = 300, ylims = (-0.1, 0.7))
 plot!(p1, dt, mean(lam1d5[2], dims = 1)', ribbon=erF', fillalpha=.1, label = L"\textrm{MM Fej\'{e}r}", color = :red)
 plot!(p1, dt, lam1d5[3], label = L"\textrm{MMZ}", line = (2, :dash))
 title!(p1, L"\textrm{\sffamily (c) Correlation and sampling interval (} \lambda=1/5\textrm{\sffamily , T = 28800)}")
@@ -159,11 +159,11 @@ save("Computed Data/TimeScale/lam1d20.jld", "lam1d20", lam1d20)
 lam1d20 = load("Computed Data/TimeScale/lam1d20.jld")
 lam1d20 = lam1d20["lam1d20"]
 
-q = quantile.(TDist(reps-1), [0.975])#/sqrt(reps-1)
+q = quantile.(TDist(reps-1), [0.84])
 erD = q .* std(lam1d20[1], dims = 1)
 erF = q .* std(lam1d20[2], dims = 1)
 p1 = plot(dt, mean(lam1d20[1], dims = 1)', ribbon=erD', fillalpha=.1, label = L"\textrm{MM Dirichlet}", legend = :bottomright, legendtitle="Method",
-    color = :blue)
+    color = :blue, dpi = 300, ylims = (-0.1, 0.7))
 plot!(p1, dt, mean(lam1d20[2], dims = 1)', ribbon=erF', fillalpha=.1, label = L"\textrm{MM Fej\'{e}r}", color = :red)
 plot!(p1, dt, lam1d20[3], label = L"\textrm{MMZ}", line = (2, :dash))
 title!(p1, L"\textrm{\sffamily (d) Correlation and sampling interval (} \lambda=1/20 \textrm{\sffamily , T = 28800)}")
@@ -184,12 +184,12 @@ save("Computed Data/TimeScale/lam1w5.jld", "lam1w5", lam1w5)
 lam1w5 = load("Computed Data/TimeScale/lam1w5.jld")
 lam1w5 = lam1w5["lam1w5"]
 
-q = quantile.(TDist(reps-1), [0.975])#/sqrt(reps-1)
+q = quantile.(TDist(reps-1), [0.84])
 erD = q .* std(lam1w5[1], dims = 1)
 erF = q .* std(lam1w5[2], dims = 1)
 
 p1 = plot(dt, mean(lam1w5[1], dims = 1)', ribbon=erD', fillalpha=.1, label = L"\textrm{MM Dirichlet}", legend = :bottomright, legendtitle="Method",
-    color = :blue)
+    color = :blue, dpi = 300, ylims = (-0.1, 0.7))
 plot!(p1, dt, mean(lam1w5[2], dims = 1)', ribbon=erF', fillalpha=.1, label = L"\textrm{MM Fej\'{e}r}", color = :red)
 plot!(p1, dt, lam1w5[3], label = L"\textrm{MMZ}", line = (2, :dash))
 title!(p1, L"\textrm{\sffamily (e) Correlation and sampling interval (} \lambda=1/5\textrm{\sffamily , T = 144000)}")
@@ -207,11 +207,11 @@ save("Computed Data/TimeScale/lam1w20.jld", "lam1w20", lam1w20)
 lam1w20 = load("Computed Data/TimeScale/lam1w20.jld")
 lam1w20 = lam1w20["lam1w20"]
 
-q = quantile.(TDist(reps-1), [0.975])#/sqrt(reps-1)
+q = quantile.(TDist(reps-1), [0.84])
 erD = q .* std(lam1w20[1], dims = 1)
 erF = q .* std(lam1w20[2], dims = 1)
 p1 = plot(dt, mean(lam1w20[1], dims = 1)', ribbon=erD', fillalpha=.1, label = L"\textrm{MM Dirichlet}", legend = :bottomright, legendtitle="Method",
-    color = :blue)
+    color = :blue, dpi = 300, ylims = (-0.1, 0.7))
 plot!(p1, dt, mean(lam1w20[2], dims = 1)', ribbon=erF', fillalpha=.1, label = L"\textrm{MM Fej\'{e}r}", color = :red)
 plot!(p1, dt, lam1w20[3], label = L"\textrm{MMZ}", line = (2, :dash))
 title!(p1, L"\textrm{\sffamily (f) Correlation and sampling interval (} \lambda=1/20 \textrm{\sffamily , T = 144000)}")

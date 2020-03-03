@@ -296,11 +296,11 @@ styles = reshape(styles, 1, length(styles))
 # Dirichlet
 p1 = plot(n1, log.(minimum(FGGtimesDK, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topleft, line=(2, :dash),
+  legend=:topright, line=(2, :dash),
    xticks = (n1, xticklabel))
 plot!(p1, [-3; n2],
     log.([minimum(KBtimesDK, dims=1); minimum(FINUFFTtimesDK, dims=1)]'),
-    label = ["KB" "FINUFFT"], line=(2, styles))
+    label = ["KB" "FINUFFT"], line=(2, styles), dpi = 300, ylims = (-4, 5))
 hline!(p1, log.([minimum(FFTtimesDK)]), label = "FFT", line=(2, [:solid]))
 hline!(p1, log.([minimum(FFTZPtimesDK)]), label = "ZFFT", line=(2, [:solid]))
 plot!(p1, [-3; n2], log.(minimum(EStimesDK, dims=1)'), label = "ES", line=(2, :dash), color = :red)
@@ -314,11 +314,11 @@ savefig(p1, "Plots/ErrorTimesDK2.pdf")
 # Fejer
 p2 = plot(n1, log.(minimum(FGGtimesFK, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topleft, line=(2, :dash),
+  legend=:topright, line=(2, :dash),
    xticks = (n1, xticklabel))
 plot!(p2, [-3; n2],
  log.([minimum(KBtimesFK, dims=1); minimum(FINUFFTtimesFK, dims=1)]'),
- label = ["KB" "FINUFFT"], line=(2, styles))
+ label = ["KB" "FINUFFT"], line=(2, styles), dpi = 300, ylims = (-4, 5))
 hline!(p2, log.([minimum(FFTtimesFK)]), label = "FFT", line=(2, [:solid]))
 hline!(p2, log.([minimum(FFTZPtimesFK)]), label = "ZFFT", line=(2, [:solid]))
 plot!(p2, [-3; n2], log.(minimum(EStimesFK, dims=1)'), label = "ES", line=(2, :dash), color = :red)
@@ -445,8 +445,8 @@ styles = reshape(styles, 1, length(styles))
 # Dirichlet
 p1 = plot(n1, log.(minimum(FGGtimesDK10, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topleft, line=(2, :dash),
-   xticks = (n1, xticklabel))
+  legend=:topright, line=(2, :dash),
+   xticks = (n1, xticklabel), dpi = 300, ylims = (-4, 5))
 plot!(p1, [-3; n2],
     log.([minimum(KBtimesDK10, dims=1); minimum(FINUFFTtimesDK10, dims=1)]'),
     label = ["KB" "FINUFFT"], line=(2, styles))
@@ -462,8 +462,8 @@ savefig(p1, "Plots/ErrorTimesDK10.pdf")
 # Fejer
 p2 = plot(n1, log.(minimum(FGGtimesFK10, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topleft, line=(2, :dash),
-   xticks = (n1, xticklabel))
+  legend=:topright, line=(2, :dash),
+   xticks = (n1, xticklabel), dpi = 300, ylims = (-4, 5))
 plot!(p2, [-3; n2],
  log.([minimum(KBtimesFK10, dims=1); minimum(FINUFFTtimesFK10, dims=1)]'),
  label = ["KB" "FINUFFT"], line=(2, styles))
@@ -592,8 +592,8 @@ styles = reshape(styles, 1, length(styles))
 # Dirichlet
 p1 = plot(n1, log.(minimum(FGGtimesDK100, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topleft, line=(2, :dash),
-   xticks = (n1, xticklabel))
+  legend=:bottomright, line=(2, :dash),
+   xticks = (n1, xticklabel), dpi = 300, ylims = (-4, 5))
 plot!(p1, [-3; n2],
     log.([minimum(KBtimesDK100, dims=1); minimum(FINUFFTtimesDK100, dims=1)]'),
     label = ["KB" "FINUFFT"], line=(2, styles))
@@ -609,8 +609,8 @@ savefig(p1, "Plots/ErrorTimesDK100.pdf")
 # Fejer
 p2 = plot(n1, log.(minimum(FGGtimesFK100, dims=1)'),
  label = "FGG", legendtitle="Method",
-  legend=:topleft, line=(2, :dash),
-   xticks = (n1, xticklabel))
+  legend=:bottomright, line=(2, :dash),
+   xticks = (n1, xticklabel), dpi = 300, ylims = (-4, 5))
 plot!(p2, [-3; n2],
  log.([minimum(KBtimesFK100, dims=1); minimum(FINUFFTtimesFK100, dims=1)]'),
  label = ["KB" "FINUFFT"], line=(2, styles))
