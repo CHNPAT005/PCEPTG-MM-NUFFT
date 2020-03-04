@@ -108,12 +108,12 @@ res = load("Computed Data/TimeScale/3Asset1.jld")
 res = res["res"]
 
 
-p1 = plot(dt, mean(res[1], dims = 1)', ribbon = std(res[1], dims = 1)' * quantile.(TDist(reps-1), [0.975]),
+p1 = plot(dt, mean(res[1], dims = 1)', ribbon = std(res[1], dims = 1)' * quantile.(TDist(reps-1), [0.84]),
         fillalpha=.1, label = L"\rho = -0.5", legend = :bottomright, legendtitle="Induced",
         dpi = 300, ylims = (-0.7, 0.8))
-plot!(p1, dt, mean(res[3], dims = 1)', ribbon=std(res[3], dims = 1)' * quantile.(TDist(reps-1), [0.975]),
+plot!(p1, dt, mean(res[3], dims = 1)', ribbon=std(res[3], dims = 1)' * quantile.(TDist(reps-1), [0.84]),
         fillalpha=.1, label = L"\rho = 0.7", color = :red)
-plot!(p1, dt, mean(res[5], dims = 1)', ribbon=std(res[5], dims = 1)' * quantile.(TDist(reps-1), [0.975]),
+plot!(p1, dt, mean(res[5], dims = 1)', ribbon=std(res[5], dims = 1)' * quantile.(TDist(reps-1), [0.84]),
         fillalpha=.1, label = L"\rho = 0.01", color = :green)
 title!(p1, L"\textrm{\sffamily (a) Corr and sampling interval (} \lambda=1/5 \textrm{\sffamily , T = 28800, Dir.)}")
 ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
@@ -154,12 +154,12 @@ save("Computed Data/TimeScale/3Asset2.jld", "res2", res2)
 res = load("Computed Data/TimeScale/3Asset2.jld")
 res = res["res2"]
 
-p1 = plot(dt, mean(res[1], dims = 1)', ribbon = std(res[1], dims = 1)' * quantile.(TDist(reps-1), [0.975]),
+p1 = plot(dt, mean(res[1], dims = 1)', ribbon = std(res[1], dims = 1)' * quantile.(TDist(reps-1), [0.84]),
         fillalpha=.1, label = L"\rho = 0.5", legend = :bottomright, legendtitle="Induced",
         dpi = 300, ylims = (-0.7, 0.8))
-plot!(p1, dt, mean(res[3], dims = 1)', ribbon=std(res[3], dims = 1)' * quantile.(TDist(reps-1), [0.975]),
+plot!(p1, dt, mean(res[3], dims = 1)', ribbon=std(res[3], dims = 1)' * quantile.(TDist(reps-1), [0.84]),
         fillalpha=.1, label = L"\rho = 0.7", color = :red)
-plot!(p1, dt, mean(res[5], dims = 1)', ribbon=std(res[5], dims = 1)' * quantile.(TDist(reps-1), [0.975]),
+plot!(p1, dt, mean(res[5], dims = 1)', ribbon=std(res[5], dims = 1)' * quantile.(TDist(reps-1), [0.84]),
         fillalpha=.1, label = L"\rho = 0.01", color = :green)
 title!(p1, L"\textrm{\sffamily (b) Corr and sampling interval (} \lambda=1/5 \textrm{\sffamily , T = 28800, Dir.)}")
 ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
