@@ -20,9 +20,10 @@ Cite as:
 	 Run [/Scripts/Timing/Error Timing](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Timing/Error\%20Timing) to reproduce Fig. 5.
 	 - Run [/Scripts/Accuracy/AccSynDS](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Accuracy/AccSynDS) and [/Scripts/Accuracy/AccRE](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Accuracy/AccRE) to reproduce Figs. 6 and 7.
 	 - Run [/Scripts/Time Scales/MMZandMM](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Time\%20Scales/MMZandMM) to reproduce Fig. 8.
+	 - Run [/Scripts/Time Scales/3Asset](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Time\%20Scales/3Asset) to reproduce Fig. C.12.
  
  - To reproduce the Empirical analysis - download the processed dataset from ZivaHub and put the two csv files into the folder `/Real Data`.
-	 - Run [/Scripts/Time Scales/Empirical](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Time\%20Scales/Empirical) to reproduce Figs. 9, C.10 and C.11.
+	 - Run [/Scripts/Time Scales/Empirical](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/blob/master/Scripts/Time\%20Scales/Empirical) to reproduce Figs. 9, B.10 and B.11.
 	 
 - We have included the plots under `/Plots` and Computed results under `/Computed Data` if one does not wish to re-run everything.
 
