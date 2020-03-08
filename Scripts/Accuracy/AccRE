@@ -169,7 +169,7 @@ col = reshape([:blue, :orange, :red, :green], 1, 4)
 # Dirichlet
 p1 = plot(n1, [mean(FGGaccDKRENyq .- CFTaccDKRENyq, dims = 2) mean(KBaccDKRENyq .- CFTaccDKRENyq, dims = 2) mean(ESaccDKRENyq .- CFTaccDKRENyq, dims = 2) mean(FINUFFTaccDKRENyq .- CFTaccDKRENyq, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)", formatter = :plain,
-  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel))#, ylims = (0.0, 1.0))
+  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel), dpi = 300)#, ylims = (0.0, 1.0))
 hline!(p1, [mean(ZFFTaccDKRENyq .- CFTaccDKRENyq)], label = "ZFFT", line=(2, [:dashdotdot]), color = :purple)
 title!(p1, L"\textrm{\sffamily (e) Accuracy and tolerance (Dir., Rand. Exp., Nyq.)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
@@ -182,7 +182,7 @@ savefig(p1, "Plots/AccREDKNyq.pdf")
 # Fejer
 p1 = plot(n1, [mean(FGGaccFKRENyq .- CFTaccFKRENyq, dims = 2) mean(KBaccFKRENyq .- CFTaccFKRENyq, dims = 2) mean(ESaccFKRENyq .- CFTaccFKRENyq, dims = 2) mean(FINUFFTaccFKRENyq .- CFTaccFKRENyq, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)", formatter = :plain,
-  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel))#, ylims = (0.0, 1.0))
+  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel), dpi = 300)#, ylims = (0.0, 1.0))
 hline!(p1, [mean(ZFFTaccFKRENyq .- CFTaccFKRENyq)], label = "ZFFT", line=(2, [:dashdotdot]), color = :purple)
 title!(p1, L"\textrm{\sffamily (f) Accuracy and tolerance (Fej., Rand. Exp., Nyq.)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
@@ -355,7 +355,7 @@ col = reshape([:blue, :orange, :red, :green], 1, 4)
 # Dirichlet
 p1 = plot(n1, [mean(FGGaccDKRENH .- CFTaccDKRENH, dims = 2) mean(KBaccDKRENH .- CFTaccDKRENH, dims = 2) mean(ESaccDKRENH .- CFTaccDKRENH, dims = 2) mean(FINUFFTaccDKRENH .- CFTaccDKRENH, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)", formatter = :plain,
-  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel))#, ylims = (0.0, 1.0))
+  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel), dpi = 300)#, ylims = (0.0, 1.0))
 # hline!(p1, [mean(ZFFTaccDKRENyq .- CFTaccDKRENyq)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p1, L"\textrm{\sffamily (a) Accuracy and tolerance (Dir., Rand. Exp., N = 18021)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
@@ -368,7 +368,7 @@ savefig(p1, "Plots/AccREDKNH.pdf")
 # Fejer
 p1 = plot(n1, [mean(FGGaccFKRENH .- CFTaccFKRENH, dims = 2) mean(KBaccFKRENH .- CFTaccFKRENH, dims = 2) mean(ESaccFKRENH .- CFTaccFKRENH, dims = 2) mean(FINUFFTaccFKRENH .- CFTaccFKRENH, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)", formatter = :plain,
-  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel))#, ylims = (0.0, 1.0))
+  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel), dpi = 300)#, ylims = (0.0, 1.0))
 # hline!(p1, [mean(ZFFTaccFKRENyq .- CFTaccFKRENyq)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p1, L"\textrm{\sffamily (b) Accuracy and tolerance (Fej., Rand. Exp., N = 18021)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
@@ -511,7 +511,7 @@ col = reshape([:blue, :orange, :red, :green], 1, 4)
 # Dirichlet
 p1 = plot(n1, [mean(FGGaccDKRENA .- CFTaccDKRENA, dims = 2) mean(KBaccDKRENA .- CFTaccDKRENA, dims = 2) mean(ESaccDKRENA .- CFTaccDKRENA, dims = 2) mean(FINUFFTaccDKRENA .- CFTaccDKRENA, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)", formatter = :plain,
-  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel))#, ylims = (0.0, 1.0))
+  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel), dpi = 300)#, ylims = (0.0, 1.0))
 # hline!(p1, [mean(ZFFTaccDKRENyq .- CFTaccDKRENyq)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p1, L"\textrm{\sffamily (c) Accuracy and tolerance (Dir., Rand. Exp., N = 166)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
@@ -524,7 +524,7 @@ savefig(p1, "Plots/AccREDKNA.pdf")
 # Fejer
 p1 = plot(n1, [mean(FGGaccFKRENA .- CFTaccFKRENA, dims = 2) mean(KBaccFKRENA .- CFTaccFKRENA, dims = 2) mean(ESaccFKRENA .- CFTaccFKRENA, dims = 2) mean(FINUFFTaccFKRENA .- CFTaccFKRENA, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)", formatter = :plain,
-  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel))#, ylims = (0.0, 1.0))
+  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel), dpi = 300)#, ylims = (0.0, 1.0))
 # hline!(p1, [mean(ZFFTaccFKRENyq .- CFTaccFKRENyq)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p1, L"\textrm{\sffamily (d) Accuracy and tolerance (Fej., Rand. Exp., N = 166)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
@@ -667,7 +667,7 @@ col = reshape([:blue, :orange, :red, :green], 1, 4)
 # Dirichlet
 p1 = plot(n1, [mean(FGGaccDKRENL .- CFTaccDKRENL, dims = 2) mean(KBaccDKRENL .- CFTaccDKRENL, dims = 2) mean(ESaccDKRENL .- CFTaccDKRENL, dims = 2) mean(FINUFFTaccDKRENL .- CFTaccDKRENL, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)", formatter = :plain,
-  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel))#, ylims = (0.0, 1.0))
+  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel), dpi = 300)#, ylims = (0.0, 1.0))
 # hline!(p1, [mean(ZFFTaccDKRENyq .- CFTaccDKRENyq)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p1, L"\textrm{\sffamily (e) Accuracy and tolerance (Dir., Rand. Exp., N = 15)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
@@ -680,7 +680,7 @@ savefig(p1, "Plots/AccREDKNL.pdf")
 # Fejer
 p1 = plot(n1, [mean(FGGaccFKRENL .- CFTaccFKRENL, dims = 2) mean(KBaccFKRENL .- CFTaccFKRENL, dims = 2) mean(ESaccFKRENL .- CFTaccFKRENL, dims = 2) mean(FINUFFTaccFKRENL .- CFTaccFKRENL, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)", formatter = :plain,
-  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel))#, ylims = (0.0, 1.0))
+  legend=:topleft, line=(2, styles), color = col, xticks = (n1, xticklabel), dpi = 300)#, ylims = (0.0, 1.0))
 # hline!(p1, [mean(ZFFTaccFKRENyq .- CFTaccFKRENyq)], label = "ZFFT", line=(2, [:dashdotdot]))
 title!(p1, L"\textrm{\sffamily (f) Accuracy and tolerance (Fej., Rand. Exp., N = 15)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")

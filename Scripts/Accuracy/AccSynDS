@@ -107,7 +107,7 @@ col = reshape([:blue, :orange, :red, :green], 1, 4)
 p1 = plot(n1, [mean(FGGaccDKSyn .- CFTaccDKSyn, dims = 2) mean(KBaccDKSyn .- CFTaccDKSyn, dims = 2) mean(ESaccDKSyn .- CFTaccDKSyn, dims = 2) mean(FINUFFTaccDKSyn .- CFTaccDKSyn, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)",
   legend=:topleft, line=(2, styles), color = col,# fillalpha=.2,
-   xticks = (n1, xticklabel), formatter = :plain)
+   xticks = (n1, xticklabel), formatter = :plain, dpi = 300)
 hline!(p1, [mean(ZFFTaccDKSyn .- CFTaccDKSyn)], label = "ZFFT", line=(2, [:dashdotdot]), color = :purple)
 title!(p1, L"\textrm{\sffamily (a) Accuracy and tolerance (Dirichlet, Synchronous)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
@@ -197,7 +197,7 @@ col = reshape([:blue, :orange, :red, :green], 1, 4)
 p1 = plot(n1, [mean(FGGaccDKDS .- CFTaccDKDS, dims = 2) mean(KBaccDKDS .- CFTaccDKDS, dims = 2) mean(ESaccDKDS .- CFTaccDKDS, dims = 2) mean(FINUFFTaccDKDS .- CFTaccDKDS, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)",
   legend=:topleft, line=(2, styles), color = col,# fillalpha=.2,
-   xticks = (n1, xticklabel))
+   xticks = (n1, xticklabel), dpi = 300)
 hline!(p1, [mean(ZFFTaccDKDS .- CFTaccDKDS)], label = "ZFFT", line=(2, [:dashdotdot]), color = :purple)
 title!(p1, L"\textrm{\sffamily (c) Accuracy and tolerance (Dirichlet, Down-Sampled 40\%)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
@@ -289,7 +289,7 @@ col = reshape([:blue, :orange, :red, :green], 1, 4)
 p1 = plot(n1, [mean(FGGaccFKSyn .- CFTaccFKSyn, dims = 2) mean(KBaccFKSyn .- CFTaccFKSyn, dims = 2) mean(ESaccFKSyn .- CFTaccFKSyn, dims = 2) mean(FINUFFTaccFKSyn .- CFTaccFKSyn, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)",
   legend=:topleft, line=(2, styles), color = col,
-   xticks = (n1, xticklabel), formatter = :plain)
+   xticks = (n1, xticklabel), formatter = :plain, dpi = 300)
 hline!(p1, [mean(ZFFTaccFKSyn .- CFTaccFKSyn)], label = "ZFFT", line=(2, [:dashdotdot]), color = :purple)
 title!(p1, L"\textrm{\sffamily (b) Accuracy and tolerance (Fej\'{e}r, Synchronous)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
@@ -379,7 +379,7 @@ col = reshape([:blue, :orange, :red, :green], 1, 4)
 p1 = plot(n1, [mean(FGGaccFKDS .- CFTaccFKDS, dims = 2) mean(KBaccFKDS .- CFTaccFKDS, dims = 2) mean(ESaccFKDS .- CFTaccFKDS, dims = 2) mean(FINUFFTaccFKDS .- CFTaccFKDS, dims = 2)],
  label = ["FGG" "KB" "ES" "FINUFFT"], legendtitle=L"\textrm{Method} (*)",
   legend=:topleft, line=(2, styles), color = col,# fillalpha=.2,
-   xticks = (n1, xticklabel))
+   xticks = (n1, xticklabel), dpi = 300)
 hline!(p1, [mean(ZFFTaccFKDS .- CFTaccFKDS)], label = "ZFFT", line=(2, [:dashdotdot]), color = :purple)
 title!(p1, L"\textrm{\sffamily (d) Accuracy and tolerance (Fej\'{e}r, Down-Sampled 40\%)}")
 ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
