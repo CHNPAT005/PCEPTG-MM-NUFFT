@@ -9,9 +9,7 @@
 
 Link to paper:
 
-Link to Dataset:
-
-Cite as:
+DOI for the Dataset: 10.25375/uct.11903442
 
 ## Steps for Replication:
 - Change directories for all the files under [/Scripts](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Scripts). Currently the directories are set as: `cd("/Users/patrickchang1/PCEPTG-MM-NUFFT")`. Change this to where you have stored the file `PCEPTG-MM-NUFFT`. 
