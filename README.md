@@ -9,7 +9,7 @@
 
 Link to paper:
 
-Link to the Dataset: [Link]{https://zivahub.uct.ac.za/articles/Malliavin-Mancino_estimators_implemented_with_the_non-uniform_fast_Fourier_transform_Dataset/11903442}
+Link to the Dataset: [Link](https://zivahub.uct.ac.za/articles/Malliavin-Mancino_estimators_implemented_with_the_non-uniform_fast_Fourier_transform_Dataset/11903442)
 
 ## Steps for Replication:
 - Change directories for all the files under [/Scripts](https://github.com/CHNPAT005/PCEPTG-MM-NUFFT/tree/master/Scripts). Currently the directories are set as: `cd("/Users/patrickchang1/PCEPTG-MM-NUFFT")`. Change this to where you have stored the file `PCEPTG-MM-NUFFT`. 
