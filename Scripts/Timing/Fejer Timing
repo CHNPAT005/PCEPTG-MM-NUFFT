@@ -145,6 +145,8 @@ title!(p1, L"\textrm{\sffamily (b) Compute time and data-size (Fej\'{e}r, 2-Asse
 ylabel!(p1, "Time ln(s)")
 xlabel!(p1, "Data Points n \n Cutoff N = n/2")
 
+savefig(p1, "Plots/100DPI/ONFK2Assets.png")
+savefig(p1, "Plots/300DPI/ONFK2Assets.png")
 savefig(p1, "Plots/ONFK2Assets.pdf")
 
 
@@ -206,6 +208,8 @@ title!(p1, L"\textrm{\sffamily (d) Compute time and data-size (Fej\'{e}r, 10-Ass
 ylabel!(p1, "Time ln(s)")
 xlabel!(p1, "Data Points n \n Cutoff N = n/2")
 
+savefig(p1, "Plots/100DPI/ONFK10Assets.png")
+savefig(p1, "Plots/300DPI/ONFK10Assets.png")
 savefig(p1, "Plots/ONFK10Assets.pdf")
 
 #---------------------------------------------------------------------------
@@ -266,4 +270,6 @@ title!(p1, L"\textrm{\sffamily (f) Compute time and data-size (Fej\'{e}r, 100-As
 ylabel!(p1, "Time ln(s)")
 xlabel!(p1, "Data Points n \n Cutoff N = n/2")
 
+savefig(p1, "Plots/100DPI/ONFK100Assets.png")
+savefig(p1, "Plots/300DPI/ONFK100Assets.png")
 savefig(p1, "Plots/ONFK100Assets.pdf")

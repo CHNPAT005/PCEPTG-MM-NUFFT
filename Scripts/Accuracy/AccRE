@@ -177,6 +177,8 @@ xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 plot(p1, annotations=(-13, -0.00004, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccDKRENyq), digits = 4))\$"), :left)))
 
 
+savefig(p1, "Plots/100DPI/AccREDKNyq.png")
+savefig(p1, "Plots/300DPI/AccREDKNyq.png")
 savefig(p1, "Plots/AccREDKNyq.pdf")
 
 # Fejer
@@ -190,6 +192,8 @@ xlabel!(p1, L"\textrm{Tolerance } \epsilon ")
 plot(p1, annotations=(-13, -0.00002, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccDKRENyq), digits = 4))\$"), :left)))
 
 
+savefig(p1, "Plots/100DPI/AccREFKNyq.png")
+savefig(p1, "Plots/300DPI/AccREFKNyq.png")
 savefig(p1, "Plots/AccREFKNyq.pdf")
 
 
@@ -363,6 +367,8 @@ xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 plot(p1, annotations=(-13, -0.0000045, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccDKRENH), digits = 4))\$"), :left)))
 
 
+savefig(p1, "Plots/100DPI/AccREDKNH.png")
+savefig(p1, "Plots/300DPI/AccREDKNH.png")
 savefig(p1, "Plots/AccREDKNH.pdf")
 
 # Fejer
@@ -376,6 +382,8 @@ xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 plot(p1, annotations=(-13, -0.00001, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccFKRENH), digits = 4))\$"), :left)))
 
 
+savefig(p1, "Plots/100DPI/AccREFKNH.png")
+savefig(p1, "Plots/300DPI/AccREFKNH.png")
 savefig(p1, "Plots/AccREFKNH.pdf")
 
 
@@ -519,6 +527,8 @@ xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 plot(p1, annotations=(-13, -0.00125, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccDKRENA), digits = 4))\$"), :left)))
 
 
+savefig(p1, "Plots/100DPI/AccREDKNA.png")
+savefig(p1, "Plots/300DPI/AccREDKNA.png")
 savefig(p1, "Plots/AccREDKNA.pdf")
 
 # Fejer
@@ -532,6 +542,8 @@ xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 plot(p1, annotations=(-13, -0.001, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccFKRENA), digits = 4))\$"), :left)))
 
 
+savefig(p1, "Plots/100DPI/AccREFKNA.png")
+savefig(p1, "Plots/300DPI/AccREFKNA.png")
 savefig(p1, "Plots/AccREFKNA.pdf")
 
 
@@ -675,6 +687,8 @@ xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 plot(p1, annotations=(-13, -0.0015, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccDKRENL), digits = 4))\$"), :left)))
 
 
+savefig(p1, "Plots/100DPI/AccREDKNL.png")
+savefig(p1, "Plots/300DPI/AccREDKNL.png")
 savefig(p1, "Plots/AccREDKNL.pdf")
 
 # Fejer
@@ -688,4 +702,6 @@ xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 plot(p1, annotations=(-13, -0.00065, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccFKRENL), digits = 4))\$"), :left)))
 
 
+savefig(p1, "Plots/100DPI/AccREFKNL.png")
+savefig(p1, "Plots/300DPI/AccREFKNL.png")
 savefig(p1, "Plots/AccREFKNL.pdf")

@@ -101,6 +101,8 @@ ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
 
+savefig(p1, "Plots/100DPI/AveScaleLam5_1h.png")
+savefig(p1, "Plots/300DPI/AveScaleLam5_1h.png")
 savefig(p1, "Plots/AveScaleLam5_1h.pdf")
 
 # lam = 20
@@ -122,6 +124,8 @@ title!(p1, L"\textrm{\sffamily (b) Correlation and sampling interval (} \lambda=
 ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
+savefig(p1, "Plots/100DPI/AveScaleLam20_1h.png")
+savefig(p1, "Plots/300DPI/AveScaleLam20_1h.png")
 savefig(p1, "Plots/AveScaleLam20_1h.pdf")
 
 
@@ -149,6 +153,8 @@ ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
 
+savefig(p1, "Plots/100DPI/AveScaleLam5_1d.png")
+savefig(p1, "Plots/300DPI/AveScaleLam5_1d.png")
 savefig(p1, "Plots/AveScaleLam5_1d.pdf")
 
 # lam = 20
@@ -170,6 +176,8 @@ title!(p1, L"\textrm{\sffamily (d) Correlation and sampling interval (} \lambda=
 ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
+savefig(p1, "Plots/100DPI/AveScaleLam20_1d.png")
+savefig(p1, "Plots/300DPI/AveScaleLam20_1d.png")
 savefig(p1, "Plots/AveScaleLam20_1d.pdf")
 
 
@@ -197,6 +205,8 @@ ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
 
+savefig(p1, "Plots/100DPI/AveScaleLam5_1w.png")
+savefig(p1, "Plots/300DPI/AveScaleLam5_1w.png")
 savefig(p1, "Plots/AveScaleLam5_1w.pdf")
 
 # lam = 20
@@ -218,6 +228,8 @@ title!(p1, L"\textrm{\sffamily (f) Correlation and sampling interval (} \lambda=
 ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
+savefig(p1, "Plots/100DPI/AveScaleLam20_1w.png")
+savefig(p1, "Plots/300DPI/AveScaleLam20_1w.png")
 savefig(p1, "Plots/AveScaleLam20_1w.pdf")
 
 #---------------------------------------------------------------------------

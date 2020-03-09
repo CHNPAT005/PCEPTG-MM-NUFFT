@@ -119,6 +119,8 @@ title!(p1, L"\textrm{\sffamily (a) Corr and sampling interval (} \lambda=1/5 \te
 ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
+savefig(p1, "Plots/100DPI/3Asset1DK.png")
+savefig(p1, "Plots/300DPI/3Asset1DK.png")
 savefig(p1, "Plots/3Asset1DK.pdf")
 
 # p2 = plot(dt, mean(res[2], dims = 1)', ribbon = std(res[2], dims = 1)' * quantile.(TDist(reps-1), [0.975]),
@@ -165,6 +167,8 @@ title!(p1, L"\textrm{\sffamily (b) Corr and sampling interval (} \lambda=1/5 \te
 ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
+savefig(p1, "Plots/100DPI/3Asset2DK.png")
+savefig(p1, "Plots/300DPI/3Asset2DK.png")
 savefig(p1, "Plots/3Asset2DK.pdf")
 
 # p2 = plot(dt, mean(res[2], dims = 1)', ribbon = std(res[2], dims = 1)' * quantile.(TDist(reps-1), [0.975]),

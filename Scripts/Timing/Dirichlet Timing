@@ -142,6 +142,8 @@ title!(p1, L"\textrm{\sffamily (a) Compute time and data-size (Dirichlet, 2-Asse
 ylabel!(p1, "Time ln(s)")
 xlabel!(p1, "Data Points n \n Cutoff N = n/2")
 
+savefig(p1, "Plots/100DPI/ONDK2Assets.png")
+savefig(p1, "Plots/300DPI/ONDK2Assets.png")
 savefig(p1, "Plots/ONDK2Assets.pdf")
 
 
@@ -203,6 +205,8 @@ title!(p1, L"\textrm{\sffamily (c) Compute time and data-size (Dirichlet, 10-Ass
 ylabel!(p1, "Time ln(s)")
 xlabel!(p1, "Data Points n \n Cutoff N = n/2")
 
+savefig(p1, "Plots/100DPI/ONDK10Assets.png")
+savefig(p1, "Plots/300DPI/ONDK10Assets.png")
 savefig(p1, "Plots/ONDK10Assets.pdf")
 
 #---------------------------------------------------------------------------
@@ -263,4 +267,6 @@ title!(p1, L"\textrm{\sffamily (e) Compute time and data-size (Dirichlet, 100-As
 ylabel!(p1, "Time ln(s)")
 xlabel!(p1, "Data Points n \n Cutoff N = n/2")
 
+savefig(p1, "Plots/100DPI/ONDK100Assets.png")
+savefig(p1, "Plots/300DPI/ONDK100Assets.png")
 savefig(p1, "Plots/ONDK100Assets.pdf")
