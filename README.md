@@ -7,7 +7,7 @@
 
 ## Link to resources:
 
-Link to paper:
+Link to paper: https://arxiv.org/abs/2003.02842
 
 Link to the Dataset: [Link](https://zivahub.uct.ac.za/articles/Malliavin-Mancino_estimators_implemented_with_the_non-uniform_fast_Fourier_transform_Dataset/11903442)
 
