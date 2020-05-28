@@ -130,6 +130,8 @@ FFTZPtimes = FFTZPtimes["FFTZPtimes"]
 FGGtimes = load("Computed Data/ON times/FGGtimesFK.jld")
 FGGtimes = FGGtimes["FGGtimes"]
 
+nrange = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0, 50000.0, 100000.0]
+
 pdat = [minimum(MStimes, dims=1); minimum(FFTtimes, dims=1); minimum(FFTZPtimes, dims=1); minimum(FGGtimes, dims=1)]
 
 styles = filter((s->begin
@@ -142,12 +144,11 @@ p1 = plot(nrange, log.([minimum(CFTtimes, dims=1) NaN]'), label = "CFT", legendt
             dpi = 300, ylims = (-12, 7))
 plot!(p1, nrange1, log.(pdat'), label = ["MRS" "FFT" "ZFFT" "FGG"], line=(2, styles))
 title!(p1, L"\textrm{\sffamily (b) Compute time and data-size (Fej\'{e}r, 2-Assets)}")
-ylabel!(p1, "Time ln(s)")
+ylabel!(p1, L"\textrm{Time ln} (s)")
 xlabel!(p1, "Data Points n \n Cutoff N = n/2")
 
-savefig(p1, "Plots/100DPI/ONFK2Assets.png")
-savefig(p1, "Plots/300DPI/ONFK2Assets.png")
-savefig(p1, "Plots/ONFK2Assets.pdf")
+
+savefig(p1, "Plots/ONFK2Assets.svg")
 
 
 #---------------------------------------------------------------------------
@@ -195,6 +196,8 @@ FFTZPtimes = FFTZPtimes["FFTZPtimes"]
 FGGtimes = load("Computed Data/ON times/FGGtimesFK10.jld")
 FGGtimes = FGGtimes["FGGtimes"]
 
+nrange = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0]
+
 pdat = [minimum(CFTtimes, dims=1); minimum(MStimes, dims=1); minimum(FFTtimes, dims=1); minimum(FFTZPtimes, dims=1); minimum(FGGtimes, dims=1)]
 
 
@@ -205,12 +208,11 @@ styles = reshape(styles, 1, length(styles))
 p1 = plot(nrange, log.(pdat'), label = ["CFT" "MRS" "FFT" "ZFFT" "FGG"], legendtitle="Method", line=(2, styles), legend=:bottomright,
             dpi = 300, ylims = (-12, 7))
 title!(p1, L"\textrm{\sffamily (d) Compute time and data-size (Fej\'{e}r, 10-Assets)}")
-ylabel!(p1, "Time ln(s)")
+ylabel!(p1, L"\textrm{Time ln} (s)")
 xlabel!(p1, "Data Points n \n Cutoff N = n/2")
 
-savefig(p1, "Plots/100DPI/ONFK10Assets.png")
-savefig(p1, "Plots/300DPI/ONFK10Assets.png")
-savefig(p1, "Plots/ONFK10Assets.pdf")
+
+savefig(p1, "Plots/ONFK10Assets.svg")
 
 #---------------------------------------------------------------------------
 ## 100 Assets
@@ -257,6 +259,8 @@ FFTZPtimes = FFTZPtimes["FFTZPtimes"]
 FGGtimes = load("Computed Data/ON times/FGGtimesFK100.jld")
 FGGtimes = FGGtimes["FGGtimes"]
 
+nrange = [10.0, 20.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0]
+
 pdat = [minimum(CFTtimes, dims=1); minimum(MStimes, dims=1); minimum(FFTtimes, dims=1); minimum(FFTZPtimes, dims=1); minimum(FGGtimes, dims=1)]
 
 
@@ -267,9 +271,8 @@ styles = reshape(styles, 1, length(styles))
 p1 = plot(nrange, log.(pdat'), label = ["CFT" "MRS" "FFT" "ZFFT" "FGG"], legendtitle="Method", line=(2, styles), legend=:bottomright,
             dpi = 300, ylims = (-12, 7))
 title!(p1, L"\textrm{\sffamily (f) Compute time and data-size (Fej\'{e}r, 100-Assets)}")
-ylabel!(p1, "Time ln(s)")
+ylabel!(p1, L"\textrm{Time ln} (s)")
 xlabel!(p1, "Data Points n \n Cutoff N = n/2")
 
-savefig(p1, "Plots/100DPI/ONFK100Assets.png")
-savefig(p1, "Plots/300DPI/ONFK100Assets.png")
-savefig(p1, "Plots/ONFK100Assets.pdf")
+
+savefig(p1, "Plots/ONFK100Assets.svg")

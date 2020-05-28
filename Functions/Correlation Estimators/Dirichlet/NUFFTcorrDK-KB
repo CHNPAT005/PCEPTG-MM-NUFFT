@@ -51,9 +51,12 @@ function NUFFTcorrDKKB(p, t; kwargs...)
     # Re-scale trading times
     tau = scale(t)
     # Computing minimum time change
-    # minumum step size to avoid smoothing
-    dtau = diff(filter(!isnan, tau))
-    taumin = minimum(filter((x) -> x>0, dtau))
+    dtau = zeros(mp,1)
+    for i in 1:mp
+        dtau[i] = minimum(diff(filter(!isnan, tau[:,i])))
+    end
+    # maximum of minumum step size to avoid aliasing
+    taumin = maximum(dtau)
     taumax = 2*pi
     # Sampling Freq.
     N0 = taumax/taumin

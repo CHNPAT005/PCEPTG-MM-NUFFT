@@ -51,7 +51,7 @@ function Merton(n, mu, sigma, lambda, a, b; kwargs...)
     X[1,:] = log.(startprice)
 
     A = cholesky(sigma).L
-    d = mu - sigma2./2
+    d = mu - sigma2./2 #- lambda.*(exp.(a - 0.5*b.^2) .- 1)
 
     Random.seed!(seed)
     Z = randn(k, n-1)

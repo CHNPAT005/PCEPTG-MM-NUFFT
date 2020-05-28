@@ -309,9 +309,7 @@ ylabel!(p1, L"\textrm{Time ln} (s)")
 xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 
 
-savefig(p1, "Plots/100DPI/ErrorTimesDK2.png")
-savefig(p1, "Plots/300DPI/ErrorTimesDK2.png")
-savefig(p1, "Plots/ErrorTimesDK2.pdf")
+savefig(p1, "Plots/ErrorTimesDK2.svg")
 
 # Fejer
 p2 = plot(n1, log.(minimum(FGGtimesFK, dims=1)'),
@@ -329,9 +327,8 @@ title!(p2, L"\textrm{\sffamily (b) Compute time and tolerance (Fej., 2-Assets, n
 ylabel!(p2, L"\textrm{Time ln} (s)")
 xlabel!(p2, L"\textrm{Tolerance } \epsilon")
 
-savefig(p2, "Plots/100DPI/ErrorTimesFK2.png")
-savefig(p2, "Plots/300DPI/ErrorTimesFK2.png")
-savefig(p2, "Plots/ErrorTimesFK2.pdf")
+
+savefig(p2, "Plots/ErrorTimesFK2.svg")
 
 
 #---------------------------------------------------------------------------
@@ -461,9 +458,8 @@ title!(p1, L"\textrm{\sffamily (c) Compute time and tolerance (Dir., 10-Assets, 
 ylabel!(p1, L"\textrm{Time ln} (s)")
 xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 
-savefig(p1, "Plots/100DPI/ErrorTimesDK10.png")
-savefig(p1, "Plots/300DPI/ErrorTimesDK10.png")
-savefig(p1, "Plots/ErrorTimesDK10.pdf")
+
+savefig(p1, "Plots/ErrorTimesDK10.svg")
 
 # Fejer
 p2 = plot(n1, log.(minimum(FGGtimesFK10, dims=1)'),
@@ -480,9 +476,8 @@ title!(p2, L"\textrm{\sffamily (d) Compute time and tolerance (Fej., 10-Assets, 
 ylabel!(p2, L"\textrm{Time ln} (s)")
 xlabel!(p2, L"\textrm{Tolerance } \epsilon")
 
-savefig(p2, "Plots/100DPI/ErrorTimesFK10.png")
-savefig(p2, "Plots/300DPI/ErrorTimesFK10.png")
-savefig(p2, "Plots/ErrorTimesFK10.pdf")
+
+savefig(p2, "Plots/ErrorTimesFK10.svg")
 
 
 #---------------------------------------------------------------------------
@@ -612,9 +607,8 @@ title!(p1, L"\textrm{\sffamily (e) Compute time and tolerance (Dir., 100-Assets,
 ylabel!(p1, L"\textrm{Time ln} (s)")
 xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 
-savefig(p1, "Plots/100DPI/ErrorTimesDK100.png")
-savefig(p1, "Plots/300DPI/ErrorTimesDK100.png")
-savefig(p1, "Plots/ErrorTimesDK100.pdf")
+
+savefig(p1, "Plots/ErrorTimesDK100.svg")
 
 # Fejer
 p2 = plot(n1, log.(minimum(FGGtimesFK100, dims=1)'),
@@ -631,6 +625,5 @@ title!(p2, L"\textrm{\sffamily (f) Compute time and tolerance (Fej., 100-Assets,
 ylabel!(p2, L"\textrm{Time ln} (s)")
 xlabel!(p2, L"\textrm{Tolerance } \epsilon")
 
-savefig(p2, "Plots/100DPI/ErrorTimesFK100.png")
-savefig(p2, "Plots/300DPI/ErrorTimesFK100.png")
-savefig(p2, "Plots/ErrorTimesFK100.pdf")
+
+savefig(p2, "Plots/ErrorTimesFK100.svg")
