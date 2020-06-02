@@ -85,9 +85,8 @@ for i in 1:9
 end
 current()
 
-savefig(p1, "Plots/100DPI/EmpDKMMZALL.png")
-savefig(p1, "Plots/300DPI/EmpDKMMZALL.png")
-savefig(p1, "Plots/EmpDKMMZALL.pdf")
+
+savefig(p1, "Plots/EmpDKMMZALL.svg")
 
 
 p2 = plot(x = dt, legend = :outertopleft, legendtitle="Asset Pair", legendfont = font("Times new roman", 7), size = (1000, 800),
@@ -106,9 +105,8 @@ for i in 1:9
 end
 current()
 
-savefig(p2, "Plots/100DPI/EmpFKMMZALL.png")
-savefig(p2, "Plots/300DPI/EmpFKMMZALL.png")
-savefig(p2, "Plots/EmpFKMMZALL.pdf")
+
+savefig(p2, "Plots/EmpFKMMZALL.svg")
 
 #---------------------------------------------------------------------------
 ## Heatmaps for various Δt's
@@ -267,9 +265,7 @@ model = 6.21e-01 .* (1 .+ (exp.(-lam2 .* dt) .- 1) ./ (lam2 .* dt))
 plot!(p1, dt, model, label ="MMZ-"*"FSR"*"/"*"SBK", line = (1, :dash), color = :green)
 
 
-savefig(p1, "Plots/100DPI/EmpDKMMZ2.png")
-savefig(p1, "Plots/300DPI/EmpDKMMZ2.png")
-savefig(p1, "Plots/EmpDKMMZ2.pdf")
+savefig(p1, "Plots/EmpDKMMZ2.svg")
 
 
 p2 = plot(x = dt, legend = :right, legendtitle="Asset Pair", legendfont = font("Times new roman", 7), dpi = 300, ylims = (-0.1, 0.7))
@@ -297,9 +293,7 @@ model = 6.21e-01 .* (1 .+ (exp.(-lam2 .* dt) .- 1) ./ (lam2 .* dt))
 plot!(p2, dt, model, label ="MMZ-"*"FSR"*"/"*"SBK", line = (1, :dash), color = :green)
 
 
-savefig(p2, "Plots/100DPI/EmpFKMMZ2.png")
-savefig(p2, "Plots/300DPI/EmpFKMMZ2.png")
-savefig(p2, "Plots/EmpFKMMZ2.pdf")
+savefig(p2, "Plots/EmpFKMMZ2.svg")
 
 
 #---------------------------------------------------------------------------

@@ -114,9 +114,8 @@ ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
 xlabel!(p1, L"\textrm{Tolerance } \epsilon ")
 plot(p1, annotations=(-13, 0.00003, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccDKSyn), digits = 4))\$"), :left)))
 
-savefig(p1, "Plots/100DPI/AccSynDK.png")
-savefig(p1, "Plots/300DPI/AccSynDK.png")
-savefig(p1, "Plots/AccSynDK.pdf")
+
+savefig(p1, "Plots/AccSynDK.svg")
 
 
 
@@ -207,9 +206,8 @@ xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 plot(p1, annotations=(-13, -0.004, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccDKDS), digits = 4))\$"), :left)))
 
 
-savefig(p1, "Plots/100DPI/AccDSDK.png")
-savefig(p1, "Plots/300DPI/AccDSDK.png")
-savefig(p1, "Plots/AccDSDK.pdf")
+
+savefig(p1, "Plots/AccDSDK.svg")
 
 
 
@@ -300,9 +298,8 @@ ylabel!(p1, L"\textrm{Accuracy } \overline{\rho_{*} - \rho_{v}}")
 xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 plot(p1, annotations=(-13, -0.000005, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccFKSyn), digits = 4))\$"), :left)))
 
-savefig(p1, "Plots/100DPI/AccSynFK.png")
-savefig(p1, "Plots/300DPI/AccSynFK.png")
-savefig(p1, "Plots/AccSynFK.pdf")
+
+savefig(p1, "Plots/AccSynFK.svg")
 
 
 
@@ -393,6 +390,5 @@ xlabel!(p1, L"\textrm{Tolerance } \epsilon")
 plot(p1, annotations=(-13, -0.003, Plots.text(latexstring("\$\\overline{\\rho_{v}} = $(round(mean(CFTaccFKDS), digits = 4))\$"), :left)))
 
 
-savefig(p1, "Plots/100DPI/AccDSFK.png")
-savefig(p1, "Plots/300DPI/AccDSFK.png")
-savefig(p1, "Plots/AccDSFK.pdf")
+
+savefig(p1, "Plots/AccDSFK.svg")

@@ -101,9 +101,8 @@ ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
 
-savefig(p1, "Plots/100DPI/AveScaleLam5_1h.png")
-savefig(p1, "Plots/300DPI/AveScaleLam5_1h.png")
-savefig(p1, "Plots/AveScaleLam5_1h.pdf")
+
+savefig(p1, "Plots/AveScaleLam5_1h.svg")
 
 # lam = 20
 lam1h20 = MMZmodel(T1h, dt, 20, reps)
@@ -124,9 +123,8 @@ title!(p1, L"\textrm{\sffamily (b) Correlation and sampling interval (} \lambda=
 ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
-savefig(p1, "Plots/100DPI/AveScaleLam20_1h.png")
-savefig(p1, "Plots/300DPI/AveScaleLam20_1h.png")
-savefig(p1, "Plots/AveScaleLam20_1h.pdf")
+
+savefig(p1, "Plots/AveScaleLam20_1h.svg")
 
 
 #---------------------------------------------------------------------------
@@ -153,9 +151,8 @@ ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
 
-savefig(p1, "Plots/100DPI/AveScaleLam5_1d.png")
-savefig(p1, "Plots/300DPI/AveScaleLam5_1d.png")
-savefig(p1, "Plots/AveScaleLam5_1d.pdf")
+
+savefig(p1, "Plots/AveScaleLam5_1d.svg")
 
 # lam = 20
 lam1d20 = MMZmodel(T1d, dt, 20, reps)
@@ -176,9 +173,8 @@ title!(p1, L"\textrm{\sffamily (d) Correlation and sampling interval (} \lambda=
 ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
-savefig(p1, "Plots/100DPI/AveScaleLam20_1d.png")
-savefig(p1, "Plots/300DPI/AveScaleLam20_1d.png")
-savefig(p1, "Plots/AveScaleLam20_1d.pdf")
+
+savefig(p1, "Plots/AveScaleLam20_1d.svg")
 
 
 #---------------------------------------------------------------------------
@@ -205,9 +201,8 @@ ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
 
-savefig(p1, "Plots/100DPI/AveScaleLam5_1w.png")
-savefig(p1, "Plots/300DPI/AveScaleLam5_1w.png")
-savefig(p1, "Plots/AveScaleLam5_1w.pdf")
+
+savefig(p1, "Plots/AveScaleLam5_1w.svg")
 
 # lam = 20
 lam1w20 = MMZmodel(T1w, dt, 20, reps)
@@ -228,9 +223,8 @@ title!(p1, L"\textrm{\sffamily (f) Correlation and sampling interval (} \lambda=
 ylabel!(p1, L"\textrm{Correlation } \bar{\rho}")
 xlabel!(p1, L"\textrm{Sampling interval } \Delta t \textrm{ [seconds]}")
 
-savefig(p1, "Plots/100DPI/AveScaleLam20_1w.png")
-savefig(p1, "Plots/300DPI/AveScaleLam20_1w.png")
-savefig(p1, "Plots/AveScaleLam20_1w.pdf")
+
+savefig(p1, "Plots/AveScaleLam20_1w.svg")
 
 #---------------------------------------------------------------------------
 # test plot of all paths
